@@ -2,8 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UnitController;
+use App\Http\Controllers\BookingController;
 
-// Redirect root to login
+// Redirect root ke login
 Route::get('/', function () {
     return redirect()->route('login');
 });
@@ -21,6 +23,13 @@ Route::get('/dashboard', function () {
 })->middleware('auth')->name('dashboard');
 
 // Settings routes (protected)
-Route::get('/settings', [AuthController::class, 'showSettings'])->middleware('auth')->name('settings');
-Route::put('/settings/profile', [AuthController::class, 'updateProfile'])->middleware('auth')->name('settings.profile.update');
-Route::put('/settings/password', [AuthController::class, 'updatePassword'])->middleware('auth')->name('settings.password.update');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/settings', [AuthController::class, 'showSettings'])->name('settings');
+    Route::put('/settings/profile', [AuthController::class, 'updateProfile'])->name('settings.profile.update');
+    Route::put('/settings/password', [AuthController::class, 'updatePassword'])->name('settings.password.update');
+
+    // Unit routes
+    Route::get('/units', [UnitController::class, 'index'])->name('home');
+    Route::get('/units/{unit}', [UnitController::class, 'show'])->name('units.show');
+    Route::post('/units/{unit}/book', [BookingController::class, 'store'])->name('bookings.store');
+});
