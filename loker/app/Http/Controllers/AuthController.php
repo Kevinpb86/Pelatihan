@@ -26,7 +26,7 @@ class AuthController extends Controller
             $role = Auth::user()->role;
 
             if ($role === 'admin') {
-                return redirect()->intended('/admin/dashboard');
+                return redirect()->intended('/Admin/dashboard');
             }
             return redirect()->intended('/dashboard');
         }
@@ -59,7 +59,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('user.bookings.index')
+        return redirect()->route('User.dashboard.index')
             ->with('success', 'Akun berhasil dibuat! Selamat datang!');
     }
 

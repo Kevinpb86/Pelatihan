@@ -10,7 +10,7 @@ class AdminUnitController extends Controller
     public function index()
     {
         $units = Unit::all();
-        return view('admin.unit.index', compact('units'));
+        return view('Admin.unit.index', compact('units'));
     }
 
     public function store(Request $request)
@@ -25,7 +25,7 @@ class AdminUnitController extends Controller
 
         $unit = Unit::create($request->all());
 
-        return redirect()->route('admin.units.index')
+        return redirect()->route('Admin.unit.index')
             ->with('success', 'Unit berhasil ditambahkan');
     }
 
@@ -34,7 +34,7 @@ class AdminUnitController extends Controller
         $unit = Unit::findOrFail($id);
 
         $request->validate([
-            'code' => 'required|unique:units,code,' . $id,
+            'code' => 'required|unique:unit,code,' . $id,
             'name' => 'required',
             'location' => 'required',
             'price_per_day' => 'required|numeric|min:0',
@@ -43,14 +43,14 @@ class AdminUnitController extends Controller
 
         $unit->update($request->all());
 
-        return redirect()->route('admin.units.index')
+        return redirect()->route('Admin.unit.index')
             ->with('success', 'Unit berhasil diperbarui');
     }
 
     public function destroy($id)
     {
         Unit::findOrFail($id)->delete();
-        return redirect()->route('admin.units.index')
+        return redirect()->route('Admin.unit.index')
             ->with('success', 'Unit berhasil dihapus');
     }
 }

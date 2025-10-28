@@ -9,6 +9,6 @@ class UserUnitController extends Controller
     public function index()
     {
         $units = Unit::where('status', 'available')->get();
-        return view('user.unit.index', compact('units'));
+        return view('User.unit.index', compact('units'));
     }
 }

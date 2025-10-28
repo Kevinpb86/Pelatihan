@@ -11,7 +11,7 @@ class AdminBookingController extends Controller
     public function index()
     {
         $bookings = Booking::with(['user', 'unit'])->latest()->get();
-        return view('admin.bookings.index', compact('bookings'));
+        return view('Admin.booking.index', compact('bookings'));
     }
 
     // Mengubah status booking (misalnya dikembalikan)

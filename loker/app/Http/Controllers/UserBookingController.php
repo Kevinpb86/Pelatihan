@@ -17,7 +17,7 @@ class UserBookingController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        return view('user.bookings.index', compact('bookings'));
+        return view('User.booking.index', compact('bookings'));
     }
 
     // Menampilkan form pemesanan loker
@@ -27,7 +27,7 @@ class UserBookingController extends Controller
             $query->where('status', 'active');
         })->get();
 
-        return view('user.bookings.create', compact('units'));
+        return view('User.booking.create', compact('units'));
     }
 
     // Menyimpan data pemesanan baru
@@ -57,7 +57,7 @@ class UserBookingController extends Controller
             'status' => 'active',
         ]);
 
-        return redirect()->route('user.bookings.index')
+        return redirect()->route('User.booking.index')
             ->with('success', 'Pemesanan berhasil dibuat!');
     }
 }
