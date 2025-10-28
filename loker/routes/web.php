@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ItemController;
 
 // Redirect root to login
 Route::get('/', function () {
@@ -24,3 +25,12 @@ Route::get('/dashboard', function () {
 Route::get('/settings', [AuthController::class, 'showSettings'])->middleware('auth')->name('settings');
 Route::put('/settings/profile', [AuthController::class, 'updateProfile'])->middleware('auth')->name('settings.profile.update');
 Route::put('/settings/password', [AuthController::class, 'updatePassword'])->middleware('auth')->name('settings.password.update');
+
+// Store Item routes (protected)
+Route::get('/store-item', function () {
+    return view('store-item');
+})->middleware('auth')->name('store-item');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/my-items', [ItemController::class, 'index'])->name('items.index');
+});
