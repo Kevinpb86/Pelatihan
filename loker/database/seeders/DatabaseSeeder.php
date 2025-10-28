@@ -2,9 +2,13 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Seeder; // ✅ Tambahkan ini
+use Illuminate\Database\Console\Seeds\WithoutModelEvents; // ✅ Tambahkan ini
+
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+use App\Models\Category;
+use App\Models\Unit;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,11 +19,33 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Admin
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@locker.com',
+            'password' => Hash::make('admin123'),
+            'role' => 'admin'
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Kategori
+        $categories = ['Kecil', 'Sedang', 'Besar'];
+        foreach ($categories as $cat) {
+            Category::create(['name' => $cat]);
+        }
+
+        // Unit
+        Unit::create([
+            'code' => 'LK001',
+            'name' => 'Loker Kecil 1',
+            'location' => 'Gedung A',
+            'price_per_day' => 5000
+        ]);
+
+        Unit::create([
+            'code' => 'LK002',
+            'name' => 'Loker Sedang 1',
+            'location' => 'Gedung A',
+            'price_per_day' => 8000
         ]);
     }
 }
