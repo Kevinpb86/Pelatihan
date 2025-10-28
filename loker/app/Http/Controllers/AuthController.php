@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -73,12 +74,34 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
+            'phone' => 'nullable|string|max:20',
+            'bio' => 'nullable|string|max:500',
+            'address' => 'nullable|string|max:500',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120', // 5MB max
         ]);
 
-        Auth::user()->update([
+        $user = Auth::user();
+        $updateData = [
             'name' => $request->name,
             'email' => $request->email,
-        ]);
+            'phone' => $request->phone,
+            'bio' => $request->bio,
+            'address' => $request->address,
+        ];
+
+        // Handle avatar upload
+        if ($request->hasFile('avatar')) {
+            // Delete old avatar if exists
+            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+
+            // Store new avatar
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            $updateData['avatar'] = $avatarPath;
+        }
+
+        $user->update($updateData);
 
         return back()->with('success', 'Profil berhasil diperbarui!');
     }

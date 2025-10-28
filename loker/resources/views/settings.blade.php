@@ -278,7 +278,7 @@
             background: var(--primary-gradient);
             transition: width 0.3s ease;
         }
-
+        
         /* Dark Theme Styles */
         .dark-theme {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%) !important;
@@ -342,6 +342,154 @@
             background: rgba(0, 0, 0, 0.25);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark-theme .bg-white\/80 {
+            background: rgba(45, 45, 45, 0.8) !important;
+        }
+        
+        .dark-theme .bg-white\/20 {
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        .dark-theme .bg-gradient-to-br {
+            background: linear-gradient(135deg, rgba(45, 45, 45, 0.8) 0%, rgba(26, 26, 46, 0.8) 100%) !important;
+        }
+        
+        .dark-theme .bg-gradient-to-r {
+            background: linear-gradient(90deg, rgba(45, 45, 45, 0.8) 0%, rgba(26, 26, 46, 0.8) 100%) !important;
+        }
+        
+        .dark-theme .text-gray-900 {
+            color: #f9fafb !important;
+        }
+        
+        .dark-theme .border-white\/20 {
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        .dark-theme .bg-gradient-to-br.from-gray-50 {
+            background: linear-gradient(135deg, rgba(45, 45, 45, 0.8) 0%, rgba(26, 26, 46, 0.8) 100%) !important;
+        }
+        
+        .dark-theme .bg-gradient-to-br.from-blue-50 {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.2) 0%, rgba(30, 64, 175, 0.2) 100%) !important;
+        }
+        
+        .dark-theme .bg-gradient-to-br.from-red-50 {
+            background: linear-gradient(135deg, rgba(185, 28, 28, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%) !important;
+        }
+        
+        .dark-theme .bg-gradient-to-br.from-green-50 {
+            background: linear-gradient(135deg, rgba(21, 128, 61, 0.2) 0%, rgba(22, 163, 74, 0.2) 100%) !important;
+        }
+        
+        .dark-theme .bg-gradient-to-br.from-purple-50 {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%) !important;
+        }
+        
+        .dark-theme .bg-gradient-to-br.from-yellow-50 {
+            background: linear-gradient(135deg, rgba(180, 83, 9, 0.2) 0%, rgba(217, 119, 6, 0.2) 100%) !important;
+        }
+        
+        .dark-theme .bg-gradient-to-br.from-indigo-50 {
+            background: linear-gradient(135deg, rgba(67, 56, 202, 0.2) 0%, rgba(99, 102, 241, 0.2) 100%) !important;
+        }
+        
+        .dark-theme .bg-gradient-to-br.from-pink-50 {
+            background: linear-gradient(135deg, rgba(219, 39, 119, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%) !important;
+        }
+        
+        .dark-theme .border-blue-100 {
+            border-color: rgba(59, 130, 246, 0.3) !important;
+        }
+        
+        .dark-theme .border-red-100 {
+            border-color: rgba(239, 68, 68, 0.3) !important;
+        }
+        
+        .dark-theme .border-green-100 {
+            border-color: rgba(34, 197, 94, 0.3) !important;
+        }
+        
+        .dark-theme .border-purple-100 {
+            border-color: rgba(168, 85, 247, 0.3) !important;
+        }
+        
+        .dark-theme .border-indigo-100 {
+            border-color: rgba(99, 102, 241, 0.3) !important;
+        }
+        
+        .dark-theme .text-green-800 {
+            color: #bbf7d0 !important;
+        }
+        
+        .dark-theme .text-red-600 {
+            color: #fca5a5 !important;
+        }
+        
+        .dark-theme .text-yellow-800 {
+            color: #fde68a !important;
+        }
+        
+        .dark-theme .text-blue-800 {
+            color: #bfdbfe !important;
+        }
+        
+        .dark-theme .text-purple-600 {
+            color: #c4b5fd !important;
+        }
+        
+        .dark-theme .text-indigo-600 {
+            color: #a5b4fc !important;
+        }
+        
+        .dark-theme .bg-green-100 {
+            background: rgba(34, 197, 94, 0.2) !important;
+        }
+        
+        .dark-theme .bg-red-100 {
+            background: rgba(239, 68, 68, 0.2) !important;
+        }
+        
+        .dark-theme .bg-yellow-100 {
+            background: rgba(245, 158, 11, 0.2) !important;
+        }
+        
+        .dark-theme .bg-blue-100 {
+            background: rgba(59, 130, 246, 0.2) !important;
+        }
+        
+        .dark-theme .bg-purple-100 {
+            background: rgba(168, 85, 247, 0.2) !important;
+        }
+        
+        .dark-theme .bg-indigo-100 {
+            background: rgba(99, 102, 241, 0.2) !important;
+        }
+        
+        .dark-theme .text-green-600 {
+            color: #86efac !important;
+        }
+        
+        .dark-theme .text-red-500 {
+            color: #f87171 !important;
+        }
+        
+        .dark-theme .text-yellow-500 {
+            color: #fbbf24 !important;
+        }
+        
+        .dark-theme .text-blue-500 {
+            color: #60a5fa !important;
+        }
+        
+        .dark-theme .text-purple-500 {
+            color: #a78bfa !important;
+        }
+        
+        .dark-theme .text-indigo-500 {
+            color: #818cf8 !important;
         }
         
         /* Language Styles */
@@ -427,7 +575,7 @@
 
             <!-- Navigation -->
             <nav class="mt-6 px-4">
-                <div class="space-y-2">
+                    <div class="space-y-2">
                     <a href="{{ route('dashboard') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-home w-5 h-5 mr-3"></i>
                         <span class="lang-id">Dashboard</span>
@@ -435,18 +583,13 @@
                     </a>
                     <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-box w-5 h-5 mr-3"></i>
-                        <span class="lang-id">Paket Saya</span>
+                        <span class="lang-id">Barang Saya</span>
                         <span class="lang-en">My Packages</span>
                     </a>
                     <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-map-marker-alt w-5 h-5 mr-3"></i>
                         <span class="lang-id">Lokasi Loker</span>
                         <span class="lang-en">Locker Locations</span>
-                    </a>
-                    <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
-                        <i class="fas fa-chart-bar w-5 h-5 mr-3"></i>
-                        <span class="lang-id">Statistik</span>
-                        <span class="lang-en">Statistics</span>
                     </a>
                     <a href="{{ route('settings') }}" class="nav-item active flex items-center px-4 py-3 text-sm font-medium text-white bg-white/20 backdrop-blur-sm rounded-xl">
                         <i class="fas fa-cog w-5 h-5 mr-3"></i>
@@ -487,14 +630,14 @@
                         <div class="slide-in">
                             <h2 class="text-3xl font-bold text-gray-800 flex items-center">
                                 <i class="fas fa-cog mr-3 text-purple-600"></i>
-                                <span class="lang-id">Pengaturan</span>
-                                <span class="lang-en">Settings</span>
-                            </h2>
+                            <span class="lang-id">Pengaturan</span>
+                            <span class="lang-en">Settings</span>
+                        </h2>
                             <p class="text-gray-600 mt-1">
-                                <span class="lang-id">Kelola profil dan preferensi akun Anda</span>
-                                <span class="lang-en">Manage your account profile and preferences</span>
-                            </p>
-                        </div>
+                            <span class="lang-id">Kelola profil dan preferensi akun Anda</span>
+                            <span class="lang-en">Manage your account profile and preferences</span>
+                        </p>
+                    </div>
                         <div class="flex items-center space-x-4">
                             <!-- Theme Toggle -->
                             <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
@@ -533,65 +676,6 @@
                         </div>
                     @endif
 
-                    <!-- Settings Overview Cards -->
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                        <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 card-hover border border-white/20">
-                            <div class="flex items-center">
-                                <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-user text-white text-xl"></i>
-                                </div>
-                                <div class="ml-4">
-                                    <p class="text-sm font-medium text-gray-600">
-                                        <span class="lang-id">Profil</span>
-                                        <span class="lang-en">Profile</span>
-                                    </p>
-                                    <p class="text-2xl font-bold text-gray-900">100%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 card-hover border border-white/20">
-                            <div class="flex items-center">
-                                <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-600 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-shield-alt text-white text-xl"></i>
-                                </div>
-                                <div class="ml-4">
-                                    <p class="text-sm font-medium text-gray-600">
-                                        <span class="lang-id">Keamanan</span>
-                                        <span class="lang-en">Security</span>
-                                    </p>
-                                    <p class="text-2xl font-bold text-gray-900">85%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 card-hover border border-white/20">
-                            <div class="flex items-center">
-                                <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-bell text-white text-xl"></i>
-                                </div>
-                                <div class="ml-4">
-                                    <p class="text-sm font-medium text-gray-600">
-                                        <span class="lang-id">Notifikasi</span>
-                                        <span class="lang-en">Notifications</span>
-                                    </p>
-                                    <p class="text-2xl font-bold text-gray-900">3</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 card-hover border border-white/20">
-                            <div class="flex items-center">
-                                <div class="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-600 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-cog text-white text-xl"></i>
-                                </div>
-                                <div class="ml-4">
-                                    <p class="text-sm font-medium text-gray-600">
-                                        <span class="lang-id">Preferensi</span>
-                                        <span class="lang-en">Preferences</span>
-                                    </p>
-                                    <p class="text-2xl font-bold text-gray-900">12</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Settings Tabs -->
                     <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden">
@@ -642,22 +726,27 @@
                                     <div class="lg:col-span-1">
                                         <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 text-center">
                                             <div class="relative inline-block">
-                                                <div class="w-32 h-32 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                                                    <img id="avatar-preview" src="" alt="Avatar" class="w-full h-full rounded-full object-cover hidden">
-                                                    <span id="avatar-initial" class="text-white text-4xl font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                                                <div class="w-32 h-32 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg overflow-hidden">
+                                                    <img id="avatar-preview" src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : '' }}" alt="Avatar" class="w-full h-full rounded-full object-cover {{ Auth::user()->avatar ? '' : 'hidden' }}">
+                                                    <span id="avatar-initial" class="text-white text-4xl font-bold {{ Auth::user()->avatar ? 'hidden' : '' }}">{{ substr(Auth::user()->name, 0, 1) }}</span>
                                                 </div>
                                                 <div class="avatar-upload">
-                                                    <input type="file" id="avatar" name="avatar" accept="image/*" onchange="previewAvatar(this)">
-                                                    <button type="button" class="absolute -bottom-2 -right-2 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors">
+                                                    <input type="file" id="avatar" name="avatar" accept="image/*" onchange="previewAvatar(this)" class="hidden">
+                                                    <button type="button" onclick="document.getElementById('avatar').click()" class="absolute -bottom-2 -right-2 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors">
                                                         <i class="fas fa-camera text-gray-600"></i>
                                                     </button>
                                                 </div>
                                             </div>
                                             <h4 class="font-semibold text-gray-800 mb-2">{{ Auth::user()->name }}</h4>
                                             <p class="text-sm text-gray-600 mb-4">{{ Auth::user()->email }}</p>
-                                            <div class="text-xs text-gray-500">
+                                            <div class="text-xs text-gray-500 mb-2">
                                                 <span class="lang-id">JPG, PNG maksimal 5MB</span>
                                                 <span class="lang-en">JPG, PNG max 5MB</span>
+                                            </div>
+                                            <div id="file-info" class="text-xs text-green-600 hidden">
+                                                <i class="fas fa-check-circle mr-1"></i>
+                                                <span class="lang-id">File dipilih</span>
+                                                <span class="lang-en">File selected</span>
                                             </div>
                                         </div>
                                     </div>
@@ -665,8 +754,8 @@
                                     <!-- Form Fields -->
                                     <div class="lg:col-span-2">
                                         <div class="space-y-6">
-                                            <!-- Name -->
-                                            <div>
+                                    <!-- Name -->
+                                    <div>
                                                 <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
                                                     <i class="fas fa-user mr-2"></i>
                                                     <span class="lang-id">Nama Lengkap</span>
@@ -675,16 +764,16 @@
                                                 <input type="text" id="name" name="name" value="{{ Auth::user()->name }}" 
                                                        class="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent @error('name') border-red-500 @enderror"
                                                        placeholder="Masukkan nama lengkap Anda">
-                                                @error('name')
+                                        @error('name')
                                                     <p class="mt-2 text-sm text-red-600 flex items-center">
                                                         <i class="fas fa-exclamation-circle mr-1"></i>
                                                         {{ $message }}
                                                     </p>
-                                                @enderror
-                                            </div>
+                                        @enderror
+                                    </div>
 
-                                            <!-- Email -->
-                                            <div>
+                                    <!-- Email -->
+                                    <div>
                                                 <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
                                                     <i class="fas fa-envelope mr-2"></i>
                                                     <span class="lang-id">Email</span>
@@ -693,22 +782,22 @@
                                                 <input type="email" id="email" name="email" value="{{ Auth::user()->email }}" 
                                                        class="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent @error('email') border-red-500 @enderror"
                                                        placeholder="nama@email.com">
-                                                @error('email')
+                                        @error('email')
                                                     <p class="mt-2 text-sm text-red-600 flex items-center">
                                                         <i class="fas fa-exclamation-circle mr-1"></i>
                                                         {{ $message }}
                                                     </p>
-                                                @enderror
-                                            </div>
+                                        @enderror
+                                    </div>
 
-                                            <!-- Phone -->
-                                            <div>
+                                    <!-- Phone -->
+                                    <div>
                                                 <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">
                                                     <i class="fas fa-phone mr-2"></i>
                                                     <span class="lang-id">Nomor Telepon</span>
                                                     <span class="lang-en">Phone Number</span>
                                                 </label>
-                                                <input type="tel" id="phone" name="phone" placeholder="+62 812 3456 7890" 
+                                                <input type="tel" id="phone" name="phone" value="{{ Auth::user()->phone }}" placeholder="+62 812 3456 7890" 
                                                        class="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
                                             </div>
 
@@ -721,11 +810,11 @@
                                                 </label>
                                                 <textarea id="bio" name="bio" rows="3" 
                                                           class="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                                                          placeholder="Ceritakan sedikit tentang diri Anda..."></textarea>
-                                            </div>
+                                                          placeholder="Ceritakan sedikit tentang diri Anda...">{{ Auth::user()->bio }}</textarea>
+                                    </div>
 
-                                            <!-- Address -->
-                                            <div>
+                                    <!-- Address -->
+                                    <div>
                                                 <label for="address" class="block text-sm font-medium text-gray-700 mb-2">
                                                     <i class="fas fa-map-marker-alt mr-2"></i>
                                                     <span class="lang-id">Alamat</span>
@@ -733,7 +822,7 @@
                                                 </label>
                                                 <textarea id="address" name="address" rows="3" 
                                                           class="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                                                          placeholder="Masukkan alamat lengkap Anda"></textarea>
+                                                          placeholder="Masukkan alamat lengkap Anda">{{ Auth::user()->address }}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -851,7 +940,7 @@
                                         <div class="flex items-center">
                                             <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
                                                 <i class="fas fa-shield-alt text-white text-xl"></i>
-                                            </div>
+                                        </div>
                                             <div class="ml-4">
                                                 <h4 class="text-xl font-semibold text-gray-800">
                                                     <span class="lang-id">Autentikasi Dua Faktor</span>
@@ -913,12 +1002,12 @@
                                                     <i class="fas fa-circle mr-1 text-green-500"></i>
                                                     <span class="lang-id">Aktif</span>
                                                     <span class="lang-en">Active</span>
-                                                </span>
+                                            </span>
                                                 <button class="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-colors">
                                                     <i class="fas fa-times"></i>
                                                 </button>
-                                            </div>
                                         </div>
+                                    </div>
                                         
                                         <div class="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-200 hover:shadow-md transition-shadow">
                                             <div class="flex items-center">
@@ -979,12 +1068,12 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="space-y-6">
+                            <div class="space-y-6">
                                         <div class="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-200">
                                             <div class="flex items-center">
                                                 <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
                                                     <i class="fas fa-box text-white"></i>
-                                                </div>
+                                            </div>
                                                 <div class="ml-4">
                                                     <p class="text-sm font-medium text-gray-900">
                                                         <span class="lang-id">Paket Baru</span>
@@ -1006,7 +1095,7 @@
                                             <div class="flex items-center">
                                                 <div class="w-10 h-10 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-lg flex items-center justify-center">
                                                     <i class="fas fa-truck text-white"></i>
-                                                </div>
+                                            </div>
                                                 <div class="ml-4">
                                                     <p class="text-sm font-medium text-gray-900">
                                                         <span class="lang-id">Status Pengiriman</span>
@@ -1028,7 +1117,7 @@
                                             <div class="flex items-center">
                                                 <div class="w-10 h-10 bg-gradient-to-r from-red-500 to-pink-600 rounded-lg flex items-center justify-center">
                                                     <i class="fas fa-bell text-white"></i>
-                                                </div>
+                                            </div>
                                                 <div class="ml-4">
                                                     <p class="text-sm font-medium text-gray-900">
                                                         <span class="lang-id">Pengingat</span>
@@ -1053,7 +1142,7 @@
                                     <div class="flex items-center mb-6">
                                         <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
                                             <i class="fas fa-mobile-alt text-white text-xl"></i>
-                                        </div>
+                                            </div>
                                         <div class="ml-4">
                                             <h4 class="text-xl font-semibold text-gray-800">
                                                 <span class="lang-id">Notifikasi Push</span>
@@ -1093,7 +1182,7 @@
                                             <div class="flex items-center">
                                                 <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-blue-600 rounded-lg flex items-center justify-center">
                                                     <i class="fas fa-volume-up text-white"></i>
-                                                </div>
+                                    </div>
                                                 <div class="ml-4">
                                                     <p class="text-sm font-medium text-gray-900">
                                                         <span class="lang-id">Suara Notifikasi</span>
@@ -1188,7 +1277,7 @@
                                     <div class="flex items-center mb-6">
                                         <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
                                             <i class="fas fa-shield-alt text-white text-xl"></i>
-                                        </div>
+                                            </div>
                                         <div class="ml-4">
                                             <h4 class="text-xl font-semibold text-gray-800">
                                                 <span class="lang-id">Privasi</span>
@@ -1228,7 +1317,7 @@
                                             <div class="flex items-center">
                                                 <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
                                                     <i class="fas fa-chart-line text-white"></i>
-                                                </div>
+                                            </div>
                                                 <div class="ml-4">
                                                     <p class="text-sm font-medium text-gray-900">
                                                         <span class="lang-id">Analitik</span>
@@ -1373,6 +1462,11 @@
                     const submitBtn = form.querySelector('button[type="submit"]');
                     if (submitBtn) {
                         showLoadingState(submitBtn);
+                        
+                        // Show success notification after form submission
+                        setTimeout(() => {
+                            showNotification('Profil berhasil diperbarui!', 'success');
+                        }, 2000);
                     }
                 });
             });
@@ -1408,7 +1502,7 @@
                     content.style.opacity = '0';
                     content.style.transform = 'translateY(20px)';
                     setTimeout(() => {
-                        content.classList.add('hidden');
+                content.classList.add('hidden');
                     }, 200);
                 }
             });
@@ -1439,7 +1533,7 @@
             // Add active class to selected tab
             const activeTab = document.getElementById(tabName + '-tab');
             if (activeTab) {
-                activeTab.classList.remove('border-transparent', 'text-gray-500');
+            activeTab.classList.remove('border-transparent', 'text-gray-500');
                 activeTab.classList.add('border-purple-500', 'text-purple-600', 'active');
             }
 
@@ -1552,6 +1646,23 @@
 
         function previewAvatar(input) {
             if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const fileInfo = document.getElementById('file-info');
+                
+                // Validate file type
+                if (!file.type.startsWith('image/')) {
+                    showNotification('Pilih file gambar yang valid!', 'error');
+                    input.value = '';
+                    return;
+                }
+                
+                // Validate file size (5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    showNotification('Ukuran file maksimal 5MB!', 'error');
+                    input.value = '';
+                    return;
+                }
+                
                 const reader = new FileReader();
                 
                 reader.onload = function(e) {
@@ -1562,10 +1673,17 @@
                         avatarPreview.src = e.target.result;
                         avatarPreview.classList.remove('hidden');
                         avatarInitial.classList.add('hidden');
+                        
+                        // Show file info
+                        if (fileInfo) {
+                            fileInfo.classList.remove('hidden');
+                        }
+                        
+                        showNotification('Foto profil berhasil dipilih!', 'success');
                     }
                 };
                 
-                reader.readAsDataURL(input.files[0]);
+                reader.readAsDataURL(file);
             }
         }
 
@@ -1577,16 +1695,18 @@
             const originalDisabled = button.disabled;
             
             button.disabled = true;
-            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i><span class="lang-id">Menyimpan...</span><span class="lang-en">Saving...</span>';
             button.classList.add('loading');
             
-            // Simulate loading (remove this in production)
+            // Reset after form submission (actual form will handle the redirect)
             setTimeout(() => {
-                button.innerHTML = originalText;
-                button.disabled = originalDisabled;
-                button.classList.remove('loading');
-                isLoading = false;
-            }, 2000);
+                if (isLoading) {
+                    button.innerHTML = originalText;
+                    button.disabled = originalDisabled;
+                    button.classList.remove('loading');
+                    isLoading = false;
+                }
+            }, 3000);
         }
 
         function showNotification(message, type = 'info') {
