@@ -38,14 +38,14 @@ class DatabaseSeeder extends Seeder
             'code' => 'LK001',
             'name' => 'Loker Kecil 1',
             'location' => 'Gedung A',
-            'price_per_day' => 5000
+            'price_per_hour' => 5000
         ]);
 
         Unit::create([
             'code' => 'LK002',
             'name' => 'Loker Sedang 1',
             'location' => 'Gedung A',
-            'price_per_day' => 8000
+            'price_per_hour' => 8000
         ]);
     }
 }

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('code')->unique(); 
             $table->string('name');
             $table->string('location');
-            $table->decimal('price_per_day', 10, 2);
-            $table->enum('status', ['available', 'booked'])->default('available');
+            $table->decimal('price_per_hour', 10, 2);
+            $table->enum('status', ['available', 'booked', 'returned', 'completed', 'overdue'])->default('available');
             $table->timestamps();
         });
     }

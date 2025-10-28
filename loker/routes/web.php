@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
 
@@ -18,7 +19,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Dashboard route (protected)
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    if (Auth::user()->role === 'admin') {
+        return view('Admin.dashboard');
+    } else {
+        return view('User.dashboard');
+    }
 })->middleware('auth')->name('dashboard');
 
 // Settings routes (protected)
