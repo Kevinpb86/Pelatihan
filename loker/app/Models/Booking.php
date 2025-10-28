@@ -12,8 +12,8 @@ class Booking extends Model
     protected $fillable = [
         'user_id',
         'unit_id',
-        'start_date',
-        'end_date',
+        'start_time',
+        'end_time',
         'total_price',
         'status',
     ];
@@ -26,5 +26,9 @@ class Booking extends Model
     public function unit()
     {
         return $this->belongsTo(Unit::class);
+    }
+
+    public function fine(){
+        return $this->hasOne(Fine::class);
     }
 }

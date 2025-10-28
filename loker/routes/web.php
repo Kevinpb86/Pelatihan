@@ -48,9 +48,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Dashboard route (protected)
 Route::get('/dashboard', function () {
     if (Auth::user()->role === 'admin') {
-        return view('admin.dashboard');
+        return view('Admin.dashboard');
     } else {
-        return view('user.dashboard');
+        return view('User.dashboard');
     }
 })->middleware('auth')->name('dashboard');
 

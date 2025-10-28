@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('unit_id')->constrained()->onDelete('cascade');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
             $table->decimal('total_price', 10, 2);
-            $table->enum('status', ['active', 'returned', 'overdue'])->default('active');
+            $table->enum('status', ['active', 'booked', 'returned', 'completed', 'overdue'])->default('active');
             $table->timestamps();
         });
     }
