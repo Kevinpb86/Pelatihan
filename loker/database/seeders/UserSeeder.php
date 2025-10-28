@@ -9,15 +9,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         User::create([
             'name' => 'Admin User',
             'email' => 'admin@loker.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('1234'),
             'email_verified_at' => now(),
         ]);
 
