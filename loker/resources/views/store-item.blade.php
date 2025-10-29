@@ -505,15 +505,15 @@
                         <span class="lang-id">Dashboard</span>
                         <span class="lang-en">Dashboard</span>
                     </a>
+                    <a href="{{ route('items.index') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
+                        <i class="fas fa-box w-5 h-5 mr-3"></i>
+                        <span class="lang-id">Barang Saya</span>
+                        <span class="lang-en">My Items</span>
+                    </a>
                     <a href="#" class="nav-item active flex items-center px-4 py-3 text-sm font-medium text-white bg-white/20 backdrop-blur-sm rounded-xl">
                         <i class="fas fa-box w-5 h-5 mr-3"></i>
                         <span class="lang-id">Titip Barang</span>
                         <span class="lang-en">Store Item</span>
-                    </a>
-                    <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
-                        <i class="fas fa-box w-5 h-5 mr-3"></i>
-                        <span class="lang-id">Barang Saya</span>
-                        <span class="lang-en">My Items</span>
                     </a>
                     <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-map-marker-alt w-5 h-5 mr-3"></i>
@@ -531,8 +531,11 @@
             <!-- User Info -->
             <div class="absolute bottom-0 w-64 p-6 border-t border-white/20">
                 <div class="flex items-center mb-4">
-                    <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
-                        <span class="text-white text-lg font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                    <div class="relative w-12 h-12 rounded-full overflow-hidden shadow-lg">
+                        <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : '' }}" alt="Avatar" class="w-full h-full object-cover {{ Auth::user()->avatar ? '' : 'hidden' }}">
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center {{ Auth::user()->avatar ? 'hidden' : '' }}">
+                            <span class="text-white text-lg font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                        </div>
                     </div>
                     <div class="ml-3 flex-1">
                         <p class="text-sm font-medium text-white">{{ Auth::user()->name }}</p>
