@@ -370,6 +370,82 @@
         .dark-theme .step-line.completed {
             background: #10b981 !important;
         }
+
+        /* Enhanced Visual Effects */
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            from { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
+            to { box-shadow: 0 0 30px rgba(102, 126, 234, 0.6); }
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.6s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .form-card:hover::before {
+            left: 100%;
+        }
+
+        .icon-hover-scale {
+            transition: transform 0.3s ease;
+        }
+
+        .icon-hover-scale:hover {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .input-focus-effect:focus {
+            animation: inputPulse 0.5s ease-out;
+        }
+
+        @keyframes inputPulse {
+            0% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7); }
+            100% { box-shadow: 0 0 0 8px rgba(102, 126, 234, 0); }
+        }
         
         /* Language Styles */
         .lang-id {
@@ -444,11 +520,6 @@
                         <span class="lang-id">Lokasi Loker</span>
                         <span class="lang-en">Locker Locations</span>
                     </a>
-                    <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
-                        <i class="fas fa-chart-bar w-5 h-5 mr-3"></i>
-                        <span class="lang-id">Statistik</span>
-                        <span class="lang-en">Statistics</span>
-                    </a>
                     <a href="{{ route('settings') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-cog w-5 h-5 mr-3"></i>
                         <span class="lang-id">Pengaturan</span>
@@ -482,25 +553,37 @@
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Top Bar -->
-            <header class="bg-white/80 backdrop-blur-sm shadow-lg border-b border-gray-200/50">
-                <div class="px-6 py-6">
+            <header class="bg-white/80 backdrop-blur-sm shadow-lg border-b border-gray-200/50 relative overflow-hidden">
+                <!-- Background Pattern -->
+                <div class="absolute inset-0 opacity-5">
+                    <div class="absolute top-0 left-0 w-full h-full" style="background-image: radial-gradient(circle at 25% 25%, #667eea 0%, transparent 50%), radial-gradient(circle at 75% 75%, #764ba2 0%, transparent 50%);"></div>
+                </div>
+                
+                <div class="px-6 py-6 relative z-10">
                     <div class="flex items-center justify-between">
                         <div class="slide-in">
-                            <h2 class="text-3xl font-bold text-gray-800 flex items-center">
-                                <i class="fas fa-box mr-3 text-purple-600"></i>
-                                <span class="lang-id">Titip Barang</span>
-                                <span class="lang-en">Store Item</span>
-                            </h2>
-                            <p class="text-gray-600 mt-1">
-                                <span class="lang-id">Simpan barang Anda dengan aman di loker yang tersedia</span>
-                                <span class="lang-en">Store your items safely in available lockers</span>
-                            </p>
+                            <div class="flex items-center space-x-4">
+                                <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-600 rounded-2xl flex items-center justify-center pulse-glow">
+                                    <i class="fas fa-box text-white text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-3xl font-bold gradient-text flex items-center">
+                                        <span class="lang-id">Titip Barang</span>
+                                        <span class="lang-en">Store Item</span>
+                                    </h2>
+                                    <p class="text-gray-600 mt-1 flex items-center">
+                                        <i class="fas fa-shield-alt mr-2 text-green-500"></i>
+                                        <span class="lang-id">Simpan barang Anda dengan aman di loker yang tersedia</span>
+                                        <span class="lang-en">Store your items safely in available lockers</span>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <a href="{{ route('dashboard') }}" class="flex items-center px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors duration-200">
+                            <a href="{{ route('dashboard') }}" class="flex items-center px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-300 hover:scale-105 text-gray-700 font-medium">
                                 <i class="fas fa-arrow-left mr-2"></i>
-                                <span class="lang-id">Kembali ke Dashboard</span>
-                                <span class="lang-en">Back to Dashboard</span>
+                                <span class="lang-id">Kembali</span>
+                                <span class="lang-en">Back</span>
                             </a>
                         </div>
                     </div>
@@ -600,7 +683,7 @@
                     <!-- Item Details Form -->
                     <div class="space-y-6">
                         <!-- Selected Locker Info -->
-                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20" id="selected-locker-info" style="display: none;">
+                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 form-card bounce-in" id="selected-locker-info" style="display: none;">
                             <div class="p-6 border-b border-gray-200/50">
                                 <h3 class="text-xl font-semibold text-gray-800 flex items-center">
                                     <i class="fas fa-info-circle mr-3 text-purple-600"></i>
@@ -623,7 +706,7 @@
                         </div>
 
                         <!-- Item Form -->
-                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20" id="item-form" style="display: none;">
+                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 form-card bounce-in" id="item-form" style="display: none;">
                             <div class="p-6 border-b border-gray-200/50">
                                 <h3 class="text-xl font-semibold text-gray-800 flex items-center">
                                     <i class="fas fa-box mr-3 text-purple-600"></i>
@@ -636,10 +719,11 @@
                                     <div class="space-y-4">
                                         <div>
                                             <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                <i class="fas fa-tag mr-2 text-purple-600"></i>
                                                 <span class="lang-id">Nama Barang</span>
                                                 <span class="lang-en">Item Name</span>
                                             </label>
-                                            <input type="text" id="item-name" class="form-input w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:border-purple-500" placeholder="Masukkan nama barang">
+                                            <input type="text" id="item-name" class="form-input w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:border-purple-500 input-focus-effect" placeholder="Masukkan nama barang">
                                         </div>
 
                                         <div>

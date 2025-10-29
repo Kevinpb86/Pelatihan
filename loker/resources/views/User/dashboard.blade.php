@@ -171,6 +171,64 @@
             border: 2px solid white;
         }
 
+        /* Button Animations */
+        .action-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .action-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .action-button:hover::before {
+            left: 100%;
+        }
+
+        .action-button:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .action-button:hover .action-icon {
+            transform: scale(1.2) rotate(5deg);
+            animation: pulse 1s infinite;
+        }
+
+        .action-icon {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1.2) rotate(5deg); }
+            50% { transform: scale(1.3) rotate(-5deg); }
+        }
+
+        .action-button:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        /* Specific button colors */
+        .btn-store:hover {
+            box-shadow: 0 20px 25px -5px rgba(102, 126, 234, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-view:hover {
+            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-location:hover {
+            box-shadow: 0 20px 25px -5px rgba(34, 197, 94, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
         .slide-in {
             animation: slideIn 0.5s ease-out;
         }
@@ -510,6 +568,42 @@
 
         /* tombol efek tekan */
         .btn-pressing{transform:translateY(1px) scale(.996);transition:transform 120ms ease}
+
+        /* Hover effects untuk Quick Actions buttons */
+        .quick-action-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .quick-action-btn:hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 0.8s ease-in-out;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .quick-action-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .quick-action-btn:hover i {
+            transform: scale(1.2) rotate(5deg);
+        }
     </style>
 </head>
 <body class="bg-gray-100" id="main-body">
@@ -641,12 +735,6 @@
                                 <input type="text" placeholder="Cari barang..." class="w-64 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 group-hover:shadow-lg">
                                 <i class="fas fa-search absolute right-3 top-3.5 text-gray-400 group-hover:text-purple-500 transition-colors"></i>
                             </div>
-                            <!-- Quick Actions -->
-                            <button onclick="animateAndNavigate(event, '{{ route('store-item') }}')" class="btn-primary btn-animate px-6 py-3 rounded-xl font-medium hover:scale-105 transition-all duration-300 pulse-glow">
-                                <i class="fas fa-plus mr-2"></i>
-                                <span class="lang-id">Titip Barang</span>
-                                <span class="lang-en">Store Item</span>
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -925,18 +1013,18 @@
                             </div>
                             <div class="p-6">
                                 <div class="space-y-3">
-                                    <button onclick="animateAndNavigate(event, '{{ route('store-item') }}')" class="w-full flex items-center justify-center px-4 py-3 btn-primary btn-animate rounded-xl font-medium">
-                                        <i class="fas fa-plus mr-2"></i>
+                                    <button onclick="animateAndNavigate(event, '{{ route('store-item') }}')" class="w-full action-button btn-store flex items-center justify-center px-4 py-3 btn-primary btn-animate rounded-xl font-medium">
+                                        <i class="fas fa-plus mr-2 action-icon"></i>
                                         <span class="lang-id">Titip Barang</span>
                                         <span class="lang-en">Store Item</span>
                                     </button>
-                                    <button onclick="animateAndNavigate(event, '{{ route('items.index') }}')" class="w-full flex items-center justify-center px-4 py-3 btn-primary btn-animate rounded-xl font-medium">
-                                        <i class="fas fa-box mr-2"></i>
+                                    <button onclick="animateAndNavigate(event, '{{ route('items.index') }}')" class="w-full action-button btn-view flex items-center justify-center px-4 py-3 btn-primary btn-animate rounded-xl font-medium">
+                                        <i class="fas fa-box mr-2 action-icon"></i>
                                         <span class="lang-id">Lihat Barang Saya</span>
                                         <span class="lang-en">View All Items</span>
                                     </button>
-                                    <button onclick="animateAndNavigate(event, '#')" class="w-full flex items-center justify-center px-4 py-3 btn-primary btn-animate rounded-xl font-medium">
-                                        <i class="fas fa-map-marker-alt mr-2"></i>
+                                    <button onclick="animateAndNavigate(event, '#')" class="w-full action-button btn-location flex items-center justify-center px-4 py-3 btn-primary btn-animate rounded-xl font-medium">
+                                        <i class="fas fa-map-marker-alt mr-2 action-icon"></i>
                                         <span class="lang-id">Cari Lokasi Loker</span>
                                         <span class="lang-en">Find Locker Location</span>
                                     </button>
