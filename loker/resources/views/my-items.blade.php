@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Barang Saya - {{ config('app.name', 'Loker') }}</title>
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
     
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -470,18 +470,18 @@
                                 </div>
 
                                 <div class="flex gap-2">
-                                    <button onclick="openDetailModal(@json($item))" class="btn-animate flex-1 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-300">
-                                        <i class="fas fa-eye mr-2"></i>
-                                        Detail
+                                    <a href="{{ route('items.show', $item['id'] ?? 0) }}" class="btn-animate flex-1 px-4 py-2.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-300 text-center">
+                                        <i class="fas fa-hand-paper mr-2"></i>
+                                        Ambil Barang
+                                    </a>
+                                    <button onclick="openDetailModal(@json($item))" class="btn-animate px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                                        <i class="fas fa-eye"></i>
                                     </button>
-                                    <button onclick="showPopupAndNavigate(event, '#', 'Memproses perpanjangan...')" class="btn-animate px-4 py-2.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-300">
-                                        <i class="fas fa-calendar-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            @endforeach
                         </div>
-                    @else
+                    </div>
+                    @endforeach
+                </div>
+            @else
                         <div class="empty-state bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20">
                             <div class="empty-state-icon">
                                 <i class="fas fa-box-open"></i>
@@ -494,7 +494,7 @@
                                 <i class="fas fa-plus mr-2"></i>
                                 Titip Barang Baru
                             </button>
-                        </div>
+                    </div>
                     @endif
                 </div>
             </main>
@@ -530,11 +530,11 @@
                 </div>
 
                 <div class="flex gap-3">
-                    <button onclick="showPopupAndNavigate(event, '#', 'Memproses pengambilan...')" class="btn-animate flex-1 px-4 py-3 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-xl font-medium hover:shadow-lg transition-all duration-300">
+                    <a id="modal-take-link" href="#" class="btn-animate flex-1 px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-medium hover:shadow-lg transition-all duration-300 text-center">
                         <i class="fas fa-hand-paper mr-2"></i>
                         Ambil Barang
-                    </button>
-                    <button onclick="showPopupAndNavigate(event, '#', 'Memperpanjang masa titip...')" class="btn-animate flex-1 px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-medium hover:shadow-lg transition-all duration-300">
+                    </a>
+                    <button onclick="showPopupAndNavigate(event, '#', 'Memperpanjang masa titip...')" class="btn-animate flex-1 px-4 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl font-medium hover:shadow-lg transition-all duration-300">
                         <i class="fas fa-calendar-plus mr-2"></i>
                         Perpanjang
                     </button>
@@ -646,6 +646,12 @@
                 ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
                 : 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)';
             thumb.innerHTML = `<i class="${item.icon || 'fas fa-box'} text-white text-xl"></i>`;
+            
+            // Update take link
+            const takeLink = clone.querySelector('#modal-take-link');
+            if (takeLink && item.id) {
+                takeLink.href = '/take-item/' + item.id;
+            }
             
             document.body.appendChild(clone);
         }

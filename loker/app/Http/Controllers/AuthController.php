@@ -24,12 +24,13 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            $role = Auth::user()->role;
-
-            if ($role === 'admin') {
-                return redirect()->intended('/Admin/dashboard');
+            
+            // Redirect based on role
+            if (Auth::user()->role === 'admin') {
+                return redirect()->intended(route('admin.dashboard'));
             }
-            return redirect()->intended('/dashboard');
+            
+            return redirect()->intended(route('dashboard'));
         }
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',

@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\UserDashboardController;
 
 // Redirect root to login
 Route::get('/', function () {
@@ -20,11 +22,26 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Dashboard route (protected)
 Route::get('/dashboard', function () {
     if (Auth::user()->role === 'admin') {
-        return view('Admin.dashboard');
+        return redirect()->route('admin.dashboard');
     } else {
-        return view('User.dashboard');
+        return app(UserDashboardController::class)->index();
     }
 })->middleware('auth')->name('dashboard');
+
+// Admin routes (protected)
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    
+    // Admin bookings route
+    Route::get('/bookings', function () {
+        return view('Admin.booking.index');
+    })->name('bookings.index');
+    
+    // Admin units route
+    Route::get('/units', function () {
+        return view('Admin.unit.index');
+    })->name('units.index');
+});
 
 // Settings routes (protected)
 Route::get('/settings', [AuthController::class, 'showSettings'])->middleware('auth')->name('settings');
@@ -32,10 +49,12 @@ Route::put('/settings/profile', [AuthController::class, 'updateProfile'])->middl
 Route::put('/settings/password', [AuthController::class, 'updatePassword'])->middleware('auth')->name('settings.password.update');
 
 // Store Item routes (protected)
-Route::get('/store-item', function () {
-    return view('store-item');
-})->middleware('auth')->name('store-item');
+Route::get('/store-item', [ItemController::class, 'showStoreItem'])->middleware('auth')->name('store-item');
+Route::get('/payment', [ItemController::class, 'showPayment'])->middleware('auth')->name('payment');
+Route::post('/payment', [ItemController::class, 'processPayment'])->middleware('auth')->name('payment.process');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/my-items', [ItemController::class, 'index'])->name('items.index');
+    Route::get('/take-item/{id}', [ItemController::class, 'show'])->name('items.show');
+    Route::post('/take-item/{id}', [ItemController::class, 'retrieve'])->name('items.retrieve');
 });
