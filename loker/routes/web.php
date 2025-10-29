@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminUnitController;
 use App\Http\Controllers\UserDashboardController;
 
 // Redirect root to login
@@ -32,15 +33,14 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     
-    // Admin bookings route
-    Route::get('/bookings', function () {
-        return view('Admin.booking.index');
-    })->name('bookings.index');
-    
-    // Admin units route
-    Route::get('/units', function () {
-        return view('Admin.unit.index');
-    })->name('units.index');
+    // Admin bookings route (placeholder view)
+    Route::get('/bookings', function () { return view('Admin.booking.index'); })->name('bookings.index');
+
+    // Kelola Loker routes
+    Route::get('/kelolaloker', [AdminUnitController::class, 'index'])->name('kelolaloker.index');
+    Route::post('/kelolaloker', [AdminUnitController::class, 'store'])->name('kelolaloker.store');
+    Route::put('/kelolaloker/{unit}', [AdminUnitController::class, 'update'])->name('kelolaloker.update');
+    Route::put('/kelolaloker/{unit}/status', [AdminUnitController::class, 'updateStatus'])->name('kelolaloker.status');
 });
 
 // Settings routes (protected)

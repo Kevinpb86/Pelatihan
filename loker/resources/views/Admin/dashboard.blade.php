@@ -214,7 +214,7 @@
                         <i class="fas fa-home w-5 h-5 mr-3"></i>
                         Dashboard
                     </a>
-                    <a href="{{ route('admin.units.index') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
+                    <a href="{{ route('admin.kelolaloker.index') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-cube w-5 h-5 mr-3"></i>
                         Kelola Loker
                     </a>
@@ -432,7 +432,7 @@
                                 </div>
                                 <div class="p-6">
                                     <div class="space-y-3">
-                                        <a href="{{ route('admin.units.index') }}" class="w-full btn-gradient flex items-center justify-center px-4 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-medium hover:shadow-lg transition-all duration-300">
+                                        <a href="{{ route('admin.kelolaloker.index') }}" class="w-full btn-gradient flex items-center justify-center px-4 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-medium hover:shadow-lg transition-all duration-300">
                                             <i class="fas fa-plus mr-2"></i>
                                             Tambah Loker
                                         </a>

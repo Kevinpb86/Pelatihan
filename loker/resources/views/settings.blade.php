@@ -591,7 +591,7 @@
                             <i class="fas fa-home w-5 h-5 mr-3"></i>
                             Dashboard
                         </a>
-                        <a href="{{ route('admin.units.index') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
+                        <a href="{{ route('admin.kelolaloker.index') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                             <i class="fas fa-cube w-5 h-5 mr-3"></i>
                             Kelola Loker
                         </a>
