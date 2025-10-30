@@ -52,5 +52,11 @@ class AdminUnitController extends Controller
 
         return redirect()->route('admin.kelolaloker.index')->with('success', 'Status loker diperbarui');
     }
+
+    public function destroy(Unit $unit)
+    {
+        $unit->delete();
+        return redirect()->route('admin.kelolaloker.index')->with('success', 'Loker berhasil dihapus');
+    }
 }
 

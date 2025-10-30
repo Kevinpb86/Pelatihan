@@ -265,6 +265,15 @@
             transform: translateY(-50%);
             color: #9ca3af;
         }
+        .icon-action {
+            cursor: pointer;
+            transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+        }
+        .icon-action:hover {
+            transform: translateY(-2px) scale(1.06);
+            box-shadow: 0 10px 18px rgba(79,70,229,.25);
+            opacity: .95;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -298,10 +307,6 @@
                     <a href="{{ route('store-item') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-plus-circle w-5 h-5 mr-3"></i>
                         Titip Barang
-                    </a>
-                    <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
-                        <i class="fas fa-map-marker-alt w-5 h-5 mr-3"></i>
-                        Lokasi Loker
                     </a>
                     <a href="{{ route('settings') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-cog w-5 h-5 mr-3"></i>
@@ -474,9 +479,9 @@
                                         <i class="fas fa-hand-paper mr-2"></i>
                                         Ambil Barang
                                     </a>
-                                    <button onclick="openDetailModal(@json($item))" class="btn-animate px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                                    <a href="{{ route('items.show', $item['id'] ?? 0) }}" class="btn-animate icon-action px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-300 text-center" title="Lihat Detail" aria-label="Lihat Detail">
                                         <i class="fas fa-eye"></i>
-                                    </button>
+                                    </a>
                         </div>
                     </div>
                     @endforeach
