@@ -599,13 +599,9 @@
                             <i class="fas fa-book w-5 h-5 mr-3"></i>
                             Pemesanan
                         </a>
-                        <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
+                        <a href="{{ route('admin.users.index') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                             <i class="fas fa-users w-5 h-5 mr-3"></i>
                             Kelola Pengguna
-                        </a>
-                        <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
-                            <i class="fas fa-chart-bar w-5 h-5 mr-3"></i>
-                            Laporan
                         </a>
                         <a href="{{ route('settings') }}" class="nav-item active flex items-center px-4 py-3 text-sm font-medium text-white bg-white/20 backdrop-blur-sm rounded-xl">
                             <i class="fas fa-cog w-5 h-5 mr-3"></i>
@@ -628,11 +624,6 @@
                             <i class="fas fa-plus-circle w-5 h-5 mr-3"></i>
                             <span class="lang-id">Titip Barang</span>
                             <span class="lang-en">Store Item</span>
-                        </a>
-                        <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
-                            <i class="fas fa-map-marker-alt w-5 h-5 mr-3"></i>
-                            <span class="lang-id">Lokasi Loker</span>
-                            <span class="lang-en">Locker Locations</span>
                         </a>
                         <a href="{{ route('settings') }}" class="nav-item active flex items-center px-4 py-3 text-sm font-medium text-white bg-white/20 backdrop-blur-sm rounded-xl">
                             <i class="fas fa-cog w-5 h-5 mr-3"></i>

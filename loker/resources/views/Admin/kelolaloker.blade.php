@@ -305,13 +305,9 @@
                         <i class="fas fa-book w-5 h-5 mr-3"></i>
                         Pemesanan
                     </a>
-                    <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
+                    <a href="{{ route('admin.users.index') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-users w-5 h-5 mr-3"></i>
                         Kelola Pengguna
-                    </a>
-                    <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
-                        <i class="fas fa-chart-bar w-5 h-5 mr-3"></i>
-                        Laporan
                     </a>
                     <a href="{{ route('settings') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-cog w-5 h-5 mr-3"></i>
@@ -370,6 +366,15 @@
                         @if(session('success'))
                             <div class="alert-success">{{ session('success') }}</div>
                         @endif
+                        @if ($errors->any())
+                            <div class="mb-4 p-3 rounded-lg border-l-4 border-red-500 bg-red-50 text-red-700">
+                                <ul class="list-disc list-inside space-y-1">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="overflow-x-auto">
                             <table class="min-w-full table">
                                 <thead>
@@ -419,6 +424,14 @@
                                                     <button type="submit" class="btn-available">
                                                         <i class="fas fa-check-circle"></i>
                                                         <span>Available</span>
+                                                    </button>
+                                                </form>
+                                                <form action="{{ route('admin.kelolaloker.destroy', $unit) }}" method="POST" onsubmit="return confirm('Hapus loker ini? Tindakan ini tidak bisa dibatalkan.');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md text-xs font-semibold transition-all">
+                                                        <i class="fas fa-trash mr-1"></i>
+                                                        <span>Hapus</span>
                                                     </button>
                                                 </form>
                                             </div>

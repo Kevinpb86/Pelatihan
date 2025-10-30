@@ -222,13 +222,9 @@
                         <i class="fas fa-book w-5 h-5 mr-3"></i>
                         Pemesanan
                     </a>
-                    <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
+                    <a href="{{ route('admin.users.index') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-users w-5 h-5 mr-3"></i>
                         Kelola Pengguna
-                    </a>
-                    <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
-                        <i class="fas fa-chart-bar w-5 h-5 mr-3"></i>
-                        Laporan
                     </a>
                     <a href="{{ route('settings') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-cog w-5 h-5 mr-3"></i>

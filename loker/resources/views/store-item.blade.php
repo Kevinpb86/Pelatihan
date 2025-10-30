@@ -515,11 +515,6 @@
                         <span class="lang-id">Titip Barang</span>
                         <span class="lang-en">Store Item</span>
                     </a>
-                    <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
-                        <i class="fas fa-map-marker-alt w-5 h-5 mr-3"></i>
-                        <span class="lang-id">Lokasi Loker</span>
-                        <span class="lang-en">Locker Locations</span>
-                    </a>
                     <a href="{{ route('settings') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-cog w-5 h-5 mr-3"></i>
                         <span class="lang-id">Pengaturan</span>
