@@ -12,37 +12,34 @@ class ItemController extends Controller
 {
     public function showStoreItem()
     {
-        // Status Loker - Real-time data
-        // Ambil semua units dan cek apakah ada booking aktif
-        $units = Unit::with(['bookings' => function($query) {
+        // Ambil semua unit dan status real-time
+        $units = Unit::with(['bookings' => function ($query) {
             $query->where('status', 'active');
         }])->get();
 
-        $lockers = $units->map(function($unit) {
-            // Cek apakah ada booking aktif
+        $lockers = $units->map(function ($unit) {
             $hasActiveBooking = $unit->bookings->where('status', 'active')->isNotEmpty();
-            
-            // Tentukan status berdasarkan booking aktif dan status unit
+
             if ($hasActiveBooking) {
-                $status = 'occupied'; // Merah - ada yang mengisi
+                $status = 'occupied';
                 $statusText = 'Terisi';
                 $statusTextEn = 'Occupied';
                 $icon = 'fa-lock';
                 $class = 'locker-occupied';
             } elseif ($unit->status === 'overdue') {
-                $status = 'maintenance'; // Kuning/Orange - maintenance
+                $status = 'maintenance';
                 $statusText = 'Maintenance';
                 $statusTextEn = 'Maintenance';
                 $icon = 'fa-tools';
                 $class = 'locker-maintenance';
             } elseif ($unit->status === 'booked') {
-                $status = 'reserved'; // Biru - reserved
+                $status = 'reserved';
                 $statusText = 'Reserved';
                 $statusTextEn = 'Reserved';
                 $icon = 'fa-clock';
                 $class = 'locker-reserved';
             } else {
-                $status = 'available'; // Hijau - kosong/tersedia
+                $status = 'available';
                 $statusText = 'Kosong';
                 $statusTextEn = 'Available';
                 $icon = 'fa-unlock';
@@ -66,14 +63,12 @@ class ItemController extends Controller
 
     public function index()
     {
-        // Ambil booking aktif user
         $bookings = Booking::with('unit')
             ->where('user_id', Auth::id())
             ->where('status', 'active')
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // Format data untuk view
         $items = $bookings->map(function ($booking) {
             return [
                 'id' => $booking->id,
@@ -94,14 +89,30 @@ class ItemController extends Controller
 
     public function show($id)
     {
-        $booking = Booking::with('unit')
+        $booking = Booking::with(['unit', 'fine'])
             ->where('user_id', Auth::id())
             ->where('id', $id)
-            ->where('status', 'active')
             ->firstOrFail();
+
+        $now = now();
+
+        // Cek apakah waktu sekarang sudah melewati end_time dan belum ada fine
+        if ($now->gt($booking->end_time) && !$booking->fine) {
+            $hoursLate = $booking->end_time->diffInHours($now);
+            $fineAmount = $hoursLate * 5000; // contoh: 5000 per jam keterlambatan
+
+            $booking->fine()->create([
+                'amount' => $fineAmount,
+                'paid' => false,
+            ]);
+
+            // Reload relasi biar fine langsung muncul di view
+            $booking->load('fine');
+        }
 
         return view('takeitem', compact('booking'));
     }
+
 
     public function retrieve(Request $request, $id)
     {
@@ -111,15 +122,30 @@ class ItemController extends Controller
             ->where('status', 'active')
             ->firstOrFail();
 
-        // Update status booking menjadi completed
-        $booking->update([
-            'status' => 'completed'
-        ]);
+        $now = Carbon::now();
 
-        // Update unit status menjadi available
-        $booking->unit->update([
-            'status' => 'available'
-        ]);
+        // 🕒 Cek keterlambatan
+        if ($now->gt($booking->end_time)) {
+            $hoursLate = $booking->end_time->diffInHours($now);
+            $fineAmount = $hoursLate * 5000;
+
+            // Simpan ke tabel fines
+            \App\Models\Fine::create([
+                'booking_id' => $booking->id,
+                'amount' => $fineAmount,
+            ]);
+
+            // Update status
+            $booking->update(['status' => 'overdue']);
+            $booking->unit->update(['status' => 'available']);
+
+            return redirect()->route('items.index')
+                ->with('error', "Anda terlambat $hoursLate jam. Denda Rp " . number_format($fineAmount, 0, ',', '.') . " telah ditambahkan.");
+        }
+
+        // Jika tidak terlambat
+        $booking->update(['status' => 'completed']);
+        $booking->unit->update(['status' => 'available']);
 
         return redirect()->route('items.index')
             ->with('success', 'Barang berhasil diambil dari loker ' . $booking->unit->code . '!');
@@ -127,7 +153,6 @@ class ItemController extends Controller
 
     public function showPayment(Request $request)
     {
-        // Validasi input dari store-item form
         $request->validate([
             'unit_code' => 'required|exists:units,code',
             'item_name' => 'required|string|max:255',
@@ -136,31 +161,24 @@ class ItemController extends Controller
         ]);
 
         $unit = Unit::where('code', $request->unit_code)->firstOrFail();
-        
-        // Cek apakah unit tersedia
+
         $hasActiveBooking = Booking::where('unit_id', $unit->id)
             ->where('status', 'active')
             ->exists();
-            
+
         if ($hasActiveBooking) {
             return redirect()->route('store-item')
                 ->with('error', 'Loker yang dipilih tidak tersedia.');
         }
 
-        // Hitung harga berdasarkan logika:
-        // - 1 jam pertama: Rp 2.000
-        // - Jika melebihi: biaya tambahan Rp 5.000 per jam
         $durationHours = (int)$request->duration_hours;
         $firstHourPrice = 2000;
         $additionalHourPrice = 5000;
-        
-        if ($durationHours == 1) {
-            $totalPrice = $firstHourPrice;
-        } else {
-            $totalPrice = $firstHourPrice + (($durationHours - 1) * $additionalHourPrice);
-        }
 
-        // Calculate start and end time
+        $totalPrice = $durationHours == 1
+            ? $firstHourPrice
+            : $firstHourPrice + (($durationHours - 1) * $additionalHourPrice);
+
         $startTime = Carbon::now();
         $endTime = Carbon::now()->addHours($durationHours);
 
@@ -188,39 +206,33 @@ class ItemController extends Controller
         ]);
 
         $unit = Unit::findOrFail($request->unit_id);
-        
-        // Cek apakah unit tersedia
+
         $hasActiveBooking = Booking::where('unit_id', $unit->id)
             ->where('status', 'active')
             ->exists();
-            
+
         if ($hasActiveBooking) {
             return redirect()->route('store-item')
                 ->with('error', 'Loker yang dipilih tidak tersedia.');
         }
 
-        // Hitung harga
         $durationHours = (int)$request->duration_hours;
         $firstHourPrice = 2000;
         $additionalHourPrice = 5000;
-        
-        if ($durationHours == 1) {
-            $totalPrice = $firstHourPrice;
-        } else {
-            $totalPrice = $firstHourPrice + (($durationHours - 1) * $additionalHourPrice);
-        }
 
-        // Validate total price
+        $totalPrice = $durationHours == 1
+            ? $firstHourPrice
+            : $firstHourPrice + (($durationHours - 1) * $additionalHourPrice);
+
         if (abs($totalPrice - $request->total_price) > 0.01) {
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan pada harga. Silakan coba lagi.');
         }
 
-        // Create booking
         $startTime = Carbon::now();
         $endTime = Carbon::now()->addHours($durationHours);
 
-        $booking = Booking::create([
+        Booking::create([
             'user_id' => Auth::id(),
             'unit_id' => $unit->id,
             'start_time' => $startTime,
@@ -229,7 +241,6 @@ class ItemController extends Controller
             'status' => 'active',
         ]);
 
-        // Update unit status
         $unit->update(['status' => 'booked']);
 
         return redirect()->route('items.index')

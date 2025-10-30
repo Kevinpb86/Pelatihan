@@ -327,6 +327,45 @@
                             </div>
                         </div>
 
+                        <div class="bg-red-50 border-l-4 border-red-500 rounded-xl p-5 mb-6">
+                            <div class="flex items-start">
+                                <i class="fas fa-money-bill-wave text-red-600 text-2xl mr-3 mt-1"></i>
+                                <div>
+                                    <p class="text-red-800 font-semibold text-lg">Status Loker: {{ ucfirst($booking->status) }}</p>
+                                    <p class="text-gray-700 text-sm mt-1">Loker: <span class="font-semibold">{{ $booking->unit->code }}</span></p>
+
+                                    @if ($booking->fine)
+                                        <div class="bg-red-50 border-l-4 border-red-500 rounded-xl p-5 mb-6">
+                                            <div class="flex items-start">
+                                                <i class="fas fa-money-bill-wave text-red-600 text-2xl mr-3 mt-1"></i>
+                                                <div>
+                                                    <div class="mt-2">
+                                                        <p class="text-red-700 font-semibold">
+                                                            Denda: Rp {{ number_format($booking->fine->amount, 0, ',', '.') }}
+                                                        </p>
+                                                        @if (!$booking->fine->paid)
+                                                            <span class="inline-block mt-1 bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-medium">
+                                                                Belum Dibayar
+                                                            </span>
+                                                        @else
+                                                            <span class="inline-block mt-1 bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium">
+                                                                Sudah Dibayar
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <p class="text-green-700 mt-2 font-medium">
+                                            Tidak ada denda 🎉
+                                        </p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+
                         <!-- Warning Info -->
                         <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg mb-6">
                             <div class="flex items-start">
