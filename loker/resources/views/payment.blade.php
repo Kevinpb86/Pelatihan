@@ -96,13 +96,11 @@
                         <div class="mt-6">
                             <h4 class="text-lg font-semibold text-gray-800 mb-3">Rincian Biaya</h4>
                             @php
-                                $firstHourPrice = 2000;
-                                $additionalHourPrice = 5000;
-                                $additionalHours = max(0, $durationHours - 1);
+                                $pricePerHour = (float) $unit->price_per_hour;
                             @endphp
                             <div class="space-y-2">
-                                <div class="flex items-center justify-between text-sm"><span>1 jam pertama</span><span>Rp {{ number_format($firstHourPrice,0,',','.') }}</span></div>
-                                <div class="flex items-center justify-between text-sm"><span>Tambahan {{ $additionalHours }} jam x Rp {{ number_format($additionalHourPrice,0,',','.') }}</span><span>Rp {{ number_format($additionalHours * $additionalHourPrice,0,',','.') }}</span></div>
+                                <div class="flex items-center justify-between text-sm"><span>Harga per jam</span><span>Rp {{ number_format($pricePerHour,0,',','.') }}</span></div>
+                                <div class="flex items-center justify-between text-sm"><span>Durasi</span><span>{{ $durationHours }} jam</span></div>
                                 <div class="flex items-center justify-between text-base font-bold border-t pt-2"><span>Total</span><span>Rp {{ number_format($totalPrice,0,',','.') }}</span></div>
                             </div>
                         </div>
@@ -154,7 +152,7 @@
                             </button>
                             <a href="{{ route('store-item') }}" class="mt-3 w-full inline-flex justify-center px-4 py-3 rounded-xl border border-gray-300 text-gray-700 font-medium">Kembali</a>
                         </form>
-                        <p class="text-xs text-gray-500 mt-4">Ketentuan harga: 1 jam pertama Rp 2.000, jam berikutnya Rp 5.000/jam. Jika melebihi durasi yang dipilih, denda akan dihitung saat pengambilan sesuai jam tambahan.</p>
+                        <p class="text-xs text-gray-500 mt-4">Ketentuan harga: Mengikuti harga admin sebesar Rp {{ number_format((float)$unit->price_per_hour,0,',','.') }} per jam.</p>
                     </div>
                 </div>
             </main>

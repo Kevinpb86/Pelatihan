@@ -147,8 +147,7 @@ class ItemController extends Controller
         $booking->update(['status' => 'completed']);
         $booking->unit->update(['status' => 'available']);
 
-        return redirect()->route('items.index')
-            ->with('success', 'Barang berhasil diambil dari loker ' . $booking->unit->code . '!');
+        return redirect()->route('items.index')->with('success', $message);
     }
 
     public function showPayment(Request $request)

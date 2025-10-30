@@ -152,6 +152,7 @@
                                     <th class="px-3 py-2 text-left">Selesai</th>
                                     <th class="px-3 py-2 text-left">Total</th>
                                     <th class="px-3 py-2 text-left">Status</th>
+                                    <th class="px-3 py-2 text-left">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="text-sm text-gray-700">
@@ -169,9 +170,16 @@
                                         @php($st = strtolower($booking->status ?? ''))
                                         <span class="badge {{ $st==='completed' ? 'badge-status-completed' : ($st==='active' ? 'badge-status-active' : ($st==='overdue' ? 'badge-status-overdue' : 'badge-status-cancelled')) }}">{{ ucfirst($booking->status ?? '-') }}</span>
                                     </td>
+                                    <td class="px-3 py-2">
+                                        <div class="flex items-center gap-2">
+                                            <a href="{{ url('/admin/bookings/'.$booking->id) }}" class="inline-flex items-center justify-center w-9 h-9 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg hover:shadow-lg transition-all" title="Lihat Detail" aria-label="Lihat Detail">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </div>
+                                    </td>
                                 </tr>
                             @empty
-                                <tr><td colspan="6" class="px-3 py-6 text-center text-gray-500">Belum ada pemesanan</td></tr>
+                                <tr><td colspan="7" class="px-3 py-6 text-center text-gray-500">Belum ada pemesanan</td></tr>
                             @endforelse
                             </tbody>
                         </table>
