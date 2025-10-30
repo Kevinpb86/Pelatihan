@@ -111,6 +111,32 @@ class ItemController extends Controller
             ->where('status', 'active')
             ->firstOrFail();
 
+        $now = Carbon::now();
+        $penaltyAmount = 0;
+
+        // Jika terlambat dari end_time, hitung denda berdasarkan jam terlambat (dibulatkan ke atas)
+        if ($now->gt($booking->end_time)) {
+            $overdueMinutes = $booking->end_time->diffInMinutes($now);
+            $overdueHours = (int) ceil($overdueMinutes / 60);
+            $pricePerHour = (float) $booking->unit->price_per_hour;
+            $penaltyAmount = $overdueHours * $pricePerHour;
+
+            // Tambahkan ke total harga dan simpan catatan denda
+            $booking->total_price = (float) $booking->total_price + $penaltyAmount;
+            $booking->save();
+
+            // Simpan denda terpisah bila diperlukan untuk pelacakan pembayaran
+            \App\Models\Fine::create([
+                'booking_id' => $booking->id,
+                'amount' => $penaltyAmount,
+                'paid' => false,
+            ]);
+
+            $message = 'Barang diambil dari loker ' . $booking->unit->code . '. Terlambat ' . $overdueHours . ' jam. Denda: Rp ' . number_format($penaltyAmount, 0, ',', '.');
+        } else {
+            $message = 'Barang berhasil diambil dari loker ' . $booking->unit->code . '!';
+        }
+
         // Update status booking menjadi completed
         $booking->update([
             'status' => 'completed'
@@ -121,8 +147,7 @@ class ItemController extends Controller
             'status' => 'available'
         ]);
 
-        return redirect()->route('items.index')
-            ->with('success', 'Barang berhasil diambil dari loker ' . $booking->unit->code . '!');
+        return redirect()->route('items.index')->with('success', $message);
     }
 
     public function showPayment(Request $request)
@@ -147,18 +172,9 @@ class ItemController extends Controller
                 ->with('error', 'Loker yang dipilih tidak tersedia.');
         }
 
-        // Hitung harga berdasarkan logika:
-        // - 1 jam pertama: Rp 2.000
-        // - Jika melebihi: biaya tambahan Rp 5.000 per jam
+        // Hitung harga berdasarkan harga per jam dari admin
         $durationHours = (int)$request->duration_hours;
-        $firstHourPrice = 2000;
-        $additionalHourPrice = 5000;
-        
-        if ($durationHours == 1) {
-            $totalPrice = $firstHourPrice;
-        } else {
-            $totalPrice = $firstHourPrice + (($durationHours - 1) * $additionalHourPrice);
-        }
+        $totalPrice = $unit->price_per_hour * $durationHours;
 
         // Calculate start and end time
         $startTime = Carbon::now();
@@ -199,16 +215,9 @@ class ItemController extends Controller
                 ->with('error', 'Loker yang dipilih tidak tersedia.');
         }
 
-        // Hitung harga
+        // Hitung harga berdasarkan harga per jam dari admin
         $durationHours = (int)$request->duration_hours;
-        $firstHourPrice = 2000;
-        $additionalHourPrice = 5000;
-        
-        if ($durationHours == 1) {
-            $totalPrice = $firstHourPrice;
-        } else {
-            $totalPrice = $firstHourPrice + (($durationHours - 1) * $additionalHourPrice);
-        }
+        $totalPrice = $unit->price_per_hour * $durationHours;
 
         // Validate total price
         if (abs($totalPrice - $request->total_price) > 0.01) {

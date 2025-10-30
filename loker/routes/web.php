@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminUnitController;
 use App\Http\Controllers\UserDashboardController;
 use App\Models\User;
 use App\Models\Booking;
+use App\Models\Unit;
 
 // Redirect root to login
 Route::get('/', function () {
@@ -54,8 +55,55 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         $perPage = (int) ($request->input('per_page') ?: 10);
         $perPage = in_array($perPage, [10,25,50]) ? $perPage : 10;
         $bookings = $query->orderByDesc('created_at')->paginate($perPage)->appends($request->query());
-        return view('Admin.pemesanan', compact('bookings'));
+        $users = User::orderBy('name')->get(['id','name','email']);
+        $units = Unit::orderBy('code')->get(['id','code','name']);
+        return view('Admin.pemesanan', compact('bookings','users','units'));
     })->name('bookings.index');
+
+    // Admin booking detail
+    Route::get('/bookings/{booking}', function (\App\Models\Booking $booking) {
+        $booking->load(['user','unit','fine']);
+        return view('Admin.booking.show', compact('booking'));
+    })->name('bookings.show');
+
+    // Admin booking store
+    Route::post('/bookings', function (\Illuminate\Http\Request $request) {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'unit_id' => 'required|exists:units,id',
+            'start_time' => 'required|date',
+            'end_time' => 'required|date|after:start_time',
+            'total_price' => 'required|numeric|min:0',
+            'status' => 'required|in:active,completed,overdue,cancelled',
+        ]);
+        $booking = new Booking($validated);
+        $booking->save();
+        return redirect()->to(url('/admin/bookings'))
+            ->with('success', 'Pemesanan berhasil dibuat');
+    })->name('bookings.store');
+
+    // Admin booking update
+    Route::put('/bookings/{booking}', function (\Illuminate\Http\Request $request, Booking $booking) {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'unit_id' => 'required|exists:units,id',
+            'start_time' => 'required|date',
+            'end_time' => 'required|date|after:start_time',
+            'total_price' => 'required|numeric|min:0',
+            'status' => 'required|in:active,completed,overdue,cancelled',
+        ]);
+        $booking->fill($validated);
+        $booking->save();
+        return redirect()->to(url('/admin/bookings'))
+            ->with('success', 'Pemesanan berhasil diperbarui');
+    })->name('bookings.update');
+
+    // Admin booking delete
+    Route::delete('/bookings/{booking}', function (Booking $booking) {
+        $booking->delete();
+        return redirect()->to(url('/admin/bookings'))
+            ->with('success', 'Pemesanan berhasil dihapus');
+    })->name('bookings.destroy');
 
     // Kelola Loker routes
     Route::get('/kelolaloker', [AdminUnitController::class, 'index'])->name('kelolaloker.index');
