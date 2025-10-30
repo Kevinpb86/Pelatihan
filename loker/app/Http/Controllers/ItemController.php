@@ -245,4 +245,24 @@ class ItemController extends Controller
         return redirect()->route('items.index')
             ->with('success', 'Pembayaran berhasil! Barang berhasil disimpan di loker ' . $unit->code . '.');
     }
+
+    public function payFine($id)
+    {
+        $booking = Booking::with('fine')
+            ->where('user_id', Auth::id())
+            ->where('id', $id)
+            ->firstOrFail();
+
+        if (!$booking->fine) {
+            return back()->with('error', 'Tidak ada denda untuk booking ini.');
+        }
+
+        // Update status fine menjadi dibayar
+        $booking->fine->update([
+            'paid' => true,
+        ]);
+
+        return back()->with('success', 'Denda berhasil dibayar. Anda sekarang bisa mengambil barang.');
+    }
+
 }

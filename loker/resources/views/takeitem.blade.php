@@ -381,19 +381,33 @@
                         </div>
 
                         <!-- Action Buttons -->
-                        <form method="POST" action="{{ route('items.retrieve', $booking->id) }}" id="retrieveForm">
-                            @csrf
-                            <div class="flex gap-4">
-                                <a href="{{ route('items.index') }}" class="btn-animate flex-1 px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl font-semibold text-center transition-all duration-300">
-                                    <i class="fas fa-arrow-left mr-2"></i>
-                                    Kembali
-                                </a>
-                                <button type="submit" onclick="confirmRetrieve(event)" class="btn-animate flex-1 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                                    <i class="fas fa-hand-paper mr-2"></i>
-                                    Konfirmasi Ambil Barang
-                                </button>
-                            </div>
-                        </form>
+                        <div class="flex gap-4">
+                            <a href="{{ route('items.index') }}" 
+                            class="btn-animate flex-1 px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl font-semibold text-center transition-all duration-300">
+                                <i class="fas fa-arrow-left mr-2"></i>
+                                Kembali
+                            </a>
+
+                            @if ($booking->fine && !$booking->fine->paid)
+                                <form method="POST" action="{{ route('items.payFine', $booking->id) }}" class="flex-1">
+                                    @csrf
+                                    <button type="submit" 
+                                        class="btn-animate w-full px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                                        <i class="fas fa-money-bill-wave mr-2"></i>
+                                        Bayar Denda
+                                    </button>
+                                </form>
+                            @else
+                                <form method="POST" action="{{ route('items.retrieve', $booking->id) }}" id="retrieveForm" class="flex-1">
+                                    @csrf
+                                    <button type="submit" onclick="confirmRetrieve(event)" 
+                                        class="btn-animate w-full px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                                        <i class="fas fa-hand-paper mr-2"></i>
+                                        Konfirmasi Ambil Barang
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </main>
