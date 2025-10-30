@@ -188,3 +188,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/take-item/{id}', [ItemController::class, 'show'])->name('items.show');
     Route::post('/take-item/{id}', [ItemController::class, 'retrieve'])->name('items.retrieve');
 });
+
+Route::post('/pay-fine/{id}', [ItemController::class, 'payFine'])->name('items.payFine');
+

@@ -71,164 +71,6 @@
             50% { transform: translateY(-10px); }
         }
 
-        .pulse-glow {
-            animation: pulseGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes pulseGlow {
-            from { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
-            to { box-shadow: 0 0 30px rgba(102, 126, 234, 0.6); }
-        }
-
-        .shimmer {
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            background-size: 200% 100%;
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        .bounce-in {
-            animation: bounceIn 0.6s ease-out;
-        }
-
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .progress-ring {
-            transform: rotate(-90deg);
-        }
-
-        .progress-ring-circle {
-            stroke-dasharray: 251.2;
-            stroke-dashoffset: 251.2;
-            transition: stroke-dashoffset 0.5s ease-in-out;
-        }
-
-        .stat-card {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.6s;
-        }
-
-        .stat-card:hover::before {
-            left: 100%;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .activity-item {
-            position: relative;
-            padding-left: 2rem;
-        }
-
-        .activity-item::before {
-            content: '';
-            position: absolute;
-            left: 0.5rem;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(180deg, #667eea, #764ba2);
-        }
-
-        .activity-dot {
-            position: absolute;
-            left: 0.25rem;
-            top: 0.5rem;
-            width: 0.75rem;
-            height: 0.75rem;
-            border-radius: 50%;
-            background: #667eea;
-            border: 2px solid white;
-        }
-
-        /* Button Animations */
-        .action-button {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .action-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .action-button:hover::before {
-            left: 100%;
-        }
-
-        .action-button:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        .action-button:hover .action-icon {
-            transform: scale(1.2) rotate(5deg);
-            animation: pulse 1s infinite;
-        }
-
-        .action-icon {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1.2) rotate(5deg); }
-            50% { transform: scale(1.3) rotate(-5deg); }
-        }
-
-        .action-button:active {
-            transform: translateY(-2px) scale(1.02);
-        }
-
-        /* Specific button colors */
-        .btn-store:hover {
-            box-shadow: 0 20px 25px -5px rgba(102, 126, 234, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        .btn-view:hover {
-            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        .btn-location:hover {
-            box-shadow: 0 20px 25px -5px rgba(34, 197, 94, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
         .slide-in {
             animation: slideIn 0.5s ease-out;
         }
@@ -370,22 +212,21 @@
         
         /* Dark Theme Styles */
         .dark-theme {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%) !important;
+            background-color: #1a1a1a !important;
             color: #e5e5e5 !important;
         }
         
         .dark-theme .bg-white {
-            background: rgba(45, 45, 45, 0.8) !important;
+            background-color: #2d2d2d !important;
             color: #e5e5e5 !important;
-            backdrop-filter: blur(10px);
         }
         
         .dark-theme .bg-gray-100 {
-            background: rgba(26, 26, 46, 0.8) !important;
+            background-color: #1a1a1a !important;
         }
         
         .dark-theme .bg-gray-50 {
-            background: rgba(45, 45, 45, 0.8) !important;
+            background-color: #2d2d2d !important;
         }
         
         .dark-theme .text-gray-800 {
@@ -404,10 +245,6 @@
             color: #6b7280 !important;
         }
         
-        .dark-theme .text-gray-900 {
-            color: #f9fafb !important;
-        }
-        
         .dark-theme .border-gray-200 {
             border-color: #4b5563 !important;
         }
@@ -416,12 +253,8 @@
             border-color: #6b7280 !important;
         }
         
-        .dark-theme .border-white\/20 {
-            border-color: rgba(255, 255, 255, 0.1) !important;
-        }
-        
         .dark-theme input, .dark-theme select, .dark-theme textarea {
-            background: rgba(55, 65, 81, 0.8) !important;
+            background-color: #374151 !important;
             border-color: #6b7280 !important;
             color: #e5e5e5 !important;
         }
@@ -429,32 +262,6 @@
         .dark-theme input:focus, .dark-theme select:focus, .dark-theme textarea:focus {
             border-color: #8b5cf6 !important;
             box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1) !important;
-        }
-        
-        .dark-theme .bg-white\/80 {
-            background: rgba(45, 45, 45, 0.8) !important;
-        }
-        
-        .dark-theme .bg-white\/20 {
-            background: rgba(255, 255, 255, 0.1) !important;
-        }
-        
-        .dark-theme .bg-gradient-to-br {
-            background: linear-gradient(135deg, rgba(45, 45, 45, 0.8) 0%, rgba(26, 26, 46, 0.8) 100%) !important;
-        }
-        
-        .dark-theme .bg-gradient-to-r {
-            background: linear-gradient(90deg, rgba(45, 45, 45, 0.8) 0%, rgba(26, 26, 46, 0.8) 100%) !important;
-        }
-        
-        .dark-theme .sidebar-gradient {
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-        }
-        
-        .dark-theme .glass-effect {
-            background: rgba(0, 0, 0, 0.25);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         /* Language Styles */
@@ -472,137 +279,6 @@
         
         .language-en .lang-en {
             display: block;
-        }
-
-        /* primary gradient button — gunakan untuk semua tombol utama */
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            padding: 12px 18px;
-            border-radius: 12px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.18s ease, box-shadow 0.18s ease;
-            box-shadow: 0 6px 18px rgba(118,75,162,0.18);
-        }
-        .btn-primary:active { transform: translateY(1px) scale(0.995); }
-
-        /* for buttons that previously looked like outline, keep subtle white bg but gradient border */
-        .btn-primary-outline {
-            background: rgba(255,255,255,0.06);
-            color: #fff;
-            padding: 12px 18px;
-            border-radius: 12px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            border: 1px solid transparent;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-primary-outline::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            padding: 1px;
-            border-radius: 12px;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            opacity: 0.95;
-        }
-
-        /* ripple / click animation (shared) */
-        .btn-animate { position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-        .btn-animate .ripple {
-            position: absolute;
-            border-radius: 50%;
-            transform: scale(0);
-            background: rgba(255,255,255,0.35);
-            animation: ripple 600ms linear;
-            pointer-events: none;
-            will-change: transform, opacity;
-        }
-        @keyframes ripple {
-            to { transform: scale(4); opacity: 0; }
-        }
-
-        /* visual press feedback so user sees immediate response on pointerdown */
-        .btn-animate:active,
-        .btn-animate.btn-pressing {
-            transform: translateY(1px) scale(0.995);
-            transition: transform 120ms ease;
-            box-shadow: 0 6px 14px rgba(0,0,0,0.06) inset;
-        }
-
-        /* make nav-items that use btn-animate also visually consistent */
-        .nav-item.btn-animate { border-radius: 10px; padding-left: .9rem; padding-right: .9rem; }
-
-        /* tambahkan di dalam <style> (atau gabungkan ke bagian style yang ada) */
-        .popup-overlay{
-            position:fixed;inset:0;background:rgba(15,23,42,0.45);display:flex;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(4px);
-            animation: overlayFade .22s ease forwards;
-        }
-        @keyframes overlayFade{from{opacity:0}to{opacity:1}}
-        .popup-card{
-            width:320px;max-width:calc(100% - 40px);background:linear-gradient(180deg,rgba(255,255,255,0.98),rgba(250,250,255,0.98));
-            border-radius:14px;box-shadow:0 18px 50px rgba(2,6,23,0.36);padding:18px;text-align:center;transform:scale(.96);opacity:0;
-            animation: popupIn .34s cubic-bezier(.2,.9,.2,1) forwards;display:flex;flex-direction:column;gap:12px;align-items:center;
-        }
-        @keyframes popupIn{from{transform:translateY(8px) scale(.94);opacity:0}60%{transform:translateY(-6px) scale(1.02);opacity:1}to{transform:translateY(0) scale(1);opacity:1}}
-        @keyframes popupOut{from{transform:scale(1);opacity:1}to{transform:scale(.96);opacity:0}}
-        .popup-title{font-weight:700;font-size:15px;color:#0f172a}
-        .popup-sub{font-size:13px;color:#475569}
-        .popup-spinner{width:44px;height:44px;border-radius:50%;border:4px solid rgba(118,75,162,0.14);border-top-color:#6d28d9;animation:spin .8s linear infinite;box-shadow:0 6px 18px rgba(109,40,217,0.12) inset}
-        @keyframes spin{to{transform:rotate(360deg)}}
-
-        /* tombol efek tekan */
-        .btn-pressing{transform:translateY(1px) scale(.996);transition:transform 120ms ease}
-
-        /* Hover effects untuk Quick Actions buttons */
-        .quick-action-btn {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .quick-action-btn:hover {
-            transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        .quick-action-btn:hover::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: shimmer 0.8s ease-in-out;
-        }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        .quick-action-btn i {
-            transition: transform 0.3s ease;
-        }
-
-        .quick-action-btn:hover i {
-            transform: scale(1.2) rotate(5deg);
         }
     </style>
 </head>
@@ -641,17 +317,12 @@
             <!-- Navigation -->
             <nav class="mt-6 px-4">
                 <div class="space-y-2">
-                    <!-- Modified: add onclick animateAndNavigate and btn-animate -->
                     <a href="{{ route('dashboard') }}" class="nav-item active flex items-center px-4 py-3 text-sm font-medium text-white bg-white/20 backdrop-blur-sm rounded-xl">
                         <i class="fas fa-home w-5 h-5 mr-3"></i>
                         <span class="lang-id">Dashboard</span>
                         <span class="lang-en">Dashboard</span>
                     </a>
-
-                    <a href="{{ route('items.index') }}"
-
-                       onclick="animateAndNavigate(event, '{{ route('items.index') }}')"
-                       class="nav-item btn-animate flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
+                    <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-box w-5 h-5 mr-3"></i>
                         <span class="lang-id">Barang Saya</span>
                         <span class="lang-en">My Items</span>
@@ -700,46 +371,32 @@
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Top Bar -->
-            <header class="bg-white/80 backdrop-blur-sm shadow-lg border-b border-gray-200/50 relative overflow-hidden">
-                <!-- Background Pattern -->
-                <div class="absolute inset-0 opacity-5">
-                    <div class="absolute top-0 left-0 w-full h-full" style="background-image: radial-gradient(circle at 25% 25%, #667eea 0%, transparent 50%), radial-gradient(circle at 75% 75%, #764ba2 0%, transparent 50%);"></div>
-                </div>
-                
-                <div class="px-6 py-6 relative z-10">
+            <header class="bg-white/80 backdrop-blur-sm shadow-lg border-b border-gray-200/50">
+                <div class="px-6 py-6">
                     <div class="flex items-center justify-between">
                         <div class="slide-in">
-                            <div class="flex items-center space-x-4">
-                                <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-600 rounded-2xl flex items-center justify-center pulse-glow">
-                                    <i class="fas fa-lock text-white text-2xl"></i>
-                                </div>
-                                <div>
-                                    <h2 class="text-3xl font-bold gradient-text flex items-center">
-                                        <span class="lang-id">Selamat Datang, {{ Auth::user()->name }}!</span>
-                                        <span class="lang-en">Welcome, {{ Auth::user()->name }}!</span>
-                                    </h2>
-                                    <p class="text-gray-600 mt-1 flex items-center">
-                                        <i class="fas fa-shield-alt mr-2 text-green-500"></i>
-                                        <span class="lang-id">Kelola penitipan barang Anda dengan mudah dan aman</span>
-                                        <span class="lang-en">Manage your item storage easily and securely</span>
-                                    </p>
-                                </div>
-                            </div>
+                            <h2 class="text-3xl font-bold text-gray-800 flex items-center">
+                                <i class="fas fa-lock mr-3 text-purple-600"></i>
+                                <span class="lang-id">Selamat Datang, {{ Auth::user()->name }}!</span>
+                                <span class="lang-en">Welcome, {{ Auth::user()->name }}!</span>
+                            </h2>
+                            <p class="text-gray-600 mt-1">
+                                <span class="lang-id">Kelola penitipan barang Anda dengan mudah dan aman</span>
+                                <span class="lang-en">Manage your item storage easily and securely</span>
+                            </p>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <!-- Theme Toggle -->
-                            <button id="theme-toggle" class="p-3 rounded-xl bg-gray-100 hover:bg-gray-200 transition-all duration-300 hover:scale-105">
-                                <i class="fas fa-moon text-gray-600" id="theme-icon"></i>
-                            </button>
-                            <!-- Language Toggle -->
-                            <button id="language-toggle" class="p-3 rounded-xl bg-gray-100 hover:bg-gray-200 transition-all duration-300 hover:scale-105">
-                                <i class="fas fa-globe text-gray-600"></i>
-                            </button>
                             <!-- Search Bar -->
-                            <div class="relative group">
-                                <input type="text" placeholder="Cari barang..." class="w-64 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 group-hover:shadow-lg">
-                                <i class="fas fa-search absolute right-3 top-3.5 text-gray-400 group-hover:text-purple-500 transition-colors"></i>
+                            <div class="relative">
+                                <input type="text" placeholder="Cari barang..." class="w-64 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                <i class="fas fa-search absolute right-3 top-3.5 text-gray-400"></i>
                             </div>
+                            <!-- Quick Actions -->
+                            <button class="btn-gradient text-white px-6 py-3 rounded-xl font-medium">
+                                <i class="fas fa-plus mr-2"></i>
+                                <span class="lang-id">Titip Barang</span>
+                                <span class="lang-en">Store Item</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -749,9 +406,8 @@
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100 p-6">
                 <!-- Main Content Grid -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Recent Items & Activity -->
-                    <div class="lg:col-span-2 space-y-6">
-                        <!-- Recent Items -->
+                    <!-- Recent Items -->
+                    <div class="lg:col-span-2">
                         <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20">
                             <div class="p-6 border-b border-gray-200/50">
                                 <div class="flex items-center justify-between">
@@ -895,8 +551,8 @@
                                         <span class="lang-id">Lihat Barang Saya</span>
                                         <span class="lang-en">View All Items</span>
                                     </button>
-                                    <button onclick="animateAndNavigate(event, '#')" class="w-full action-button btn-location flex items-center justify-center px-4 py-3 btn-primary btn-animate rounded-xl font-medium">
-                                        <i class="fas fa-map-marker-alt mr-2 action-icon"></i>
+                                    <button class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-xl font-medium hover:bg-gray-50 transition duration-200">
+                                        <i class="fas fa-map-marker-alt mr-2"></i>
                                         <span class="lang-id">Cari Lokasi Loker</span>
                                         <span class="lang-en">Find Locker Location</span>
                                     </button>
@@ -1108,7 +764,9 @@
             // Add click handlers for quick action buttons
             document.querySelectorAll('button').forEach(button => {
                 button.addEventListener('click', function() {
-                    if (this.textContent.includes('Lihat Semua Barang') || this.textContent.includes('View All Items')) {
+                    if (this.textContent.includes('Titip Barang') || this.textContent.includes('Store Item')) {
+                        openStoreItemModal();
+                    } else if (this.textContent.includes('Lihat Semua Barang') || this.textContent.includes('View All Items')) {
                         showAllItems();
                     } else if (this.textContent.includes('Cari Lokasi Loker') || this.textContent.includes('Find Locker Location')) {
                         showLockerLocations();
@@ -1197,107 +855,55 @@
             }, 3000);
         }
 
-        // Ripple navigation helper — shared across dashboard & my-items views
-        function animateAndNavigate(e, url) {
-            e.preventDefault();
-            const el = e.currentTarget;
-            // ensure ripple runs if pointerdown didn't create one
-            if (!el.querySelector('.ripple')) createRipple(el, e);
-            // small delay so animation visible, then navigate (if url is '#', do nothing)
-            setTimeout(() => {
-                if (url && url !== '#') window.location.href = url;
-            }, 260);
-        }
-
-        // create ripple helper (used on pointerdown)
-        function createRipple(el, e) {
-            // add pressing class for quick scale feedback
-            el.classList.add('btn-pressing');
-            const rect = el.getBoundingClientRect();
-            const ripple = document.createElement('span');
-            ripple.className = 'ripple';
-            const size = Math.max(rect.width, rect.height) * 1.2;
-            ripple.style.width = ripple.style.height = size + 'px';
-            // position ripple using pointer coordinates; fallback center
-            const clientX = (e && (e.clientX || (e.touches && e.touches[0] && e.touches[0].clientX))) || (rect.left + rect.width/2);
-            const clientY = (e && (e.clientY || (e.touches && e.touches[0] && e.touches[0].clientY))) || (rect.top + rect.height/2);
-            const x = clientX - rect.left - size / 2;
-            const y = clientY - rect.top - size / 2;
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            el.appendChild(ripple);
-
-            // remove pressing class & ripple after animation
-            setTimeout(() => el.classList.remove('btn-pressing'), 160);
-            setTimeout(() => { if (ripple && ripple.parentNode) ripple.parentNode.removeChild(ripple); }, 700);
-        }
-
-        // attach pointer handlers to all .btn-animate (run once)
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.btn-animate, .nav-item.btn-animate').forEach(el => {
-                // use pointerdown for mouse/touch/stylus immediate feedback
-                el.addEventListener('pointerdown', function(ev) {
-                    // prevent multiple ripples stacking quickly
-                    createRipple(this, ev);
-                }, { passive: true });
-
-                // if element used anchor (<a>) and has href, prevent default only in animateAndNavigate;
-                // leave click handlers untouched so animateAndNavigate still navigates after delay.
-                // Optional: add keyboard support (Enter/Space) to show ripple
-                el.addEventListener('keydown', function(ev) {
-                    if (ev.key === 'Enter' || ev.code === 'Space') {
-                        createRipple(this, ev);
-                    }
-                });
+        // Listen for system theme changes
+        if (window.matchMedia) {
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+                const currentTheme = localStorage.getItem('theme');
+                if (currentTheme === 'system') {
+                    applyTheme('system');
+                }
             });
+        }
+
+        // Listen for storage changes (when settings are changed in another tab)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'theme') {
+                applyTheme(e.newValue);
+            } else if (e.key === 'language') {
+                applyLanguage(e.newValue);
+                updateLockerDisplay();
+            }
         });
 
-        /* tambahkan di akhir <script> atau gabungkan dengan script yang ada */
-function createPopup(messageMain='Memproses...', messageSub='') {
-    const overlay = document.createElement('div'); overlay.className='popup-overlay';
-    const card = document.createElement('div'); card.className='popup-card';
-    const spinner = document.createElement('div'); spinner.className='popup-spinner';
-    const title = document.createElement('div'); title.className='popup-title'; title.textContent = messageMain;
-    const sub = document.createElement('div'); sub.className='popup-sub'; sub.textContent = messageSub;
-    card.appendChild(spinner); card.appendChild(title); if(messageSub) card.appendChild(sub);
-    overlay.appendChild(card); document.body.appendChild(overlay);
-    return {
-        close(delay=0){
-            setTimeout(()=>{ card.style.animation='popupOut .18s ease forwards'; overlay.style.animation='overlayFade .18s reverse forwards';
-                setTimeout(()=>{ if(overlay.parentNode) overlay.parentNode.removeChild(overlay); }, 220);
-            }, delay);
-        }
-    };
-}
+        // Auto-hide success message
+        setTimeout(function() {
+            const successMessage = document.querySelector('.fixed.top-4.right-4');
+            if (successMessage) {
+                successMessage.style.opacity = '0';
+                successMessage.style.transform = 'translateX(100%)';
+                setTimeout(() => successMessage.remove(), 300);
+            }
+        }, 3000);
 
-function showPopupAndNavigate(e, url, message){
-    if(e && e.preventDefault) e.preventDefault();
-    const btn = e && e.currentTarget ? e.currentTarget : null;
-    if(btn) { btn.classList.add('btn-pressing'); setTimeout(()=>btn.classList.remove('btn-pressing'), 220); }
-    const popup = createPopup(message || 'Memproses...');
-    const NAV_DELAY = 600; // waktu tampil popup sebelum pindah halaman
-    setTimeout(()=> {
-        if(url && url !== '#'){
-            popup.close(0);
-            setTimeout(()=> window.location.href = url, 180);
-        } else {
-            popup.close(700);
-        }
-    }, NAV_DELAY);
-}
-
-/* optional: berikan feedback tekan saat pointerdown */
-document.addEventListener('DOMContentLoaded', function(){
-    document.querySelectorAll('.btn-animate').forEach(el=>{
-        el.addEventListener('pointerdown', function(ev){
-            this.classList.add('btn-pressing');
-            setTimeout(()=> this.classList.remove('btn-pressing'), 140);
-        }, {passive:true});
-        el.addEventListener('keydown', function(ev){
-            if(ev.key==='Enter' || ev.code==='Space'){ this.classList.add('btn-pressing'); setTimeout(()=> this.classList.remove('btn-pressing'),140); }
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Space to select first available locker
+            if (e.code === 'Space' && !selectedLocker) {
+                e.preventDefault();
+                const availableLocker = document.querySelector('.locker-available');
+                if (availableLocker) {
+                    availableLocker.click();
+                }
+            }
+            
+            // Escape to clear selection
+            if (e.key === 'Escape') {
+                selectedLocker = null;
+                document.querySelectorAll('.locker-item').forEach(item => {
+                    item.classList.remove('ring-4', 'ring-blue-500');
+                });
+            }
         });
-    });
-});
     </script>
 </body>
 </html>

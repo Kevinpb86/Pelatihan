@@ -327,6 +327,45 @@
                             </div>
                         </div>
 
+                        <div class="bg-red-50 border-l-4 border-red-500 rounded-xl p-5 mb-6">
+                            <div class="flex items-start">
+                                <i class="fas fa-money-bill-wave text-red-600 text-2xl mr-3 mt-1"></i>
+                                <div>
+                                    <p class="text-red-800 font-semibold text-lg">Status Loker: {{ ucfirst($booking->status) }}</p>
+                                    <p class="text-gray-700 text-sm mt-1">Loker: <span class="font-semibold">{{ $booking->unit->code }}</span></p>
+
+                                    @if ($booking->fine)
+                                        <div class="bg-red-50 border-l-4 border-red-500 rounded-xl p-5 mb-6">
+                                            <div class="flex items-start">
+                                                <i class="fas fa-money-bill-wave text-red-600 text-2xl mr-3 mt-1"></i>
+                                                <div>
+                                                    <div class="mt-2">
+                                                        <p class="text-red-700 font-semibold">
+                                                            Denda: Rp {{ number_format($booking->fine->amount, 0, ',', '.') }}
+                                                        </p>
+                                                        @if (!$booking->fine->paid)
+                                                            <span class="inline-block mt-1 bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-medium">
+                                                                Belum Dibayar
+                                                            </span>
+                                                        @else
+                                                            <span class="inline-block mt-1 bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium">
+                                                                Sudah Dibayar
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <p class="text-green-700 mt-2 font-medium">
+                                            Tidak ada denda 🎉
+                                        </p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+
                         <!-- Warning Info -->
                         <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg mb-6">
                             <div class="flex items-start">
@@ -342,19 +381,33 @@
                         </div>
 
                         <!-- Action Buttons -->
-                        <form method="POST" action="{{ route('items.retrieve', $booking->id) }}" id="retrieveForm">
-                            @csrf
-                            <div class="flex gap-4">
-                                <a href="{{ route('items.index') }}" class="btn-animate flex-1 px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl font-semibold text-center transition-all duration-300">
-                                    <i class="fas fa-arrow-left mr-2"></i>
-                                    Kembali
-                                </a>
-                                <button type="submit" onclick="confirmRetrieve(event)" class="btn-animate flex-1 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                                    <i class="fas fa-hand-paper mr-2"></i>
-                                    Konfirmasi Ambil Barang
-                                </button>
-                            </div>
-                        </form>
+                        <div class="flex gap-4">
+                            <a href="{{ route('items.index') }}" 
+                            class="btn-animate flex-1 px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl font-semibold text-center transition-all duration-300">
+                                <i class="fas fa-arrow-left mr-2"></i>
+                                Kembali
+                            </a>
+
+                            @if ($booking->fine && !$booking->fine->paid)
+                                <form method="POST" action="{{ route('items.payFine', $booking->id) }}" class="flex-1">
+                                    @csrf
+                                    <button type="submit" 
+                                        class="btn-animate w-full px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                                        <i class="fas fa-money-bill-wave mr-2"></i>
+                                        Bayar Denda
+                                    </button>
+                                </form>
+                            @else
+                                <form method="POST" action="{{ route('items.retrieve', $booking->id) }}" id="retrieveForm" class="flex-1">
+                                    @csrf
+                                    <button type="submit" onclick="confirmRetrieve(event)" 
+                                        class="btn-animate w-full px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                                        <i class="fas fa-hand-paper mr-2"></i>
+                                        Konfirmasi Ambil Barang
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </main>
