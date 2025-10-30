@@ -327,6 +327,15 @@
                         <span class="lang-id">Barang Saya</span>
                         <span class="lang-en">My Items</span>
                     </a>
+
+                    <a href="{{ route('store-item') }}"
+                       onclick="animateAndNavigate(event, '{{ route('store-item') }}')"
+                       class="nav-item btn-animate flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
+                        <i class="fas fa-plus-circle w-5 h-5 mr-3"></i>
+                        <span class="lang-id">Titip Barang</span>
+                        <span class="lang-en">Store Item</span>
+                    </a>
+
                     <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-map-marker-alt w-5 h-5 mr-3"></i>
                         <span class="lang-id">Lokasi Loker</span>
@@ -348,8 +357,11 @@
             <!-- User Info -->
             <div class="absolute bottom-0 w-64 p-6 border-t border-white/20">
                 <div class="flex items-center mb-4">
-                    <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
-                        <span class="text-white text-lg font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                    <div class="relative w-12 h-12 rounded-full overflow-hidden shadow-lg">
+                        <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : '' }}" alt="Avatar" class="w-full h-full object-cover {{ Auth::user()->avatar ? '' : 'hidden' }}">
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center {{ Auth::user()->avatar ? 'hidden' : '' }}">
+                            <span class="text-white text-lg font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                        </div>
                     </div>
                     <div class="ml-3 flex-1">
                         <p class="text-sm font-medium text-white">{{ Auth::user()->name }}</p>
@@ -403,143 +415,131 @@
 
             <!-- Dashboard Content -->
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100 p-6">
-                <!-- Stats Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg card-hover border border-white/20">
-                        <div class="flex items-center">
-                            <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-box text-white text-xl"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600">
-                                    <span class="lang-id">Total Barang</span>
-                                    <span class="lang-en">Total Items</span>
-                                </p>
-                                <p class="text-2xl font-bold text-gray-900">24</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg card-hover border border-white/20">
-                        <div class="flex items-center">
-                            <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-lock text-white text-xl"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600">
-                                    <span class="lang-id">Loker Terisi</span>
-                                    <span class="lang-en">Occupied Lockers</span>
-                                </p>
-                                <p class="text-2xl font-bold text-gray-900">18</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg card-hover border border-white/20">
-                        <div class="flex items-center">
-                            <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-clock text-white text-xl"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600">
-                                    <span class="lang-id">Akan Berakhir</span>
-                                    <span class="lang-en">Expiring Soon</span>
-                                </p>
-                                <p class="text-2xl font-bold text-gray-900">4</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg card-hover border border-white/20">
-                        <div class="flex items-center">
-                            <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-unlock text-white text-xl"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600">
-                                    <span class="lang-id">Loker Kosong</span>
-                                    <span class="lang-en">Available Lockers</span>
-                                </p>
-                                <p class="text-2xl font-bold text-gray-900">12</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Main Content Grid -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Recent Items -->
                     <div class="lg:col-span-2">
                         <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20">
                             <div class="p-6 border-b border-gray-200/50">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-xl font-semibold text-gray-800 flex items-center">
+                                        <i class="fas fa-box mr-3 text-purple-600"></i>
+                                        <span class="lang-id">Barang Terbaru</span>
+                                        <span class="lang-en">Recent Items</span>
+                                    </h3>
+                                    <a href="{{ route('items.index') }}" onclick="animateAndNavigate(event, '{{ route('items.index') }}')" class="text-sm text-purple-600 hover:text-purple-800 font-medium">
+                                        <span class="lang-id">Lihat Semua</span>
+                                        <span class="lang-en">View All</span>
+                                        <i class="fas fa-arrow-right ml-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                @if(isset($recentItems) && $recentItems->count() > 0)
+                                <div class="space-y-4">
+                                    @foreach($recentItems as $booking)
+                                    @php
+                                        $isExpiring = \Carbon\Carbon::parse($booking->end_time)->diffInDays() <= 1;
+                                        $daysRemaining = \Carbon\Carbon::parse($booking->end_time)->diffInDays();
+                                        $gradientClass = $isExpiring ? 'from-yellow-50 to-orange-50' : 'from-blue-50 to-indigo-50';
+                                        $borderClass = $isExpiring ? 'border-yellow-100' : 'border-blue-100';
+                                        $iconGradient = $isExpiring ? 'from-yellow-500 to-orange-600' : 'from-blue-500 to-indigo-600';
+                                        $statusClass = $isExpiring ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800';
+                                        $statusText = $isExpiring ? 'Akan Berakhir' : 'Aktif';
+                                        $statusTextEn = $isExpiring ? 'Expiring' : 'Active';
+                                        $iconClass = $isExpiring ? 'fa-clock' : 'fa-lock';
+                                    @endphp
+                                    <div class="flex items-center justify-between p-4 bg-gradient-to-r {{ $gradientClass }} rounded-xl border {{ $borderClass }} hover:shadow-md transition-all duration-300 group">
+                                        <div class="flex items-center">
+                                            <div class="w-12 h-12 bg-gradient-to-r {{ $iconGradient }} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                                                <i class="fas fa-box text-white"></i>
+                                            </div>
+                                            <div class="ml-4">
+                                                <p class="text-sm font-medium text-gray-900">{{ $booking->unit->name ?? 'Barang' }}</p>
+                                                <p class="text-sm text-gray-500">Loker {{ $booking->unit->code ?? 'N/A' }} • {{ $booking->created_at->diffForHumans() }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {{ $statusClass }}">
+                                                <i class="fas {{ $iconClass }} mr-1"></i>
+                                                <span class="lang-id">{{ $statusText }}</span>
+                                                <span class="lang-en">{{ $statusTextEn }}</span>
+                                            </span>
+                                                <p class="text-sm text-gray-500 mt-1">
+                                                @if($daysRemaining > 0)
+                                                    <span class="lang-id">Berlaku {{ $daysRemaining }} hari</span>
+                                                    <span class="lang-en">Valid for {{ $daysRemaining }} days</span>
+                                                @else
+                                                    <span class="lang-id">Berlaku hari ini</span>
+                                                    <span class="lang-en">Valid today</span>
+                                                @endif
+                                            </p>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                @else
+                                <div class="flex flex-col items-center justify-center py-12">
+                                    <div class="w-20 h-20 bg-gradient-to-r from-purple-100 to-indigo-100 rounded-full flex items-center justify-center mb-4">
+                                        <i class="fas fa-box-open text-4xl text-purple-500"></i>
+                                    </div>
+                                    <h4 class="text-lg font-semibold text-gray-900 mb-2">
+                                        <span class="lang-id">Belum ada barang</span>
+                                        <span class="lang-en">No items yet</span>
+                                    </h4>
+                                    <p class="text-sm text-gray-500 text-center max-w-md mb-6">
+                                        <span class="lang-id">Anda belum memiliki barang yang dititipkan. Mulai dengan menitipkan barang pertama Anda!</span>
+                                        <span class="lang-en">You don't have any stored items yet. Start by storing your first item!</span>
+                                    </p>
+                                    <a href="{{ route('store-item') }}" onclick="animateAndNavigate(event, '{{ route('store-item') }}')" class="btn-animate inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                                        <i class="fas fa-plus mr-2"></i>
+                                        <span class="lang-id">Titip Barang</span>
+                                        <span class="lang-en">Store Item</span>
+                                    </a>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20">
+                            <div class="p-6 border-b border-gray-200/50">
                                 <h3 class="text-xl font-semibold text-gray-800 flex items-center">
-                                    <i class="fas fa-box mr-3 text-purple-600"></i>
-                                    <span class="lang-id">Barang Terbaru</span>
-                                    <span class="lang-en">Recent Items</span>
+                                    <i class="fas fa-history mr-3 text-green-600"></i>
+                                    <span class="lang-id">Aktivitas Terbaru</span>
+                                    <span class="lang-en">Recent Activity</span>
                                 </h3>
                             </div>
                             <div class="p-6">
+                                @if(isset($activities) && count($activities) > 0)
                                 <div class="space-y-4">
-                                    <div class="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
-                                        <div class="flex items-center">
-                                            <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
-                                                <i class="fas fa-helmet-safety text-white"></i>
+                                    @foreach($activities as $activity)
+                                    <div class="activity-item">
+                                        <div class="activity-dot bg-{{ $activity['color'] }}-500"></div>
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-900">
+                                                    <span class="lang-id">{{ $activity['message'] }}</span>
+                                                    <span class="lang-en">{{ $activity['message_en'] ?? $activity['message'] }}</span>
+                                                </p>
+                                                <p class="text-xs text-gray-500">{{ $activity['detail'] }}</p>
                                             </div>
-                                            <div class="ml-4">
-                                                <p class="text-sm font-medium text-gray-900">Helm Motor</p>
-                                                <p class="text-sm text-gray-500">Loker A-15 • 2 jam lalu</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-right">
-                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                <i class="fas fa-lock mr-1"></i>
-                                                <span class="lang-id">Aktif</span>
-                                                <span class="lang-en">Active</span>
-                                            </span>
-                                            <p class="text-sm text-gray-500 mt-1">Berlaku 2 hari</p>
+                                            <span class="text-xs text-gray-400">{{ $activity['time']->diffForHumans() }}</span>
                                         </div>
                                     </div>
-
-                                    <div class="flex items-center justify-between p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl border border-yellow-100">
-                                        <div class="flex items-center">
-                                            <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-xl flex items-center justify-center">
-                                                <i class="fas fa-briefcase text-white"></i>
-                                            </div>
-                                            <div class="ml-4">
-                                                <p class="text-sm font-medium text-gray-900">Tas Laptop</p>
-                                                <p class="text-sm text-gray-500">Loker B-08 • 5 jam lalu</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-right">
-                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                                <i class="fas fa-clock mr-1"></i>
-                                                <span class="lang-id">Akan Berakhir</span>
-                                                <span class="lang-en">Expiring</span>
-                                            </span>
-                                            <p class="text-sm text-gray-500 mt-1">Berlaku 1 hari</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-100">
-                                        <div class="flex items-center">
-                                            <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
-                                                <i class="fas fa-shopping-bag text-white"></i>
-                                            </div>
-                                            <div class="ml-4">
-                                                <p class="text-sm font-medium text-gray-900">Tas Belanja</p>
-                                                <p class="text-sm text-gray-500">Loker C-12 • 1 hari lalu</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-right">
-                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                                <i class="fas fa-check mr-1"></i>
-                                                <span class="lang-id">Siap Diambil</span>
-                                                <span class="lang-en">Ready</span>
-                                            </span>
-                                            <p class="text-sm text-gray-500 mt-1">Berlaku 3 hari</p>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
+                                @else
+                                <div class="flex flex-col items-center justify-center py-8">
+                                    <div class="w-16 h-16 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full flex items-center justify-center mb-3">
+                                        <i class="fas fa-history text-2xl text-gray-400"></i>
+                                    </div>
+                                    <p class="text-sm text-gray-500 text-center">
+                                        <span class="lang-id">Belum ada aktivitas</span>
+                                        <span class="lang-en">No activities yet</span>
+                                    </p>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -557,14 +557,9 @@
                             </div>
                             <div class="p-6">
                                 <div class="space-y-3">
-                                    <button class="w-full flex items-center justify-center px-4 py-3 btn-gradient text-white rounded-xl font-medium">
-                                        <i class="fas fa-plus mr-2"></i>
-                                        <span class="lang-id">Titip Barang</span>
-                                        <span class="lang-en">Store Item</span>
-                                    </button>
-                                    <button class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-xl font-medium hover:bg-gray-50 transition duration-200">
-                                        <i class="fas fa-box mr-2"></i>
-                                        <span class="lang-id">Lihat Semua Barang</span>
+                                    <button onclick="animateAndNavigate(event, '{{ route('items.index') }}')" class="w-full action-button btn-view flex items-center justify-center px-4 py-3 btn-primary btn-animate rounded-xl font-medium">
+                                        <i class="fas fa-box mr-2 action-icon"></i>
+                                        <span class="lang-id">Lihat Barang Saya</span>
                                         <span class="lang-en">View All Items</span>
                                     </button>
                                     <button class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-xl font-medium hover:bg-gray-50 transition duration-200">
@@ -586,53 +581,30 @@
                                 </h3>
                             </div>
                             <div class="p-6">
+                                @if(isset($lockers) && $lockers->count() > 0)
                                 <div class="locker-grid">
-                                    <div class="locker-item locker-available" onclick="selectLocker('A1')">
-                                        <i class="fas fa-unlock text-lg mb-1"></i>
-                                        <p class="text-xs font-bold">A1</p>
-                                        <p class="text-xs">Kosong</p>
+                                    @foreach($lockers as $locker)
+                                    <div class="locker-item {{ $locker['class'] }}" onclick="selectLocker('{{ $locker['code'] }}')">
+                                        <i class="fas {{ $locker['icon'] }} text-lg mb-1"></i>
+                                        <p class="text-xs font-bold">{{ $locker['code'] }}</p>
+                                        <p class="text-xs">
+                                            <span class="lang-id">{{ $locker['statusText'] }}</span>
+                                            <span class="lang-en">{{ $locker['statusTextEn'] }}</span>
+                                        </p>
                                     </div>
-                                    <div class="locker-item locker-occupied" onclick="selectLocker('A2')">
-                                        <i class="fas fa-lock text-lg mb-1"></i>
-                                        <p class="text-xs font-bold">A2</p>
-                                        <p class="text-xs">Terisi</p>
-                                    </div>
-                                    <div class="locker-item locker-available" onclick="selectLocker('A3')">
-                                        <i class="fas fa-unlock text-lg mb-1"></i>
-                                        <p class="text-xs font-bold">A3</p>
-                                        <p class="text-xs">Kosong</p>
-                                    </div>
-                                    <div class="locker-item locker-maintenance" onclick="selectLocker('B1')">
-                                        <i class="fas fa-tools text-lg mb-1"></i>
-                                        <p class="text-xs font-bold">B1</p>
-                                        <p class="text-xs">Maintenance</p>
-                                    </div>
-                                    <div class="locker-item locker-available" onclick="selectLocker('B2')">
-                                        <i class="fas fa-unlock text-lg mb-1"></i>
-                                        <p class="text-xs font-bold">B2</p>
-                                        <p class="text-xs">Kosong</p>
-                                    </div>
-                                    <div class="locker-item locker-occupied" onclick="selectLocker('B3')">
-                                        <i class="fas fa-lock text-lg mb-1"></i>
-                                        <p class="text-xs font-bold">B3</p>
-                                        <p class="text-xs">Terisi</p>
-                                    </div>
-                                    <div class="locker-item locker-reserved" onclick="selectLocker('C1')">
-                                        <i class="fas fa-clock text-lg mb-1"></i>
-                                        <p class="text-xs font-bold">C1</p>
-                                        <p class="text-xs">Reserved</p>
-                                    </div>
-                                    <div class="locker-item locker-available" onclick="selectLocker('C2')">
-                                        <i class="fas fa-unlock text-lg mb-1"></i>
-                                        <p class="text-xs font-bold">C2</p>
-                                        <p class="text-xs">Kosong</p>
-                                    </div>
-                                    <div class="locker-item locker-occupied" onclick="selectLocker('C3')">
-                                        <i class="fas fa-lock text-lg mb-1"></i>
-                                        <p class="text-xs font-bold">C3</p>
-                                        <p class="text-xs">Terisi</p>
-                                    </div>
+                                    @endforeach
                                 </div>
+                                @else
+                                <div class="flex flex-col items-center justify-center py-8">
+                                    <div class="w-16 h-16 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full flex items-center justify-center mb-3">
+                                        <i class="fas fa-lock text-2xl text-gray-400"></i>
+                                    </div>
+                                    <p class="text-sm text-gray-500 text-center">
+                                        <span class="lang-id">Belum ada loker tersedia</span>
+                                        <span class="lang-en">No lockers available</span>
+                                    </p>
+                                </div>
+                                @endif
                                 
                                 <!-- Legend -->
                                 <div class="mt-6 grid grid-cols-2 gap-2 text-xs">
@@ -669,23 +641,16 @@
     <script>
         // Global variables
         let selectedLocker = null;
-        let lockerData = {
-            'A1': { status: 'available', item: null, expiry: null },
-            'A2': { status: 'occupied', item: 'Helm Motor', expiry: '2024-01-15' },
-            'A3': { status: 'available', item: null, expiry: null },
-            'B1': { status: 'maintenance', item: null, expiry: null },
-            'B2': { status: 'available', item: null, expiry: null },
-            'B3': { status: 'occupied', item: 'Tas Laptop', expiry: '2024-01-12' },
-            'C1': { status: 'reserved', item: null, expiry: null },
-            'C2': { status: 'available', item: null, expiry: null },
-            'C3': { status: 'occupied', item: 'Tas Belanja', expiry: '2024-01-20' }
-        };
+        
+        // Locker data from server (real-time)
+        const lockerDataFromServer = @json(isset($lockers) ? $lockers->toArray() : []);
 
         // Load saved preferences on page load
         document.addEventListener('DOMContentLoaded', function() {
             loadPreferences();
             initializeLockerSystem();
-            updateLockerDisplay();
+            initializeThemeToggle();
+            initializeLanguageToggle();
         });
 
         function loadPreferences() {
@@ -727,14 +692,85 @@
             }
         }
 
-        function initializeLockerSystem() {
-            // Add click handlers for locker items
-            document.querySelectorAll('.locker-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    const lockerId = this.querySelector('p').textContent;
-                    selectLocker(lockerId);
+        function initializeThemeToggle() {
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    const currentTheme = localStorage.getItem('theme') || 'light';
+                    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                    changeTheme(newTheme);
                 });
-            });
+            }
+        }
+
+        function initializeLanguageToggle() {
+            const languageToggle = document.getElementById('language-toggle');
+            if (languageToggle) {
+                languageToggle.addEventListener('click', function() {
+                    const currentLanguage = localStorage.getItem('language') || 'id';
+                    const newLanguage = currentLanguage === 'id' ? 'en' : 'id';
+                    changeLanguage(newLanguage);
+                });
+            }
+        }
+
+        function changeTheme(theme) {
+            const body = document.getElementById('main-body');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            // Remove existing theme classes
+            body.classList.remove('dark-theme');
+            
+            // Apply new theme
+            if (theme === 'dark') {
+                body.classList.add('dark-theme');
+                if (themeIcon) {
+                    themeIcon.className = 'fas fa-sun text-yellow-500';
+                }
+            } else if (theme === 'system') {
+                // Check system preference
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    body.classList.add('dark-theme');
+                }
+                if (themeIcon) {
+                    themeIcon.className = 'fas fa-desktop text-gray-600';
+                }
+            } else {
+                if (themeIcon) {
+                    themeIcon.className = 'fas fa-moon text-gray-600';
+                }
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('theme', theme);
+            
+            // Show notification
+            showNotification('Tema berhasil diubah!', 'success');
+        }
+
+        function changeLanguage(language) {
+            const body = document.getElementById('main-body');
+            
+            // Remove existing language classes
+            body.classList.remove('language-en');
+            
+            // Apply new language
+            if (language === 'en') {
+                body.classList.add('language-en');
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('language', language);
+            
+            
+            // Show notification
+            const message = language === 'en' ? 'Language changed to English!' : 'Bahasa diubah ke Indonesia!';
+            showNotification(message, 'success');
+        }
+
+        function initializeLockerSystem() {
+            // Locker items are already clickable via onclick attribute in HTML
+            // No additional initialization needed
 
             // Add click handlers for quick action buttons
             document.querySelectorAll('button').forEach(button => {
@@ -750,9 +786,13 @@
             });
         }
 
-        function selectLocker(lockerId) {
-            selectedLocker = lockerId;
-            const locker = lockerData[lockerId];
+        function selectLocker(lockerCode) {
+            selectedLocker = lockerCode;
+            
+            // Find locker data from server
+            const locker = lockerDataFromServer.find(l => l.code === lockerCode);
+            
+            if (!locker) return;
             
             // Remove previous selection
             document.querySelectorAll('.locker-item').forEach(item => {
@@ -760,44 +800,22 @@
             });
             
             // Add selection to clicked locker
-            const lockerElement = document.querySelector(`[onclick="selectLocker('${lockerId}')"]`);
+            const lockerElement = document.querySelector(`[onclick="selectLocker('${lockerCode}')"]`);
             if (lockerElement) {
                 lockerElement.classList.add('ring-4', 'ring-blue-500');
             }
             
             // Show locker info
-            showLockerInfo(lockerId, locker);
+            showLockerInfo(lockerCode, locker);
         }
 
-        function showLockerInfo(lockerId, locker) {
-            const statusText = {
-                'available': { id: 'Kosong', en: 'Available' },
-                'occupied': { id: 'Terisi', en: 'Occupied' },
-                'maintenance': { id: 'Maintenance', en: 'Maintenance' },
-                'reserved': { id: 'Reserved', en: 'Reserved' }
-            };
-            
+        function showLockerInfo(lockerCode, locker) {
             const currentLanguage = localStorage.getItem('language') || 'id';
-            const status = statusText[locker.status][currentLanguage];
+            const statusText = currentLanguage === 'en' ? locker.statusTextEn : locker.statusText;
             
-            showNotification(`Loker ${lockerId}: ${status}${locker.item ? ` - ${locker.item}` : ''}`, 'info');
+            showNotification(`Loker ${lockerCode}: ${statusText}`, 'info');
         }
 
-        function openStoreItemModal() {
-            if (!selectedLocker) {
-                showNotification('Pilih loker terlebih dahulu!', 'warning');
-                return;
-            }
-            
-            const locker = lockerData[selectedLocker];
-            if (locker.status !== 'available') {
-                showNotification('Loker tidak tersedia!', 'error');
-                return;
-            }
-            
-            // Simulate opening store item modal
-            showNotification(`Membuka form untuk menyimpan barang di loker ${selectedLocker}`, 'success');
-        }
 
         function showAllItems() {
             showNotification('Membuka halaman semua barang...', 'info');
@@ -807,48 +825,6 @@
             showNotification('Membuka peta lokasi loker...', 'info');
         }
 
-        function updateLockerDisplay() {
-            // Update locker status based on real-time data
-            Object.keys(lockerData).forEach(lockerId => {
-                const locker = lockerData[lockerId];
-                const lockerElement = document.querySelector(`[onclick="selectLocker('${lockerId}')"]`);
-                
-                if (lockerElement) {
-                    // Update icon based on status
-                    const icon = lockerElement.querySelector('i');
-                    if (icon) {
-                        icon.className = getLockerIcon(locker.status);
-                    }
-                    
-                    // Update status text
-                    const statusText = lockerElement.querySelector('p:last-child');
-                    if (statusText) {
-                        const currentLanguage = localStorage.getItem('language') || 'id';
-                        statusText.textContent = getStatusText(locker.status, currentLanguage);
-                    }
-                }
-            });
-        }
-
-        function getLockerIcon(status) {
-            const icons = {
-                'available': 'fas fa-unlock text-lg mb-1',
-                'occupied': 'fas fa-lock text-lg mb-1',
-                'maintenance': 'fas fa-tools text-lg mb-1',
-                'reserved': 'fas fa-clock text-lg mb-1'
-            };
-            return icons[status] || 'fas fa-question text-lg mb-1';
-        }
-
-        function getStatusText(status, language) {
-            const statusTexts = {
-                'available': { id: 'Kosong', en: 'Available' },
-                'occupied': { id: 'Terisi', en: 'Occupied' },
-                'maintenance': { id: 'Maintenance', en: 'Maintenance' },
-                'reserved': { id: 'Reserved', en: 'Reserved' }
-            };
-            return statusTexts[status][language] || status;
-        }
 
         function showNotification(message, type = 'info') {
             // Remove existing notifications
@@ -941,4 +917,5 @@
         });
     </script>
 </body>
+</html>
 </html>
