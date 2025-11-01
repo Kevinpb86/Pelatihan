@@ -386,11 +386,6 @@
                             </p>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <!-- Search Bar -->
-                            <div class="relative">
-                                <input type="text" placeholder="Cari barang..." class="w-64 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
-                                <i class="fas fa-search absolute right-3 top-3.5 text-gray-400"></i>
-                            </div>
                             <!-- Quick Actions -->
                             <button class="btn-gradient text-white px-6 py-3 rounded-xl font-medium">
                                 <i class="fas fa-plus mr-2"></i>
@@ -533,34 +528,8 @@
                         </div>
                     </div>
 
-                    <!-- Quick Actions & Locker Status -->
+                    <!-- Locker Status -->
                     <div class="space-y-6">
-                        <!-- Quick Actions -->
-                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20">
-                            <div class="p-6 border-b border-gray-200/50">
-                                <h3 class="text-xl font-semibold text-gray-800 flex items-center">
-                                    <i class="fas fa-bolt mr-3 text-purple-600"></i>
-                                    <span class="lang-id">Aksi Cepat</span>
-                                    <span class="lang-en">Quick Actions</span>
-                                </h3>
-                            </div>
-                            <div class="p-6">
-                                <div class="space-y-3">
-                                    <button onclick="animateAndNavigate(event, '{{ url('/my-items') }}')" class="w-full action-button btn-view flex items-center justify-center px-4 py-3 btn-primary btn-animate rounded-xl font-medium">
-                                        <i class="fas fa-box mr-2 action-icon"></i>
-                                        <span class="lang-id">Lihat Barang Saya</span>
-                                        <span class="lang-en">View All Items</span>
-                                    </button>
-                                    <button class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-xl font-medium hover:bg-gray-50 transition duration-200">
-                                        <i class="fas fa-map-marker-alt mr-2"></i>
-                                        <span class="lang-id">Cari Lokasi Loker</span>
-                                        <span class="lang-en">Find Locker Location</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Locker Status -->
                         <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20">
                             <div class="p-6 border-b border-gray-200/50">
                                 <h3 class="text-xl font-semibold text-gray-800 flex items-center">
