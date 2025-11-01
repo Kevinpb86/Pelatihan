@@ -43,9 +43,11 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
             $q = $request->input('q');
             $query->where(function ($w) use ($q) {
                 $w->whereHas('user', function ($u) use ($q) {
-                    $u->where('name','like',"%$q%").orWhere('email','like',"%$q%");
+                    $u->where('name','like',"%$q%")
+                      ->orWhere('email','like',"%$q%");
                 })->orWhereHas('unit', function ($un) use ($q) {
-                    $un->where('code','like',"%$q%").orWhere('name','like',"%$q%");
+                    $un->where('code','like',"%$q%")
+                      ->orWhere('name','like',"%$q%");
                 });
             });
         }

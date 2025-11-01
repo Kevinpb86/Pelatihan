@@ -322,7 +322,7 @@
                         <span class="lang-id">Dashboard</span>
                         <span class="lang-en">Dashboard</span>
                     </a>
-                    <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
+                    <a href="{{ url('/my-items') }}" onclick="animateAndNavigate(event, '{{ url('/my-items') }}')" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-box w-5 h-5 mr-3"></i>
                         <span class="lang-id">Barang Saya</span>
                         <span class="lang-en">My Items</span>
@@ -416,7 +416,7 @@
                                         <span class="lang-id">Barang Terbaru</span>
                                         <span class="lang-en">Recent Items</span>
                                     </h3>
-                                    <a href="{{ route('items.index') }}" onclick="animateAndNavigate(event, '{{ route('items.index') }}')" class="text-sm text-purple-600 hover:text-purple-800 font-medium">
+                                    <a href="{{ url('/my-items') }}" onclick="animateAndNavigate(event, '{{ url('/my-items') }}')" class="text-sm text-purple-600 hover:text-purple-800 font-medium">
                                         <span class="lang-id">Lihat Semua</span>
                                         <span class="lang-en">View All</span>
                                         <i class="fas fa-arrow-right ml-1"></i>
@@ -546,7 +546,7 @@
                             </div>
                             <div class="p-6">
                                 <div class="space-y-3">
-                                    <button onclick="animateAndNavigate(event, '{{ route('items.index') }}')" class="w-full action-button btn-view flex items-center justify-center px-4 py-3 btn-primary btn-animate rounded-xl font-medium">
+                                    <button onclick="animateAndNavigate(event, '{{ url('/my-items') }}')" class="w-full action-button btn-view flex items-center justify-center px-4 py-3 btn-primary btn-animate rounded-xl font-medium">
                                         <i class="fas fa-box mr-2 action-icon"></i>
                                         <span class="lang-id">Lihat Barang Saya</span>
                                         <span class="lang-en">View All Items</span>

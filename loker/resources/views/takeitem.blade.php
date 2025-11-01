@@ -162,7 +162,7 @@
                         <i class="fas fa-home w-5 h-5 mr-3"></i>
                         Dashboard
                     </a>
-                    <a href="{{ route('items.index') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
+                    <a href="{{ url('/my-items') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-box w-5 h-5 mr-3"></i>
                         Barang Saya
                     </a>
@@ -287,9 +287,9 @@
                                         <i class="fas fa-calendar-alt text-purple-600"></i>
                                     </div>
                                     <div>
-                                        <p class="text-sm text-gray-600">Waktu Titip</p>
-                                        <p class="text-lg font-bold text-gray-900">{{ \Carbon\Carbon::parse($booking->start_time)->format('d M Y, H:i') }}</p>
-                                        <p class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($booking->start_time)->diffForHumans() }}</p>
+                                        <p class="text-sm text-gray-600">Waktu Titip • WIB</p>
+                                        <p class="text-lg font-bold text-gray-900"><span id="waktu-titip"></span></p>
+                                        <p class="text-xs text-gray-500"><span id="waktu-relatif"></span></p>
                                     </div>
                                 </div>
                             </div>
@@ -300,15 +300,9 @@
                                         <i class="fas fa-clock text-yellow-600"></i>
                                     </div>
                                     <div>
-                                        <p class="text-sm text-gray-600">Batas Waktu</p>
-                                        <p class="text-lg font-bold text-gray-900">{{ \Carbon\Carbon::parse($booking->end_time)->format('d M Y, H:i') }}</p>
-                                        <p class="text-xs text-gray-500">
-                                            @if(\Carbon\Carbon::parse($booking->end_time)->isFuture())
-                                                Berakhir {{ \Carbon\Carbon::parse($booking->end_time)->diffForHumans() }}
-                                            @else
-                                                Sudah berakhir {{ \Carbon\Carbon::parse($booking->end_time)->diffForHumans() }}
-                                            @endif
-                                        </p>
+                                        <p class="text-sm text-gray-600">Batas Waktu • WIB</p>
+                                        <p class="text-lg font-bold text-gray-900"><span id="batas-waktu"></span></p>
+                                        <p class="text-xs text-gray-500"><span id="batas-relatif"></span></p>
                                     </div>
                                 </div>
                             </div>
@@ -382,7 +376,7 @@
 
                         <!-- Action Buttons -->
                         <div class="flex gap-4">
-                            <a href="{{ route('items.index') }}" 
+                            <a href="{{ url('/my-items') }}" 
                             class="btn-animate flex-1 px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl font-semibold text-center transition-all duration-300">
                                 <i class="fas fa-arrow-left mr-2"></i>
                                 Kembali
@@ -414,6 +408,25 @@
         </div>
     </div>
 
+    <!-- Custom Confirm Modal -->
+    <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40">
+        <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200 w-full max-w-md p-6">
+            <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 text-white flex items-center justify-center">
+                    <i class="fas fa-question"></i>
+                </div>
+                <div class="flex-1">
+                    <h4 class="text-lg font-semibold text-gray-900">Konfirmasi Pengambilan</h4>
+                    <p class="text-sm text-gray-600 mt-1">Apakah Anda yakin ingin mengambil barang dari loker ini?</p>
+                </div>
+            </div>
+            <div class="mt-6 flex items-center justify-end gap-3">
+                <button type="button" id="confirm-cancel" class="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium">Batal</button>
+                <button type="button" id="confirm-ok" class="px-4 py-2 rounded-xl text-white font-semibold" style="background:linear-gradient(135deg,#34d399,#059669)"><i class="fas fa-check mr-2"></i>Ya, Ambil</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Ripple effect
         function addRipple(el, e) {
@@ -430,15 +443,13 @@
             setTimeout(() => r.remove(), 700);
         }
 
-        // Confirm retrieve
+        // Confirm retrieve (custom modal)
         function confirmRetrieve(e) {
-            if (confirm('Apakah Anda yakin ingin mengambil barang dari loker ini?')) {
-                const btn = e.currentTarget;
-                if (btn) addRipple(btn, e);
-                return true;
-            }
             e.preventDefault();
-            return false;
+            const modal = document.getElementById('confirm-modal');
+            if (!modal) return (document.getElementById('retrieveForm')?.submit());
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
 
         // Add ripple to buttons on click
@@ -449,6 +460,96 @@
                 }
             });
         });
+
+        // Modal handlers
+        (function initConfirmModal(){
+            const modal = document.getElementById('confirm-modal');
+            if (!modal) return;
+            const btnOk = document.getElementById('confirm-ok');
+            const btnCancel = document.getElementById('confirm-cancel');
+            btnOk?.addEventListener('click', function(){
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.getElementById('retrieveForm')?.submit();
+            });
+            const close = () => { modal.classList.add('hidden'); modal.classList.remove('flex'); };
+            btnCancel?.addEventListener('click', close);
+            modal.addEventListener('click', function(ev){ if (ev.target === modal) close(); });
+            document.addEventListener('keydown', function(ev){ if (ev.key === 'Escape') close(); });
+        })();
+
+        // Real-time Indonesian time (Asia/Jakarta)
+        function formatJakarta(now) {
+            const dtf = new Intl.DateTimeFormat('id-ID', {
+                timeZone: 'Asia/Jakarta',
+                year: 'numeric', month: 'short', day: '2-digit',
+                hour: '2-digit', minute: '2-digit'
+            });
+            return dtf.format(now).replace(',', '');
+        }
+
+        function relativeFrom(start) {
+            const seconds = Math.floor((Date.now() - start.getTime()) / 1000);
+            if (seconds < 60) return seconds + ' detik yang lalu';
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return minutes + ' menit yang lalu';
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return hours + ' jam yang lalu';
+            const days = Math.floor(hours / 24);
+            return days + ' hari yang lalu';
+        }
+
+        function relativeToTarget(target) {
+            const now = Date.now();
+            const diff = Math.floor((target.getTime() - now) / 1000);
+            if (diff >= 0) {
+                if (diff < 60) return 'Berakhir dalam ' + diff + ' detik';
+                const m = Math.floor(diff / 60);
+                if (m < 60) return 'Berakhir dalam ' + m + ' menit';
+                const h = Math.floor(m / 60);
+                if (h < 24) return 'Berakhir dalam ' + h + ' jam';
+                const d = Math.floor(h / 24);
+                return 'Berakhir dalam ' + d + ' hari';
+            } else {
+                const past = Math.abs(diff);
+                if (past < 60) return 'Sudah berakhir ' + past + ' detik yang lalu';
+                const m = Math.floor(past / 60);
+                if (m < 60) return 'Sudah berakhir ' + m + ' menit yang lalu';
+                const h = Math.floor(m / 60);
+                if (h < 24) return 'Sudah berakhir ' + h + ' jam yang lalu';
+                const d = Math.floor(h / 24);
+                return 'Sudah berakhir ' + d + ' hari yang lalu';
+            }
+        }
+
+        (function startRealtimeJakartaClock() {
+            const elTime = document.getElementById('waktu-titip');
+            const elRel = document.getElementById('waktu-relatif');
+            const elBatas = document.getElementById('batas-waktu');
+            const elBatasRel = document.getElementById('batas-relatif');
+            if (!elTime || !elRel || !elBatas || !elBatasRel) return;
+            // anchor start from server time if available, fallback to now
+            const serverStartIso = @json(optional($booking->start_time)->timezone('Asia/Jakarta')->toIso8601String());
+            const serverEndIso = @json(optional($booking->end_time)->timezone('Asia/Jakarta')->toIso8601String());
+            const start = new Date(Date.parse(serverStartIso || new Date().toISOString()));
+            let endAt;
+            if (serverEndIso) {
+                endAt = new Date(Date.parse(serverEndIso));
+            } else if (serverStartIso) {
+                endAt = new Date(Date.parse(serverStartIso) + 60 * 60 * 1000); // +1 jam
+            } else {
+                endAt = new Date(Date.now() + 60 * 60 * 1000);
+            }
+            function tick() {
+                const now = new Date();
+                elTime.textContent = formatJakarta(now);
+                elRel.textContent = relativeFrom(start);
+                elBatas.textContent = formatJakarta(endAt);
+                elBatasRel.textContent = relativeToTarget(endAt);
+            }
+            tick();
+            setInterval(tick, 1000);
+        })();
     </script>
 </body>
 </html>

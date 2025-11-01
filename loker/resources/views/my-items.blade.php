@@ -300,7 +300,7 @@
                         <i class="fas fa-home w-5 h-5 mr-3"></i>
                         Dashboard
                     </a>
-                    <a href="{{ route('items.index') }}" class="nav-item active flex items-center px-4 py-3 text-sm font-medium text-white bg-white/20 backdrop-blur-sm rounded-xl">
+                    <a href="{{ url('/my-items') }}" class="nav-item active flex items-center px-4 py-3 text-sm font-medium text-white bg-white/20 backdrop-blur-sm rounded-xl">
                         <i class="fas fa-box w-5 h-5 mr-3"></i>
                         Barang Saya
                     </a>

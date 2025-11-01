@@ -10,16 +10,24 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        :root { --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        :root { --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%); --success: #10b981; --warning:#f59e0b; }
         body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; }
         .sidebar-gradient { background: linear-gradient(180deg, #667eea 0%, #764ba2 100%); }
         .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color:#fff; padding:12px 18px; border-radius:12px; font-weight:600; display:inline-flex; align-items:center; gap:10px; border:none; cursor:pointer; box-shadow:0 6px 18px rgba(118,75,162,0.18); }
-        .card { background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.35); }
+        .btn-secondary { background:#f3f4f6; color:#111827; padding:10px 14px; border-radius:10px; font-weight:600; }
+        .card { background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); border: 1px solid rgba(17,24,39,0.06); border-radius:16px; box-shadow: 0 12px 30px rgba(0,0,0,0.06); }
         .summary-row { display:flex; align-items:center; justify-content:space-between; padding:.6rem 0; border-bottom:1px dashed #e5e7eb; }
         .summary-row:last-child { border-bottom:none; }
-        .method { border:2px solid #e5e7eb; border-radius: 12px; padding:12px; cursor:pointer; transition:.2s; display:flex; align-items:center; gap:10px; }
-        .method.active { border-color:#7c3aed; box-shadow:0 6px 20px rgba(124,58,237,.12); }
-        .qr-box { border:2px dashed #e5e7eb; border-radius:14px; padding:16px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+        .method { border:2px solid #e5e7eb; border-radius: 14px; padding:12px; cursor:pointer; transition:.2s; display:flex; align-items:center; gap:10px; background:#fff; }
+        .method svg { width:20px; height:20px; }
+        .method:hover { transform: translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,.06); }
+        .method.active { border-color:#7c3aed; box-shadow:0 6px 20px rgba(124,58,237,.12); background:linear-gradient(180deg,#fff, #faf5ff); }
+        .qr-box { border:2px dashed #e5e7eb; border-radius:14px; padding:16px; display:flex; flex-direction:column; align-items:center; gap:10px; background:#fff; }
+        .stepper { display:grid; grid-template-columns: repeat(3,1fr); gap:10px; align-items:center; }
+        .step { display:flex; align-items:center; gap:10px; }
+        .step .dot { width:10px; height:10px; border-radius:999px; background:#e5e7eb; }
+        .step.done .dot { background:#7c3aed; }
+        .secure { display:flex; align-items:center; gap:8px; font-size:12px; color:#065f46; background:rgba(16,185,129,.12); border:1px solid rgba(16,185,129,.2); padding:8px 10px; border-radius:10px; }
         .dark-theme { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%) !important; color:#e5e5e5 !important; }
         .dark-theme .card { background: rgba(45,45,45,0.85); border-color: rgba(255,255,255,0.12); }
     </style>
@@ -43,7 +51,7 @@
                     <a href="{{ route('dashboard') }}" class="nav-item active flex items-center px-4 py-3 text-sm font-medium text-white bg-white/20 backdrop-blur-sm rounded-xl">
                         <i class="fas fa-home w-5 h-5 mr-3"></i> Dashboard
                     </a>
-                    <a href="{{ route('items.index') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all">
+                    <a href="{{ url('/my-items') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all">
                         <i class="fas fa-box w-5 h-5 mr-3"></i> Barang Saya
                     </a>
                     <a href="{{ route('store-item') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all">
@@ -74,8 +82,14 @@
                             <div>
                                 <h2 class="text-3xl font-bold" style="background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Pembayaran</h2>
                                 <p class="text-gray-600 mt-1">Selesaikan pembayaran penitipan barang Anda</p>
+                                <div class="stepper mt-3 text-xs text-gray-500">
+                                    <div class="step done"><span class="dot"></span><span>Pilih Loker</span></div>
+                                    <div class="step done"><span class="dot"></span><span>Rincian & Pembayaran</span></div>
+                                    <div class="step"><span class="dot"></span><span>Selesai</span></div>
+                                </div>
                             </div>
                         </div>
+                        <div class="secure"><i class="fas fa-shield-alt"></i> Transaksi aman & terenkripsi</div>
                     </div>
                 </div>
             </header>
@@ -85,12 +99,15 @@
                     <div class="lg:col-span-2 card rounded-2xl shadow-xl p-6">
                         <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center"><i class="fas fa-list-ul mr-3 text-purple-600"></i> Ringkasan Pesanan</h3>
                         <div class="space-y-2">
-                            <div class="summary-row"><span class="text-gray-600">Loker</span><span class="font-semibold">{{ $unit->code }} - {{ $unit->name }}</span></div>
+                            <div class="summary-row">
+                                <span class="text-gray-600">Loker</span>
+                                <span class="font-semibold flex items-center gap-2"><span class="inline-flex items-center justify-center w-6 h-6 rounded bg-purple-100 text-purple-700"><i class="fas fa-cube text-xs"></i></span>{{ $unit->code }} - {{ $unit->name }}</span>
+                            </div>
                             <div class="summary-row"><span class="text-gray-600">Nama Barang</span><span class="font-semibold">{{ session('item_name') ?? $item_name }}</span></div>
                             <div class="summary-row"><span class="text-gray-600">Kategori</span><span class="font-semibold">{{ session('item_category') ?? $item_category }}</span></div>
                             <div class="summary-row"><span class="text-gray-600">Durasi</span><span class="font-semibold">{{ $durationHours }} jam</span></div>
-                            <div class="summary-row"><span class="text-gray-600">Mulai</span><span class="font-semibold">{{ $startTime->format('d M Y H:i') }}</span></div>
-                            <div class="summary-row"><span class="text-gray-600">Selesai</span><span class="font-semibold">{{ $endTime->format('d M Y H:i') }}</span></div>
+                            <div class="summary-row"><span class="text-gray-600">Mulai</span><span class="font-semibold flex items-center gap-2"><i class="fas fa-calendar text-gray-400"></i>{{ $startTime->format('d M Y H:i') }}</span></div>
+                            <div class="summary-row"><span class="text-gray-600">Selesai</span><span class="font-semibold flex items-center gap-2"><i class="fas fa-clock text-gray-400"></i>{{ $endTime->format('d M Y H:i') }}</span></div>
                         </div>
 
                         <div class="mt-6">
@@ -101,8 +118,12 @@
                             <div class="space-y-2">
                                 <div class="flex items-center justify-between text-sm"><span>Harga per jam</span><span>Rp {{ number_format($pricePerHour,0,',','.') }}</span></div>
                                 <div class="flex items-center justify-between text-sm"><span>Durasi</span><span>{{ $durationHours }} jam</span></div>
-                                <div class="flex items-center justify-between text-base font-bold border-t pt-2"><span>Total</span><span>Rp {{ number_format($totalPrice,0,',','.') }}</span></div>
+                                <div class="flex items-center justify-between text-base font-bold border-t pt-2"><span>Total</span><span class="text-purple-700">Rp {{ number_format($totalPrice,0,',','.') }}</span></div>
                             </div>
+                        </div>
+                        <div class="mt-6 flex items-center justify-between text-xs text-gray-500">
+                            <div class="flex items-center gap-2"><i class="fas fa-receipt"></i> Kode Pesanan: <span class="font-semibold" id="order-code">LK-{{ $unit->id }}-{{ now()->format('His') }}</span></div>
+                            <button type="button" class="btn-secondary" onclick="copyText('#order-code')"><i class="fas fa-copy mr-1"></i>Salin</button>
                         </div>
                     </div>
 
@@ -110,10 +131,19 @@
                         <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center"><i class="fas fa-wallet mr-3 text-purple-600"></i> Metode Pembayaran</h3>
                         <div class="grid grid-cols-2 gap-3" id="method-list">
                             <div class="method active" data-method="qr"><i class="fas fa-qrcode text-purple-600"></i><span>QRIS</span></div>
-                            <div class="method" data-method="bank"><i class="fas fa-university text-blue-600"></i><span>Bank</span></div>
-                            <div class="method" data-method="dana"><img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Logo_dana_blue.svg" alt="DANA" class="w-5 h-5"> <span>DANA</span></div>
-                            <div class="method" data-method="ovo"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/OVO_Logo.svg" alt="OVO" class="w-6 h-5"> <span>OVO</span></div>
-                            <div class="method" data-method="gopay"><img src="https://upload.wikimedia.org/wikipedia/commons/8/80/Gopay_logo.svg" alt="GoPay" class="w-10 h-5"> <span>GoPay</span></div>
+                            <div class="method" data-method="bank"><i class="fas fa-university text-blue-600"></i><span>Transfer Bank</span></div>
+                            <div class="method" data-method="dana">
+                                <svg viewBox="0 0 512 512" aria-hidden="true"><circle cx="256" cy="256" r="256" fill="#2aa7df"/><path fill="#fff" d="M256 152c-57.4 0-104 46.6-104 104s46.6 104 104 104 104-46.6 104-104S313.4 152 256 152zm0 56c26.5 0 48 21.5 48 48s-21.5 48-48 48-48-21.5-48-48 21.5-48 48-48z"/></svg>
+                                <span>DANA</span>
+                            </div>
+                            <div class="method" data-method="ovo">
+                                <svg viewBox="0 0 512 512" aria-hidden="true"><circle cx="256" cy="256" r="256" fill="#5f3dc4"/><path fill="#fff" d="M256 156c-55.2 0-100 44.8-100 100s44.8 100 100 100 100-44.8 100-100-44.8-100-100-100zm0 56c24.3 0 44 19.7 44 44s-19.7 44-44 44-44-19.7-44-44 19.7-44 44-44z"/></svg>
+                                <span>OVO</span>
+                            </div>
+                            <div class="method" data-method="gopay">
+                                <svg viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="256" fill="#00a6a0"/><path fill="#fff" d="M256 168c-48.6 0-88 39.4-88 88s39.4 88 88 88 88-39.4 88-88-39.4-88-88-88zm0 44c24.3 0 44 19.7 44 44s-19.7 44-44 44-44-19.7-44-44 19.7-44 44-44z"/></svg>
+                                <span>GoPay</span>
+                            </div>
                         </div>
 
                         <div class="mt-5 space-y-4" id="method-detail">
@@ -153,6 +183,7 @@
                             <a href="{{ route('store-item') }}" class="mt-3 w-full inline-flex justify-center px-4 py-3 rounded-xl border border-gray-300 text-gray-700 font-medium">Kembali</a>
                         </form>
                         <p class="text-xs text-gray-500 mt-4">Ketentuan harga: Mengikuti harga admin sebesar Rp {{ number_format((float)$unit->price_per_hour,0,',','.') }} per jam.</p>
+                        <div class="mt-3 text-[11px] text-gray-400">Dengan melanjutkan pembayaran, Anda menyetujui Syarat & Ketentuan LokerHub.</div>
                     </div>
                 </div>
             </main>
@@ -180,6 +211,18 @@
                 else { show(ew); }
             }));
         });
+
+        function copyText(selector){
+            const el = document.querySelector(selector);
+            if(!el) return;
+            const range = document.createRange();
+            range.selectNode(el);
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            document.execCommand('copy');
+            sel.removeAllRanges();
+        }
     </script>
 </body>
 </html>

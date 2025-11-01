@@ -16,21 +16,26 @@
         .nav-item { position: relative; transition: all 0.3s ease; }
         .nav-item::after { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 3px; background: var(--primary-gradient); transform: scaleY(0); transition: transform 0.3s ease; }
         .nav-item.active::after { transform: scaleY(1); }
-        .nav-item:hover { background: rgba(255, 255, 255, 0.1); transform: translateX(5px); }
-        .card { background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); border:1px solid rgba(255,255,255,.5); box-shadow: 0 8px 24px rgba(0,0,0,0.06); border-radius: 16px; }
-        .table thead th { font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:#6b7280; font-weight:600; padding:12px 16px; background:#f9fafb; }
-        .table tbody tr { transition: all 0.2s ease; }
-        .table tbody tr:hover { background:#f9fafb; }
-        .table tbody td { padding:14px 16px; vertical-align: middle; }
-        .badge { padding:6px 10px; border-radius:999px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; }
-        .badge-status-active { background: rgba(59,130,246,.12); color:#1d4ed8; border:1px solid rgba(59,130,246,.25); }
-        .badge-status-completed { background: rgba(16,185,129,.12); color:#047857; border:1px solid rgba(16,185,129,.25); }
-        .badge-status-overdue { background: rgba(245,158,11,.12); color:#b45309; border:1px solid rgba(245,158,11,.25); }
-        .badge-status-cancelled { background: rgba(239,68,68,.12); color:#b91c1c; border:1px solid rgba(239,68,68,.25); }
-        .btn-primary { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:#fff; padding:10px 16px; border-radius:10px; font-weight:600; border:none; cursor:pointer; }
-        .toolbar { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
-        input[type="text"], select { padding:10px 12px; border:2px solid #e5e7eb; border-radius:8px; transition: all 0.3s ease; font-size:14px; }
-        input[type="text"]:focus, select:focus { outline:none; border-color:#667eea; box-shadow:0 0 0 3px rgba(102,126,234,0.1); }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.12); transform: translateX(5px); }
+        .card { background: rgba(255,255,255,0.97); backdrop-filter: blur(14px); border:1px solid rgba(36,36,66,.07); box-shadow: 0 12px 32px rgba(76,70,120,0.09); border-radius: 20px; }
+        .table thead th { font-size:12px; text-transform:uppercase; letter-spacing:.07em; color:#7c3aed; font-weight:700; padding:14px 18px; background:#f4f1fd; border-top-left-radius:6px; border-top-right-radius:6px; }
+        .table tbody tr { transition: box-shadow 0.2s,background 0.2s; border-radius:12px; overflow:hidden; }
+        .table tbody tr:hover { background:#f7f3fa; box-shadow:0 6px 18px #a89cd93b; }
+        .table tbody td { padding:16px 18px; vertical-align: middle; background:transparent; }
+        .badge { padding:7px 12px; border-radius:999px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; box-shadow:0 2px 8px rgba(124,58,237,0.09); }
+        .badge-status-active { background: rgba(59,130,246,.16); color:#2563eb; border:1.8px solid rgba(59,130,246,.30); font-weight:700; }
+        .badge-status-completed { background: rgba(16,185,129,.17); color:#047857; border:1.8px solid rgba(16,185,129,.25); font-weight:700; }
+        .badge-status-overdue { background: rgba(245,158,11,.17); color:#b45309; border:1.8px solid rgba(245,158,11,.25); font-weight:700; }
+        .badge-status-cancelled { background: rgba(239,68,68,.17); color:#b91c1c; border:1.8px solid rgba(239,68,68,.25); font-weight:700; }
+        .btn-primary { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:#fff; padding:10px 20px; border-radius:10px; font-weight:650; border:none; cursor:pointer; box-shadow:0 4px 14px #7c3aed0f; }
+        .toolbar { display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
+        .toolbar input, .toolbar select { min-width:110px; }
+        input[type="text"], select { padding:11px 13px; border:2px solid #e0e7ef; border-radius:10px; transition: all 0.3s ease; font-size:15px; background:#f8fafc; }
+        input[type="text"]:focus, select:focus { outline:none; border-color:#7c3aed; box-shadow:0 0 0 2px #a78bfa33; background:#fff; }
+        .action-icon { background:linear-gradient(135deg,#a78bfa 0%,#818cf8 100%); color:#fff; border-radius:8px; width:35px; height:35px; display:inline-flex; align-items:center; justify-content:center; font-size:1.15rem; box-shadow:0 2px 6px #4f46e550; transition:.2s; }
+        .action-icon:hover { box-shadow:0 8px 18px #7c3aed33; background:linear-gradient(135deg,#7c3aed 0%,#6366f1 100%); color:#fff; transform:scale(1.14); }
+        .status-cell{ min-width:130px; }
+        @media (max-width:900px){ .toolbar input, .toolbar select { width:100%; min-width:0; } .toolbar {flex-direction:column; align-items:stretch;} .table thead {display:none;} .table tbody tr{ box-shadow:none;} }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -172,7 +177,7 @@
                                     </td>
                                     <td class="px-3 py-2">
                                         <div class="flex items-center gap-2">
-                                            <a href="{{ url('/admin/bookings/'.$booking->id) }}" class="inline-flex items-center justify-center w-9 h-9 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg hover:shadow-lg transition-all" title="Lihat Detail" aria-label="Lihat Detail">
+                                            <a href="{{ url('/admin/bookings/'.$booking->id) }}" class="action-icon" title="Lihat Detail" aria-label="Lihat Detail">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </div>
