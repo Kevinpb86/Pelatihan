@@ -185,6 +185,8 @@ Sistem ini juga memberikan kontrol penuh kepada admin untuk mengelola loker, pen
 
 ### 5.1 Entity Relationship Diagram (Konseptual)
 
+**Catatan:** Diagram ERD berikut hanya menampilkan tabel-tabel bisnis (business entities). Tabel sistem internal Laravel seperti `migrations`, `sessions`, dan `password_reset_tokens` tidak ditampilkan karena bukan bagian dari domain model bisnis.
+
 ```
 ┌──────────────┐         ┌──────────────┐         ┌──────────────┐
 │     User     │         │    Booking   │         │     Unit     │
@@ -286,7 +288,17 @@ Sistem ini juga memberikan kontrol penuh kepada admin untuk mengelola loker, pen
 **Relationships:**
 - `belongsTo(Booking)` - Setiap denda terkait dengan satu booking
 
-### 5.3 Indexing & Performance
+### 5.3 Tabel Sistem (Tidak Ditampilkan di ERD)
+
+**Tabel-tabel berikut merupakan tabel sistem internal Laravel dan tidak termasuk dalam ERD bisnis:**
+
+- **`migrations`** - Tracking migrasi database (internal Laravel)
+- **`sessions`** - Menyimpan data sesi pengguna (terhubung ke `users` via `user_id`, nullable untuk guest)
+- **`password_reset_tokens`** - Token untuk reset password (terhubung ke `users` via `email`)
+
+**Catatan:** Tabel-tabel ini tetap ada di database dan diperlukan oleh framework, namun tidak ditampilkan dalam diagram ERD karena bukan bagian dari domain model bisnis.
+
+### 5.4 Indexing & Performance
 - Primary keys di semua tabel
 - Foreign keys dengan CASCADE delete
 - Unique constraint pada `users.email` dan `units.code`

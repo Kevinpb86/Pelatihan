@@ -436,10 +436,6 @@
                                             <i class="fas fa-list mr-2"></i>
                                             Lihat Pemesanan
                                         </a>
-                                        <a href="#" class="w-full btn-gradient flex items-center justify-center px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-medium hover:shadow-lg transition-all duration-300">
-                                            <i class="fas fa-file-export mr-2"></i>
-                                            Export Laporan
-                                        </a>
                                     </div>
                                 </div>
                             </div>
