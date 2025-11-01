@@ -51,6 +51,9 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Relasi one-to-many dengan bookings
+     */
     public function bookings(){
         return $this->hasMany(Booking::class);
     }

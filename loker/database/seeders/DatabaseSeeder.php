@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Unit;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,14 +21,32 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Admin
-        User::updateOrCreate(
-            ['email' => 'admin@locker.com'],
-            [
+        // Menggunakan DB::table() untuk bypass model casting 'hashed'
+        // karena jika menggunakan model dengan Hash::make(), password akan di-hash dua kali
+        $adminExists = DB::table('users')->where('email', 'admin@locker.com')->exists();
+        
+        if ($adminExists) {
+            // Update password yang sudah di-hash dengan benar
+            DB::table('users')
+                ->where('email', 'admin@locker.com')
+                ->update([
+                    'name' => 'Admin',
+                    'password' => Hash::make('admin123'), // Hash sekali saja
+                    'role' => 'admin',
+                    'updated_at' => now(),
+                ]);
+        } else {
+            // Insert baru dengan password yang sudah di-hash
+            DB::table('users')->insert([
                 'name' => 'Admin',
-                'password' => Hash::make('admin123'),
-                'role' => 'admin'
-            ]
-        );
+                'email' => 'admin@locker.com',
+                'password' => Hash::make('admin123'), // Hash sekali saja
+                'role' => 'admin',
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
 
         // Kategori
         $categories = ['Kecil', 'Sedang', 'Besar'];

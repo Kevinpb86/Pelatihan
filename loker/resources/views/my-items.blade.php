@@ -461,10 +461,12 @@
                                         <i class="fas fa-circle text-xs"></i>
                                         {{ $item['status'] }}
                                     </span>
+                                    @if(isset($item['duration']) && $item['duration'])
                                     <span class="status-badge status-expiring ml-2">
                                         <i class="fas fa-clock text-xs"></i>
-                                        Durasi: 3 hari
+                                        Durasi: {{ $item['duration'] }}
                                     </span>
+                                    @endif
                                 </div>
 
                                 <div class="mb-4 pt-4 border-t border-gray-200">

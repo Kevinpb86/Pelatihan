@@ -15,7 +15,9 @@ class Fine extends Model
         'paid',
     ];
 
-    // Relasi ke Booking
+    /**
+     * Relasi many-to-one dengan booking
+     */
     public function booking()
     {
         return $this->belongsTo(Booking::class);

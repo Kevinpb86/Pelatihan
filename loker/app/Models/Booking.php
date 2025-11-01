@@ -33,7 +33,19 @@ class Booking extends Model
         return $this->belongsTo(Unit::class);
     }
 
+    /**
+     * Relasi one-to-one dengan fine
+     * Catatan: Jika satu booking bisa memiliki banyak fine, ubah ke hasMany
+     */
     public function fine(){
         return $this->hasOne(Fine::class);
     }
+
+    /**
+     * Alternatif: Relasi one-to-many dengan fines (jika booking bisa punya banyak fine)
+     * Uncomment jika diperlukan:
+     */
+    // public function fines(){
+    //     return $this->hasMany(Fine::class);
+    // }
 }

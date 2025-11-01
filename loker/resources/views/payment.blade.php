@@ -129,41 +129,31 @@
 
                     <div class="card rounded-2xl shadow-xl p-6">
                         <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center"><i class="fas fa-wallet mr-3 text-purple-600"></i> Metode Pembayaran</h3>
-                        <div class="grid grid-cols-2 gap-3" id="method-list">
-                            <div class="method active" data-method="qr"><i class="fas fa-qrcode text-purple-600"></i><span>QRIS</span></div>
-                            <div class="method" data-method="bank"><i class="fas fa-university text-blue-600"></i><span>Transfer Bank</span></div>
-                            <div class="method" data-method="dana">
-                                <svg viewBox="0 0 512 512" aria-hidden="true"><circle cx="256" cy="256" r="256" fill="#2aa7df"/><path fill="#fff" d="M256 152c-57.4 0-104 46.6-104 104s46.6 104 104 104 104-46.6 104-104S313.4 152 256 152zm0 56c26.5 0 48 21.5 48 48s-21.5 48-48 48-48-21.5-48-48 21.5-48 48-48z"/></svg>
-                                <span>DANA</span>
-                            </div>
-                            <div class="method" data-method="ovo">
-                                <svg viewBox="0 0 512 512" aria-hidden="true"><circle cx="256" cy="256" r="256" fill="#5f3dc4"/><path fill="#fff" d="M256 156c-55.2 0-100 44.8-100 100s44.8 100 100 100 100-44.8 100-100-44.8-100-100-100zm0 56c24.3 0 44 19.7 44 44s-19.7 44-44 44-44-19.7-44-44 19.7-44 44-44z"/></svg>
-                                <span>OVO</span>
-                            </div>
-                            <div class="method" data-method="gopay">
-                                <svg viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="256" fill="#00a6a0"/><path fill="#fff" d="M256 168c-48.6 0-88 39.4-88 88s39.4 88 88 88 88-39.4 88-88-39.4-88-88-88zm0 44c24.3 0 44 19.7 44 44s-19.7 44-44 44-44-19.7-44-44 19.7-44 44-44z"/></svg>
-                                <span>GoPay</span>
+                        <div class="space-y-3" id="method-list">
+                            <div class="method active" data-method="cash">
+                                <i class="fas fa-money-bill-wave text-green-600"></i>
+                                <span>Cash / Tunai</span>
                             </div>
                         </div>
 
                         <div class="mt-5 space-y-4" id="method-detail">
-                            <div id="qr-section" class="qr-box">
-                                <div class="w-40 h-40 bg-white rounded-md flex items-center justify-center">
-                                    <i class="fas fa-qrcode text-5xl text-gray-700"></i>
+                            <div id="cash-section" class="bg-green-50 border-2 border-green-200 rounded-xl p-6">
+                                <div class="flex items-center justify-center mb-4">
+                                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-money-bill-wave text-4xl text-green-600"></i>
+                                    </div>
                                 </div>
-                                <p class="text-sm text-gray-600 text-center">Scan QR untuk membayar total Rp {{ number_format($totalPrice,0,',','.') }}</p>
-                            </div>
-                            <div id="bank-section" class="hidden">
-                                <div class="bg-white rounded-xl p-4 border border-gray-200">
-                                    <p class="text-sm text-gray-600">Transfer ke rekening:</p>
-                                    <p class="font-semibold mt-1">BCA 1234567890 a.n LokerHub</p>
-                                    <p class="text-xs text-gray-500 mt-2">Nominal: Rp {{ number_format($totalPrice,0,',','.') }}</p>
-                                </div>
-                            </div>
-                            <div id="e-wallet-section" class="hidden">
-                                <div class="bg-white rounded-xl p-4 border border-gray-200">
-                                    <p class="text-sm text-gray-600">Gunakan aplikasi e-wallet pilihan Anda, masukkan nominal:</p>
-                                    <p class="font-semibold mt-1">Rp {{ number_format($totalPrice,0,',','.') }}</p>
+                                <div class="text-center">
+                                    <p class="text-lg font-semibold text-gray-800 mb-2">Pembayaran Tunai</p>
+                                    <p class="text-sm text-gray-600 mb-4">Silakan bayar secara tunai saat mengambil barang atau saat mengembalikan barang.</p>
+                                    <div class="bg-white rounded-lg p-4 border border-green-200">
+                                        <p class="text-xs text-gray-500 mb-1">Total yang harus dibayar:</p>
+                                        <p class="text-2xl font-bold text-green-600">Rp {{ number_format($totalPrice,0,',','.') }}</p>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-4">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        Pembayaran dilakukan secara tunai langsung di lokasi
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -175,10 +165,10 @@
                             <input type="hidden" name="item_category" value="{{ session('item_category') ?? $item_category }}">
                             <input type="hidden" name="duration_hours" value="{{ $durationHours }}">
                             <input type="hidden" name="total_price" value="{{ $totalPrice }}">
-                            <input type="hidden" name="payment_method" id="payment_method" value="qr">
+                            <input type="hidden" name="payment_method" id="payment_method" value="cash">
                             <button type="submit" class="w-full btn-primary justify-center text-white">
                                 <i class="fas fa-check-circle"></i>
-                                Bayar & Titip Sekarang
+                                Lanjutkan & Titip Sekarang
                             </button>
                             <a href="{{ route('store-item') }}" class="mt-3 w-full inline-flex justify-center px-4 py-3 rounded-xl border border-gray-300 text-gray-700 font-medium">Kembali</a>
                         </form>
@@ -192,24 +182,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function(){
-            const methods = document.querySelectorAll('.method');
+            // Cash only - no need for method switching
             const input = document.getElementById('payment_method');
-            const qr = document.getElementById('qr-section');
-            const bank = document.getElementById('bank-section');
-            const ew = document.getElementById('e-wallet-section');
-            function show(section){
-                [qr, bank, ew].forEach(s=> s.classList.add('hidden'));
-                section.classList.remove('hidden');
-            }
-            methods.forEach(m => m.addEventListener('click', function(){
-                methods.forEach(x=>x.classList.remove('active'));
-                this.classList.add('active');
-                const v = this.getAttribute('data-method');
-                input.value = v;
-                if(v==='qr'){ show(qr); }
-                else if(v==='bank'){ show(bank); }
-                else { show(ew); }
-            }));
+            input.value = 'cash';
         });
 
         function copyText(selector){

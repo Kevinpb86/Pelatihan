@@ -70,6 +70,24 @@ class ItemController extends Controller
             ->get();
 
         $items = $bookings->map(function ($booking) {
+            // Hitung durasi dari start_time dan end_time
+            $durationText = '';
+            if ($booking->start_time && $booking->end_time) {
+                $hours = $booking->start_time->diffInHours($booking->end_time);
+                $days = $booking->start_time->diffInDays($booking->end_time);
+                
+                if ($hours < 24) {
+                    $durationText = $hours . ' jam';
+                } else {
+                    $durationText = $days . ' hari';
+                    // Jika lebih dari 1 hari, tampilkan juga jam jika ada sisa
+                    $remainingHours = $hours % 24;
+                    if ($remainingHours > 0) {
+                        $durationText .= ' ' . $remainingHours . ' jam';
+                    }
+                }
+            }
+            
             return [
                 'id' => $booking->id,
                 'name' => $booking->unit->name ?? 'Barang',
@@ -80,6 +98,7 @@ class ItemController extends Controller
                 'start_time' => $booking->start_time,
                 'end_time' => $booking->end_time,
                 'total_price' => $booking->total_price,
+                'duration' => $durationText,
                 'booking' => $booking,
             ];
         })->toArray();
@@ -198,7 +217,7 @@ class ItemController extends Controller
             'item_name' => 'required|string|max:255',
             'item_category' => 'required|string',
             'duration_hours' => 'required|integer|min:1',
-            'payment_method' => 'required|in:qr,bank,dana,ovo,gopay',
+            'payment_method' => 'required|in:cash',
             'total_price' => 'required|numeric|min:0',
         ]);
 
@@ -238,7 +257,7 @@ class ItemController extends Controller
         $unit->update(['status' => 'booked']);
 
         return redirect()->to(url('/my-items'))
-            ->with('success', 'Pembayaran berhasil! Barang berhasil disimpan di loker ' . $unit->code . '.');
+            ->with('success', 'Pemesanan berhasil! Barang berhasil disimpan di loker ' . $unit->code . '. Silakan lakukan pembayaran tunai saat mengambil atau mengembalikan barang.');
     }
 
     public function payFine($id)

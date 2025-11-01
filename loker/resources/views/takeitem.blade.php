@@ -528,22 +528,37 @@
             const elBatas = document.getElementById('batas-waktu');
             const elBatasRel = document.getElementById('batas-relatif');
             if (!elTime || !elRel || !elBatas || !elBatasRel) return;
-            // anchor start from server time if available, fallback to now
-            const serverStartIso = @json(optional($booking->start_time)->timezone('Asia/Jakarta')->toIso8601String());
-            const serverEndIso = @json(optional($booking->end_time)->timezone('Asia/Jakarta')->toIso8601String());
-            const start = new Date(Date.parse(serverStartIso || new Date().toISOString()));
-            let endAt;
-            if (serverEndIso) {
-                endAt = new Date(Date.parse(serverEndIso));
-            } else if (serverStartIso) {
-                endAt = new Date(Date.parse(serverStartIso) + 60 * 60 * 1000); // +1 jam
-            } else {
-                endAt = new Date(Date.now() + 60 * 60 * 1000);
+            
+            // Ambil waktu dari server dalam format yang benar (timezone Asia/Jakarta)
+            @php
+                $startTimeJakarta = $booking->start_time ? $booking->start_time->timezone('Asia/Jakarta') : null;
+                $endTimeJakarta = $booking->end_time ? $booking->end_time->timezone('Asia/Jakarta') : null;
+            @endphp
+            
+            // Format waktu untuk ditampilkan langsung (format: 01 Nov 2025 15:28)
+            const waktuTitipDisplay = @json($startTimeJakarta ? $startTimeJakarta->format('d M Y H:i') : '');
+            const serverStartTime = @json($startTimeJakarta ? $startTimeJakarta->timestamp * 1000 : null); // dalam millisecond
+            const serverEndTime = @json($endTimeJakarta ? $endTimeJakarta->timestamp * 1000 : null);
+            
+            let durationHours = 1; // default 1 jam
+            
+            // Hitung durasi dari booking (dalam jam)
+            if (serverStartTime && serverEndTime) {
+                durationHours = (serverEndTime - serverStartTime) / (1000 * 60 * 60);
             }
+            
+            // Buat Date object dari timestamp
+            const initialStart = serverStartTime ? new Date(serverStartTime) : new Date();
+            
             function tick() {
                 const now = new Date();
+                // "Waktu Titip" = waktu real-time sekarang (terus update)
                 elTime.textContent = formatJakarta(now);
-                elRel.textContent = relativeFrom(start);
+                elRel.textContent = relativeFrom(initialStart);
+                
+                // "Batas Waktu" = waktu sekarang + durasi yang dipilih
+                // Ini memastikan batas waktu selalu dihitung dari waktu real-time sekarang
+                const endAt = new Date(now.getTime() + (durationHours * 60 * 60 * 1000));
                 elBatas.textContent = formatJakarta(endAt);
                 elBatasRel.textContent = relativeToTarget(endAt);
             }
