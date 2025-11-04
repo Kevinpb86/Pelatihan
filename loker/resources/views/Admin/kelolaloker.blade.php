@@ -381,7 +381,6 @@
                                     <tr>
                                         <th class="px-3 py-2 text-left">Kode</th>
                                         <th class="px-3 py-2 text-left">Nama</th>
-                                        <th class="px-3 py-2 text-left">Lokasi</th>
                                         <th class="px-3 py-2 text-left">Harga/Jam</th>
                                         <th class="px-3 py-2 text-left">Status</th>
                                         <th class="px-3 py-2 text-left">Aksi</th>
@@ -396,13 +395,10 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <input name="name" value="{{ $unit->name }}" class="px-2 py-1 border rounded-md w-44" />
-                                                <input name="location" value="{{ $unit->location }}" class="px-2 py-1 border rounded-md w-40" placeholder="Lokasi" />
                                                 <input name="price_per_hour" type="number" min="0" value="{{ $unit->price_per_hour }}" class="px-2 py-1 border rounded-md w-28" placeholder="Harga" />
                                                 <button type="submit" class="btn-save"><i class="fas fa-save mr-1"></i> Simpan</button>
                                             </form>
                                         </td>
-                                        <td class="px-3 py-2 hidden lg:table-cell"></td>
-                                        <td class="px-3 py-2 hidden lg:table-cell"></td>
                                         <td class="px-3 py-2">
                                             <span class="badge badge-{{ $unit->status }}">{{ ucfirst($unit->status) }}</span>
                                         </td>
@@ -438,7 +434,7 @@
                                         </td>
                                     </tr>
                                 @empty
-                                    <tr><td colspan="6" class="px-3 py-6 text-center text-gray-500">Belum ada loker</td></tr>
+                                    <tr><td colspan="5" class="px-3 py-6 text-center text-gray-500">Belum ada loker</td></tr>
                                 @endforelse
                                 </tbody>
                             </table>
@@ -456,10 +452,6 @@
                             <div>
                                 <label class="text-sm text-gray-700">Nama</label>
                                 <input name="name" class="w-full px-3 py-2 border rounded-lg" placeholder="Nama loker" required />
-                            </div>
-                            <div>
-                                <label class="text-sm text-gray-700">Lokasi</label>
-                                <input name="location" class="w-full px-3 py-2 border rounded-lg" placeholder="Lokasi (opsional)" />
                             </div>
                             <div>
                                 <label class="text-sm text-gray-700">Harga per Jam</label>
