@@ -23,27 +23,27 @@
     <!-- Background Pattern -->
     <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40"></div>
     
-    <div class="relative min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md w-full space-y-8">
+    <div class="relative min-h-screen flex items-center justify-center py-4 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-6">
             <!-- Header -->
             <div class="text-center">
                 <!-- Logo -->
-                <div class="mx-auto h-20 w-20 bg-gradient-to-br from-green-600 via-emerald-600 to-teal-600 rounded-2xl flex items-center justify-center shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-300">
-                    <svg class="h-10 w-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <div class="mx-auto h-16 w-16 bg-gradient-to-br from-green-600 via-emerald-600 to-teal-600 rounded-2xl flex items-center justify-center shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-300">
+                    <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
                     </svg>
                 </div>
                 
-                <h2 class="mt-8 text-4xl font-bold text-gray-900 tracking-tight">
+                <h2 class="mt-6 text-3xl font-bold text-gray-900 tracking-tight">
                     Buat Akun Baru
                 </h2>
-                <p class="mt-3 text-lg text-gray-600">
+                <p class="mt-2 text-base text-gray-600">
                     Daftar untuk memulai perjalanan Anda
                 </p>
             </div>
 
             <!-- Register Form -->
-            <div class="bg-white/80 backdrop-blur-sm py-10 px-8 shadow-2xl rounded-3xl border border-white/20">
+            <div class="bg-white/80 backdrop-blur-sm py-6 px-6 shadow-2xl rounded-3xl border border-white/20">
                 <form class="space-y-6" method="POST" action="{{ route('register') }}">
                     @csrf
                     
@@ -65,7 +65,7 @@
                                 autocomplete="name" 
                                 required 
                                 value="{{ old('name') }}"
-                                class="block w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-500/20 focus:border-green-500 transition-all duration-200 bg-gray-50/50 hover:bg-white @error('name') border-red-400 focus:border-red-500 focus:ring-red-500/20 @enderror"
+                                class="block w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-500/20 focus:border-green-500 transition-all duration-200 bg-gray-50/50 hover:bg-white @error('name') border-red-400 focus:border-red-500 focus:ring-red-500/20 @enderror"
                                 placeholder="Masukkan nama lengkap Anda"
                             >
                         </div>
@@ -92,7 +92,7 @@
                                 autocomplete="email" 
                                 required 
                                 value="{{ old('email') }}"
-                                class="block w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-500/20 focus:border-green-500 transition-all duration-200 bg-gray-50/50 hover:bg-white @error('email') border-red-400 focus:border-red-500 focus:ring-red-500/20 @enderror"
+                                class="block w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-500/20 focus:border-green-500 transition-all duration-200 bg-gray-50/50 hover:bg-white @error('email') border-red-400 focus:border-red-500 focus:ring-red-500/20 @enderror"
                                 placeholder="Masukkan email Anda"
                             >
                         </div>
@@ -118,7 +118,7 @@
                                 type="password" 
                                 autocomplete="new-password" 
                                 required 
-                                class="block w-full pl-12 pr-14 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-500/20 focus:border-green-500 transition-all duration-200 bg-gray-50/50 hover:bg-white @error('password') border-red-400 focus:border-red-500 focus:ring-red-500/20 @enderror"
+                                class="block w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-500/20 focus:border-green-500 transition-all duration-200 bg-gray-50/50 hover:bg-white @error('password') border-red-400 focus:border-red-500 focus:ring-red-500/20 @enderror"
                                 placeholder="Masukkan password Anda"
                             >
                             <button 
@@ -157,7 +157,7 @@
                                 type="password" 
                                 autocomplete="new-password" 
                                 required 
-                                class="block w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-500/20 focus:border-green-500 transition-all duration-200 bg-gray-50/50 hover:bg-white"
+                                class="block w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-500/20 focus:border-green-500 transition-all duration-200 bg-gray-50/50 hover:bg-white"
                                 placeholder="Ulangi password Anda"
                             >
                         </div>
@@ -192,7 +192,7 @@
                     <div>
                         <button 
                             type="submit" 
-                            class="group relative w-full flex justify-center py-4 px-6 border border-transparent text-base font-semibold rounded-xl text-white bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 hover:from-green-700 hover:via-emerald-700 hover:to-teal-700 focus:outline-none focus:ring-4 focus:ring-green-500/20 transition-all duration-200 transform hover:scale-[1.02] hover:shadow-xl shadow-lg"
+                            class="group relative w-full flex justify-center py-3 px-5 border border-transparent text-base font-semibold rounded-xl text-white bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 hover:from-green-700 hover:via-emerald-700 hover:to-teal-700 focus:outline-none focus:ring-4 focus:ring-green-500/20 transition-all duration-200 transform hover:scale-[1.02] hover:shadow-xl shadow-lg"
                         >
                             <span class="absolute left-0 inset-y-0 flex items-center pl-6">
                                 <svg class="h-5 w-5 text-green-200 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20">
@@ -204,7 +204,7 @@
                     </div>
 
                     <!-- Login Link -->
-                    <div class="text-center pt-4">
+                    <div class="text-center pt-2">
                         <p class="text-sm text-gray-600">
                             Sudah punya akun? 
                             <a href="{{ route('login') }}" class="font-semibold text-green-600 hover:text-green-500 transition-colors">

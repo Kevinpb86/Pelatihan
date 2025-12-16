@@ -24,9 +24,14 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+            
+            // Redirect based on role
+            if (Auth::user()->role === 'admin') {
+                return redirect()->intended(route('admin.dashboard'));
+            }
+            
+            return redirect()->intended(route('dashboard'));
         }
-
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
@@ -50,12 +55,14 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 'user', // supaya pas user daftar bakal otomatis jadi role user
             'email_verified_at' => now(),
         ]);
 
         Auth::login($user);
 
-        return redirect('/dashboard')->with('success', 'Akun berhasil dibuat! Selamat datang!');
+        return redirect()->route('dashboard')
+            ->with('success', 'Akun berhasil dibuat! Selamat datang!');
     }
 
     public function showSettings()

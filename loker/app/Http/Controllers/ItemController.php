@@ -2,21 +2,267 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
+use App\Models\Unit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ItemController extends Controller
 {
+    public function showStoreItem()
+    {
+        // Ambil semua unit dan status real-time
+        $units = Unit::with(['bookings' => function ($query) {
+            $query->where('status', 'active');
+        }])->get();
+
+        $lockers = $units->map(function ($unit) {
+            $hasActiveBooking = $unit->bookings->where('status', 'active')->isNotEmpty();
+
+            if ($hasActiveBooking) {
+                $status = 'occupied';
+                $statusText = 'Terisi';
+                $statusTextEn = 'Occupied';
+                $icon = 'fa-lock';
+                $class = 'locker-occupied';
+            } elseif ($unit->status === 'overdue') {
+                $status = 'maintenance';
+                $statusText = 'Maintenance';
+                $statusTextEn = 'Maintenance';
+                $icon = 'fa-tools';
+                $class = 'locker-maintenance';
+            } elseif ($unit->status === 'booked') {
+                $status = 'reserved';
+                $statusText = 'Reserved';
+                $statusTextEn = 'Reserved';
+                $icon = 'fa-clock';
+                $class = 'locker-reserved';
+            } else {
+                $status = 'available';
+                $statusText = 'Kosong';
+                $statusTextEn = 'Available';
+                $icon = 'fa-unlock';
+                $class = 'locker-available';
+            }
+
+            return [
+                'id' => $unit->id,
+                'code' => $unit->code,
+                'name' => $unit->name,
+                'status' => $status,
+                'statusText' => $statusText,
+                'statusTextEn' => $statusTextEn,
+                'icon' => $icon,
+                'class' => $class,
+            ];
+        });
+
+        return view('store-item', compact('lockers'));
+    }
+
     public function index()
     {
-        // contoh data sementara — sesuaikan dengan model/DB Anda
-        $items = [
-            ['name' => 'Helm Motor', 'locker' => 'A-15', 'updated' => '2 jam lalu', 'status' => 'Terisi', 'icon' => 'fas fa-helmet-safety'],
-            ['name' => 'Tas Laptop', 'locker' => 'B-08', 'updated' => '5 jam lalu', 'status' => 'Terisi', 'icon' => 'fas fa-briefcase'],
-            ['name' => 'Tas Belanja', 'locker' => 'C-12', 'updated' => '1 hari lalu', 'status' => 'Terisi', 'icon' => 'fas fa-shopping-bag'],
-        ];
+        $bookings = Booking::with('unit')
+            ->where('user_id', Auth::id())
+            ->where('status', 'active')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        // jika nanti ada relasi: $items = auth()->user()->items()->latest()->get();
+        $items = $bookings->map(function ($booking) {
+            return [
+                'id' => $booking->id,
+                'name' => $booking->unit->name ?? 'Barang',
+                'locker' => $booking->unit->code ?? 'N/A',
+                'updated' => $booking->updated_at->diffForHumans(),
+                'status' => $booking->status === 'active' ? 'Terisi' : 'Kosong',
+                'icon' => 'fas fa-box',
+                'start_time' => $booking->start_time,
+                'end_time' => $booking->end_time,
+                'total_price' => $booking->total_price,
+                'booking' => $booking,
+            ];
+        })->toArray();
 
         return view('my-items', compact('items'));
     }
+
+    public function show($id)
+    {
+        $booking = Booking::with(['unit', 'fine'])
+            ->where('user_id', Auth::id())
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $now = now();
+
+        // Cek apakah waktu sekarang sudah melewati end_time dan belum ada fine
+        if ($now->gt($booking->end_time) && !$booking->fine) {
+            $hoursLate = $booking->end_time->diffInHours($now);
+            $fineAmount = $hoursLate * 5000; // contoh: 5000 per jam keterlambatan
+
+            $booking->fine()->create([
+                'amount' => $fineAmount,
+                'paid' => false,
+            ]);
+
+            // Reload relasi biar fine langsung muncul di view
+            $booking->load('fine');
+        }
+
+        return view('takeitem', compact('booking'));
+    }
+
+
+    public function retrieve(Request $request, $id)
+    {
+        $booking = Booking::with('unit')
+            ->where('user_id', Auth::id())
+            ->where('id', $id)
+            ->where('status', 'active')
+            ->firstOrFail();
+
+        $now = Carbon::now();
+
+        // 🕒 Cek keterlambatan
+        if ($now->gt($booking->end_time)) {
+            $hoursLate = $booking->end_time->diffInHours($now);
+            $fineAmount = $hoursLate * 5000;
+
+            // Simpan ke tabel fines
+            \App\Models\Fine::create([
+                'booking_id' => $booking->id,
+                'amount' => $fineAmount,
+            ]);
+
+            // Update status
+            $booking->update(['status' => 'overdue']);
+            $booking->unit->update(['status' => 'available']);
+
+            return redirect()->route('items.index')
+                ->with('error', "Anda terlambat $hoursLate jam. Denda Rp " . number_format($fineAmount, 0, ',', '.') . " telah ditambahkan.");
+        }
+
+        // Jika tidak terlambat
+        $booking->update(['status' => 'completed']);
+        $booking->unit->update(['status' => 'available']);
+
+        return redirect()->route('items.index')->with('success', $message);
+    }
+
+    public function showPayment(Request $request)
+    {
+        $request->validate([
+            'unit_code' => 'required|exists:units,code',
+            'item_name' => 'required|string|max:255',
+            'item_category' => 'required|string',
+            'duration_hours' => 'required|integer|min:1',
+        ]);
+
+        $unit = Unit::where('code', $request->unit_code)->firstOrFail();
+
+        $hasActiveBooking = Booking::where('unit_id', $unit->id)
+            ->where('status', 'active')
+            ->exists();
+
+        if ($hasActiveBooking) {
+            return redirect()->route('store-item')
+                ->with('error', 'Loker yang dipilih tidak tersedia.');
+        }
+
+        $durationHours = (int)$request->duration_hours;
+        $firstHourPrice = 2000;
+        $additionalHourPrice = 5000;
+
+        $totalPrice = $durationHours == 1
+            ? $firstHourPrice
+            : $firstHourPrice + (($durationHours - 1) * $additionalHourPrice);
+
+        $startTime = Carbon::now();
+        $endTime = Carbon::now()->addHours($durationHours);
+
+        return view('payment', compact(
+            'unit',
+            'totalPrice',
+            'durationHours',
+            'startTime',
+            'endTime'
+        ))->with([
+            'item_name' => $request->item_name,
+            'item_category' => $request->item_category,
+        ]);
+    }
+
+    public function processPayment(Request $request)
+    {
+        $request->validate([
+            'unit_id' => 'required|exists:units,id',
+            'item_name' => 'required|string|max:255',
+            'item_category' => 'required|string',
+            'duration_hours' => 'required|integer|min:1',
+            'payment_method' => 'required|in:qr,bank,dana,ovo,gopay',
+            'total_price' => 'required|numeric|min:0',
+        ]);
+
+        $unit = Unit::findOrFail($request->unit_id);
+
+        $hasActiveBooking = Booking::where('unit_id', $unit->id)
+            ->where('status', 'active')
+            ->exists();
+
+        if ($hasActiveBooking) {
+            return redirect()->route('store-item')
+                ->with('error', 'Loker yang dipilih tidak tersedia.');
+        }
+
+        $durationHours = (int)$request->duration_hours;
+        $firstHourPrice = 2000;
+        $additionalHourPrice = 5000;
+
+        $totalPrice = $durationHours == 1
+            ? $firstHourPrice
+            : $firstHourPrice + (($durationHours - 1) * $additionalHourPrice);
+
+        if (abs($totalPrice - $request->total_price) > 0.01) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan pada harga. Silakan coba lagi.');
+        }
+
+        $startTime = Carbon::now();
+        $endTime = Carbon::now()->addHours($durationHours);
+
+        Booking::create([
+            'user_id' => Auth::id(),
+            'unit_id' => $unit->id,
+            'start_time' => $startTime,
+            'end_time' => $endTime,
+            'total_price' => $totalPrice,
+            'status' => 'active',
+        ]);
+
+        $unit->update(['status' => 'booked']);
+
+        return redirect()->route('items.index')
+            ->with('success', 'Pembayaran berhasil! Barang berhasil disimpan di loker ' . $unit->code . '.');
+    }
+
+    public function payFine($id)
+    {
+        $booking = Booking::with('fine')
+            ->where('user_id', Auth::id())
+            ->where('id', $id)
+            ->firstOrFail();
+
+        if (!$booking->fine) {
+            return back()->with('error', 'Tidak ada denda untuk booking ini.');
+        }
+
+        // Update status fine menjadi dibayar
+        $booking->fine->update([
+            'paid' => true,
+        ]);
+
+        return back()->with('success', 'Denda berhasil dibayar. Anda sekarang bisa mengambil barang.');
+    }
+
 }

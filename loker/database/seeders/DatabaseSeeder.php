@@ -20,32 +20,40 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Admin
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@locker.com',
-            'password' => Hash::make('admin123'),
-            'role' => 'admin'
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin@locker.com'],
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('admin123'),
+                'role' => 'admin'
+            ]
+        );
 
         // Kategori
         $categories = ['Kecil', 'Sedang', 'Besar'];
         foreach ($categories as $cat) {
-            Category::create(['name' => $cat]);
+            Category::updateOrCreate(['name' => $cat]);
         }
 
-        // Unit
-        Unit::create([
-            'code' => 'LK001',
-            'name' => 'Loker Kecil 1',
-            'location' => 'Gedung A',
-            'price_per_day' => 5000
-        ]);
+        // Unit - Menambahkan 10 loker
+        $units = [
+            ['code' => 'A1', 'name' => 'Loker A1', 'location' => 'Gedung A', 'price_per_hour' => 5000],
+            ['code' => 'A2', 'name' => 'Loker A2', 'location' => 'Gedung A', 'price_per_hour' => 5000],
+            ['code' => 'A3', 'name' => 'Loker A3', 'location' => 'Gedung A', 'price_per_hour' => 5000],
+            ['code' => 'B1', 'name' => 'Loker B1', 'location' => 'Gedung A', 'price_per_hour' => 6000],
+            ['code' => 'B2', 'name' => 'Loker B2', 'location' => 'Gedung A', 'price_per_hour' => 6000],
+            ['code' => 'B3', 'name' => 'Loker B3', 'location' => 'Gedung A', 'price_per_hour' => 6000],
+            ['code' => 'C1', 'name' => 'Loker C1', 'location' => 'Gedung A', 'price_per_hour' => 7000],
+            ['code' => 'C2', 'name' => 'Loker C2', 'location' => 'Gedung A', 'price_per_hour' => 7000],
+            ['code' => 'C3', 'name' => 'Loker C3', 'location' => 'Gedung A', 'price_per_hour' => 7000],
+            ['code' => 'C4', 'name' => 'Loker C4', 'location' => 'Gedung A', 'price_per_hour' => 8000],
+        ];
 
-        Unit::create([
-            'code' => 'LK002',
-            'name' => 'Loker Sedang 1',
-            'location' => 'Gedung A',
-            'price_per_day' => 8000
-        ]);
+        foreach ($units as $unitData) {
+            Unit::updateOrCreate(
+                ['code' => $unitData['code']],
+                $unitData
+            );
+        }
     }
 }

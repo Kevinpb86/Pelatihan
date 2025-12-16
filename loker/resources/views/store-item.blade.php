@@ -370,6 +370,82 @@
         .dark-theme .step-line.completed {
             background: #10b981 !important;
         }
+
+        /* Enhanced Visual Effects */
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            from { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
+            to { box-shadow: 0 0 30px rgba(102, 126, 234, 0.6); }
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.6s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .form-card:hover::before {
+            left: 100%;
+        }
+
+        .icon-hover-scale {
+            transition: transform 0.3s ease;
+        }
+
+        .icon-hover-scale:hover {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .input-focus-effect:focus {
+            animation: inputPulse 0.5s ease-out;
+        }
+
+        @keyframes inputPulse {
+            0% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7); }
+            100% { box-shadow: 0 0 0 8px rgba(102, 126, 234, 0); }
+        }
         
         /* Language Styles */
         .lang-id {
@@ -429,25 +505,15 @@
                         <span class="lang-id">Dashboard</span>
                         <span class="lang-en">Dashboard</span>
                     </a>
-                    <a href="#" class="nav-item active flex items-center px-4 py-3 text-sm font-medium text-white bg-white/20 backdrop-blur-sm rounded-xl">
-                        <i class="fas fa-box w-5 h-5 mr-3"></i>
-                        <span class="lang-id">Titip Barang</span>
-                        <span class="lang-en">Store Item</span>
-                    </a>
-                    <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
+                    <a href="{{ route('items.index') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-box w-5 h-5 mr-3"></i>
                         <span class="lang-id">Barang Saya</span>
                         <span class="lang-en">My Items</span>
                     </a>
-                    <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
-                        <i class="fas fa-map-marker-alt w-5 h-5 mr-3"></i>
-                        <span class="lang-id">Lokasi Loker</span>
-                        <span class="lang-en">Locker Locations</span>
-                    </a>
-                    <a href="#" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
-                        <i class="fas fa-chart-bar w-5 h-5 mr-3"></i>
-                        <span class="lang-id">Statistik</span>
-                        <span class="lang-en">Statistics</span>
+                    <a href="#" class="nav-item active flex items-center px-4 py-3 text-sm font-medium text-white bg-white/20 backdrop-blur-sm rounded-xl">
+                        <i class="fas fa-box w-5 h-5 mr-3"></i>
+                        <span class="lang-id">Titip Barang</span>
+                        <span class="lang-en">Store Item</span>
                     </a>
                     <a href="{{ route('settings') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-cog w-5 h-5 mr-3"></i>
@@ -460,8 +526,11 @@
             <!-- User Info -->
             <div class="absolute bottom-0 w-64 p-6 border-t border-white/20">
                 <div class="flex items-center mb-4">
-                    <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
-                        <span class="text-white text-lg font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                    <div class="relative w-12 h-12 rounded-full overflow-hidden shadow-lg">
+                        <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : '' }}" alt="Avatar" class="w-full h-full object-cover {{ Auth::user()->avatar ? '' : 'hidden' }}">
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center {{ Auth::user()->avatar ? 'hidden' : '' }}">
+                            <span class="text-white text-lg font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                        </div>
                     </div>
                     <div class="ml-3 flex-1">
                         <p class="text-sm font-medium text-white">{{ Auth::user()->name }}</p>
@@ -482,25 +551,37 @@
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Top Bar -->
-            <header class="bg-white/80 backdrop-blur-sm shadow-lg border-b border-gray-200/50">
-                <div class="px-6 py-6">
+            <header class="bg-white/80 backdrop-blur-sm shadow-lg border-b border-gray-200/50 relative overflow-hidden">
+                <!-- Background Pattern -->
+                <div class="absolute inset-0 opacity-5">
+                    <div class="absolute top-0 left-0 w-full h-full" style="background-image: radial-gradient(circle at 25% 25%, #667eea 0%, transparent 50%), radial-gradient(circle at 75% 75%, #764ba2 0%, transparent 50%);"></div>
+                </div>
+                
+                <div class="px-6 py-6 relative z-10">
                     <div class="flex items-center justify-between">
                         <div class="slide-in">
-                            <h2 class="text-3xl font-bold text-gray-800 flex items-center">
-                                <i class="fas fa-box mr-3 text-purple-600"></i>
-                                <span class="lang-id">Titip Barang</span>
-                                <span class="lang-en">Store Item</span>
-                            </h2>
-                            <p class="text-gray-600 mt-1">
-                                <span class="lang-id">Simpan barang Anda dengan aman di loker yang tersedia</span>
-                                <span class="lang-en">Store your items safely in available lockers</span>
-                            </p>
+                            <div class="flex items-center space-x-4">
+                                <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-600 rounded-2xl flex items-center justify-center pulse-glow">
+                                    <i class="fas fa-box text-white text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-3xl font-bold gradient-text flex items-center">
+                                        <span class="lang-id">Titip Barang</span>
+                                        <span class="lang-en">Store Item</span>
+                                    </h2>
+                                    <p class="text-gray-600 mt-1 flex items-center">
+                                        <i class="fas fa-shield-alt mr-2 text-green-500"></i>
+                                        <span class="lang-id">Simpan barang Anda dengan aman di loker yang tersedia</span>
+                                        <span class="lang-en">Store your items safely in available lockers</span>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <a href="{{ route('dashboard') }}" class="flex items-center px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors duration-200">
+                            <a href="{{ route('dashboard') }}" class="flex items-center px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-300 hover:scale-105 text-gray-700 font-medium">
                                 <i class="fas fa-arrow-left mr-2"></i>
-                                <span class="lang-id">Kembali ke Dashboard</span>
-                                <span class="lang-en">Back to Dashboard</span>
+                                <span class="lang-id">Kembali</span>
+                                <span class="lang-en">Back</span>
                             </a>
                         </div>
                     </div>
@@ -566,9 +647,30 @@
                                 </p>
                             </div>
                             <div class="p-6">
+                                @if(isset($lockers) && $lockers->count() > 0)
                                 <div class="locker-grid" id="locker-grid">
-                                    <!-- Locker items will be generated by JavaScript -->
+                                    @foreach($lockers as $locker)
+                                    <div class="locker-item {{ $locker['class'] }}" onclick="selectLocker('{{ $locker['code'] }}')">
+                                        <i class="fas {{ $locker['icon'] }} text-lg mb-1"></i>
+                                        <p class="text-xs font-bold">{{ $locker['code'] }}</p>
+                                        <p class="text-xs">
+                                            <span class="lang-id">{{ $locker['statusText'] }}</span>
+                                            <span class="lang-en">{{ $locker['statusTextEn'] }}</span>
+                                        </p>
+                                    </div>
+                                    @endforeach
                                 </div>
+                                @else
+                                <div class="flex flex-col items-center justify-center py-8">
+                                    <div class="w-16 h-16 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full flex items-center justify-center mb-3">
+                                        <i class="fas fa-lock text-2xl text-gray-400"></i>
+                                    </div>
+                                    <p class="text-sm text-gray-500 text-center">
+                                        <span class="lang-id">Belum ada loker tersedia</span>
+                                        <span class="lang-en">No lockers available</span>
+                                    </p>
+                                </div>
+                                @endif
                                 
                                 <!-- Legend -->
                                 <div class="mt-6 grid grid-cols-2 gap-2 text-xs">
@@ -600,7 +702,7 @@
                     <!-- Item Details Form -->
                     <div class="space-y-6">
                         <!-- Selected Locker Info -->
-                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20" id="selected-locker-info" style="display: none;">
+                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 form-card bounce-in" id="selected-locker-info" style="display: none;">
                             <div class="p-6 border-b border-gray-200/50">
                                 <h3 class="text-xl font-semibold text-gray-800 flex items-center">
                                     <i class="fas fa-info-circle mr-3 text-purple-600"></i>
@@ -623,7 +725,7 @@
                         </div>
 
                         <!-- Item Form -->
-                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20" id="item-form" style="display: none;">
+                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 form-card bounce-in" id="item-form" style="display: none;">
                             <div class="p-6 border-b border-gray-200/50">
                                 <h3 class="text-xl font-semibold text-gray-800 flex items-center">
                                     <i class="fas fa-box mr-3 text-purple-600"></i>
@@ -636,10 +738,11 @@
                                     <div class="space-y-4">
                                         <div>
                                             <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                <i class="fas fa-tag mr-2 text-purple-600"></i>
                                                 <span class="lang-id">Nama Barang</span>
                                                 <span class="lang-en">Item Name</span>
                                             </label>
-                                            <input type="text" id="item-name" class="form-input w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:border-purple-500" placeholder="Masukkan nama barang">
+                                            <input type="text" id="item-name" class="form-input w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:border-purple-500 input-focus-effect" placeholder="Masukkan nama barang">
                                         </div>
 
                                         <div>
@@ -662,24 +765,16 @@
 
                                         <div>
                                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                                <span class="lang-id">Durasi Penyimpanan</span>
-                                                <span class="lang-en">Storage Duration</span>
+                                                <span class="lang-id">Durasi Penyimpanan (per Jam)</span>
+                                                <span class="lang-en">Storage Duration (per Hour)</span>
                                             </label>
                                             <select id="storage-duration" class="form-input w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:border-purple-500">
-                                                <option value="1">1 Hari</option>
-                                                <option value="3">3 Hari</option>
-                                                <option value="7">1 Minggu</option>
-                                                <option value="14">2 Minggu</option>
-                                                <option value="30">1 Bulan</option>
+                                                <option value="1">1 Jam</option>
+                                                <option value="3">3 Jam</option>
+                                                <option value="6">6 Jam</option>
+                                                <option value="12">12 Jam</option>
+                                                <option value="24">24 Jam</option>
                                             </select>
-                                        </div>
-
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                                <span class="lang-id">Deskripsi (Opsional)</span>
-                                                <span class="lang-en">Description (Optional)</span>
-                                            </label>
-                                            <textarea id="item-description" rows="3" class="form-input w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:border-purple-500" placeholder="Deskripsi tambahan..."></textarea>
                                         </div>
 
                                         <div class="pt-4">
@@ -730,23 +825,24 @@
         // Global variables
         let selectedLocker = null;
         let currentStep = 1;
-        let lockerData = {
-            'A1': { status: 'available', item: null, expiry: null },
-            'A2': { status: 'occupied', item: 'Helm Motor', expiry: '2024-01-15' },
-            'A3': { status: 'available', item: null, expiry: null },
-            'B1': { status: 'maintenance', item: null, expiry: null },
-            'B2': { status: 'available', item: null, expiry: null },
-            'B3': { status: 'occupied', item: 'Tas Laptop', expiry: '2024-01-12' },
-            'C1': { status: 'reserved', item: null, expiry: null },
-            'C2': { status: 'available', item: null, expiry: null },
-            'C3': { status: 'occupied', item: 'Tas Belanja', expiry: '2024-01-20' }
-        };
+        
+        // Locker data from server (real-time)
+        const lockerDataFromServer = @json(isset($lockers) ? $lockers->toArray() : []);
+        
+        // Create lockerData object from server data for compatibility
+        let lockerData = {};
+        lockerDataFromServer.forEach(locker => {
+            lockerData[locker.code] = {
+                status: locker.status,
+                item: null,
+                expiry: null
+            };
+        });
 
         // Load saved preferences on page load
         document.addEventListener('DOMContentLoaded', function() {
             loadPreferences();
             initializeLockerSystem();
-            updateLockerDisplay();
         });
 
         function loadPreferences() {
@@ -789,35 +885,11 @@
         }
 
         function initializeLockerSystem() {
-            generateLockerGrid();
-            
+            // Grid sudah di-generate dari Blade template, tidak perlu generate lagi
             // Add form submission handler
             document.getElementById('store-item-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 submitItem();
-            });
-        }
-
-        function generateLockerGrid() {
-            const grid = document.getElementById('locker-grid');
-            grid.innerHTML = '';
-            
-            Object.keys(lockerData).forEach(lockerId => {
-                const locker = lockerData[lockerId];
-                const lockerElement = document.createElement('div');
-                lockerElement.className = `locker-item locker-${locker.status}`;
-                lockerElement.onclick = () => selectLocker(lockerId);
-                
-                const icon = getLockerIcon(locker.status);
-                const statusText = getStatusText(locker.status, localStorage.getItem('language') || 'id');
-                
-                lockerElement.innerHTML = `
-                    <i class="${icon}"></i>
-                    <p class="text-xs font-bold">${lockerId}</p>
-                    <p class="text-xs">${statusText}</p>
-                `;
-                
-                grid.appendChild(lockerElement);
             });
         }
 
@@ -888,21 +960,46 @@
             const itemName = document.getElementById('item-name').value;
             const itemCategory = document.getElementById('item-category').value;
             const storageDuration = document.getElementById('storage-duration').value;
-            const itemDescription = document.getElementById('item-description').value;
             
             if (!itemName || !itemCategory || !storageDuration) {
                 showNotification('Lengkapi semua field yang wajib diisi!', 'warning');
                 return;
             }
             
-            // Simulate storing item
-            showNotification('Barang berhasil disimpan!', 'success');
+            // Update step to confirmation
             updateStep(3);
             
-            // Reset form after 2 seconds
-            setTimeout(() => {
-                resetForm();
-            }, 2000);
+            // Redirect ke halaman pembayaran dengan data
+            const form = document.createElement('form');
+            form.method = 'GET';
+            form.action = '{{ route("payment") }}';
+            
+            const unitCode = document.createElement('input');
+            unitCode.type = 'hidden';
+            unitCode.name = 'unit_code';
+            unitCode.value = selectedLocker;
+            form.appendChild(unitCode);
+            
+            const itemNameInput = document.createElement('input');
+            itemNameInput.type = 'hidden';
+            itemNameInput.name = 'item_name';
+            itemNameInput.value = itemName;
+            form.appendChild(itemNameInput);
+            
+            const itemCategoryInput = document.createElement('input');
+            itemCategoryInput.type = 'hidden';
+            itemCategoryInput.name = 'item_category';
+            itemCategoryInput.value = itemCategory;
+            form.appendChild(itemCategoryInput);
+            
+            const durationInput = document.createElement('input');
+            durationInput.type = 'hidden';
+            durationInput.name = 'duration_hours';
+            durationInput.value = storageDuration;
+            form.appendChild(durationInput);
+            
+            document.body.appendChild(form);
+            form.submit();
         }
 
         function resetForm() {
@@ -943,29 +1040,6 @@
                 'reserved': { id: 'Reserved', en: 'Reserved' }
             };
             return statusTexts[status][language] || status;
-        }
-
-        function updateLockerDisplay() {
-            // Update locker status based on real-time data
-            Object.keys(lockerData).forEach(lockerId => {
-                const locker = lockerData[lockerId];
-                const lockerElement = document.querySelector(`[onclick="selectLocker('${lockerId}')"]`);
-                
-                if (lockerElement) {
-                    // Update icon based on status
-                    const icon = lockerElement.querySelector('i');
-                    if (icon) {
-                        icon.className = getLockerIcon(locker.status);
-                    }
-                    
-                    // Update status text
-                    const statusText = lockerElement.querySelector('p:last-child');
-                    if (statusText) {
-                        const currentLanguage = localStorage.getItem('language') || 'id';
-                        statusText.textContent = getStatusText(locker.status, currentLanguage);
-                    }
-                }
-            });
         }
 
         function showNotification(message, type = 'info') {
@@ -1024,7 +1098,6 @@
                 applyTheme(e.newValue);
             } else if (e.key === 'language') {
                 applyLanguage(e.newValue);
-                updateLockerDisplay();
             }
         });
 
