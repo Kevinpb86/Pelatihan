@@ -505,7 +505,7 @@
                         <span class="lang-id">Dashboard</span>
                         <span class="lang-en">Dashboard</span>
                     </a>
-                    <a href="{{ url('/my-items') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
+                    <a href="{{ route('items.index') }}" class="nav-item flex items-center px-4 py-3 text-sm font-medium text-white/80 hover:text-white rounded-xl transition-all duration-300">
                         <i class="fas fa-box w-5 h-5 mr-3"></i>
                         <span class="lang-id">Barang Saya</span>
                         <span class="lang-en">My Items</span>
