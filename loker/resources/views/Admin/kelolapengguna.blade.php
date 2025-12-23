@@ -82,7 +82,7 @@
             <div class="absolute bottom-0 w-64 p-6 border-t border-white/20">
                 <div class="flex items-center mb-4">
                     <div class="relative w-12 h-12 rounded-full overflow-hidden shadow-lg">
-                        <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : '' }}" alt="Avatar" class="w-full h-full object-cover {{ Auth::user()->avatar ? '' : 'hidden' }}">
+                        <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : '' }}" alt="Avatar" class="w-full h-full rounded-full object-cover {{ Auth::user()->avatar ? '' : 'hidden' }}">
                         <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center {{ Auth::user()->avatar ? 'hidden' : '' }}">
                             <span class="text-white text-lg font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
                         </div>

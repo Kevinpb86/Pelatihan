@@ -70,6 +70,24 @@ class ItemController extends Controller
             ->get();
 
         $items = $bookings->map(function ($booking) {
+            // Hitung durasi dari start_time dan end_time
+            $durationText = '';
+            if ($booking->start_time && $booking->end_time) {
+                $hours = $booking->start_time->diffInHours($booking->end_time);
+                $days = $booking->start_time->diffInDays($booking->end_time);
+                
+                if ($hours < 24) {
+                    $durationText = $hours . ' jam';
+                } else {
+                    $durationText = $days . ' hari';
+                    // Jika lebih dari 1 hari, tampilkan juga jam jika ada sisa
+                    $remainingHours = $hours % 24;
+                    if ($remainingHours > 0) {
+                        $durationText .= ' ' . $remainingHours . ' jam';
+                    }
+                }
+            }
+            
             return [
                 'id' => $booking->id,
                 'name' => $booking->unit->name ?? 'Barang',
@@ -80,6 +98,7 @@ class ItemController extends Controller
                 'start_time' => $booking->start_time,
                 'end_time' => $booking->end_time,
                 'total_price' => $booking->total_price,
+                'duration' => $durationText,
                 'booking' => $booking,
             ];
         })->toArray();
@@ -139,7 +158,7 @@ class ItemController extends Controller
             $booking->update(['status' => 'overdue']);
             $booking->unit->update(['status' => 'available']);
 
-            return redirect()->route('items.index')
+            return redirect()->to(url('/my-items'))
                 ->with('error', "Anda terlambat $hoursLate jam. Denda Rp " . number_format($fineAmount, 0, ',', '.') . " telah ditambahkan.");
         }
 
@@ -147,7 +166,8 @@ class ItemController extends Controller
         $booking->update(['status' => 'completed']);
         $booking->unit->update(['status' => 'available']);
 
-        return redirect()->route('items.index')->with('success', $message);
+        return redirect()->to(url('/my-items'))
+            ->with('success', 'Barang berhasil diambil dari loker ' . ($booking->unit->code ?? '') . '.');
     }
 
     public function showPayment(Request $request)
@@ -156,7 +176,7 @@ class ItemController extends Controller
             'unit_code' => 'required|exists:units,code',
             'item_name' => 'required|string|max:255',
             'item_category' => 'required|string',
-            'duration_hours' => 'required|integer|min:1',
+            'duration_hours' => 'required|numeric|min:0.25',
         ]);
 
         $unit = Unit::where('code', $request->unit_code)->firstOrFail();
@@ -170,16 +190,13 @@ class ItemController extends Controller
                 ->with('error', 'Loker yang dipilih tidak tersedia.');
         }
 
-        $durationHours = (int)$request->duration_hours;
-        $firstHourPrice = 2000;
-        $additionalHourPrice = 5000;
+        $durationHours = (float)$request->duration_hours;
+        $pricePerHour = (float) ($unit->price_per_hour ?? 0);
+        $totalPrice = $pricePerHour * $durationHours;
 
-        $totalPrice = $durationHours == 1
-            ? $firstHourPrice
-            : $firstHourPrice + (($durationHours - 1) * $additionalHourPrice);
-
-        $startTime = Carbon::now();
-        $endTime = Carbon::now()->addHours($durationHours);
+        $tz = 'Asia/Jakarta';
+        $startTime = Carbon::now($tz);
+        $endTime = (clone $startTime)->addHours($durationHours);
 
         return view('payment', compact(
             'unit',
@@ -199,8 +216,8 @@ class ItemController extends Controller
             'unit_id' => 'required|exists:units,id',
             'item_name' => 'required|string|max:255',
             'item_category' => 'required|string',
-            'duration_hours' => 'required|integer|min:1',
-            'payment_method' => 'required|in:qr,bank,dana,ovo,gopay',
+            'duration_hours' => 'required|numeric|min:0.25',
+            'payment_method' => 'required|in:cash',
             'total_price' => 'required|numeric|min:0',
         ]);
 
@@ -215,21 +232,18 @@ class ItemController extends Controller
                 ->with('error', 'Loker yang dipilih tidak tersedia.');
         }
 
-        $durationHours = (int)$request->duration_hours;
-        $firstHourPrice = 2000;
-        $additionalHourPrice = 5000;
-
-        $totalPrice = $durationHours == 1
-            ? $firstHourPrice
-            : $firstHourPrice + (($durationHours - 1) * $additionalHourPrice);
+        $durationHours = (float)$request->duration_hours;
+        $pricePerHour = (float) ($unit->price_per_hour ?? 0);
+        $totalPrice = $pricePerHour * $durationHours;
 
         if (abs($totalPrice - $request->total_price) > 0.01) {
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan pada harga. Silakan coba lagi.');
         }
 
-        $startTime = Carbon::now();
-        $endTime = Carbon::now()->addHours($durationHours);
+        $tz = 'Asia/Jakarta';
+        $startTime = Carbon::now($tz);
+        $endTime = (clone $startTime)->addHours($durationHours);
 
         Booking::create([
             'user_id' => Auth::id(),
@@ -242,8 +256,8 @@ class ItemController extends Controller
 
         $unit->update(['status' => 'booked']);
 
-        return redirect()->route('items.index')
-            ->with('success', 'Pembayaran berhasil! Barang berhasil disimpan di loker ' . $unit->code . '.');
+        return redirect()->to(url('/my-items'))
+            ->with('success', 'Pemesanan berhasil! Barang berhasil disimpan di loker ' . $unit->code . '. Silakan lakukan pembayaran tunai saat mengambil atau mengembalikan barang.');
     }
 
     public function payFine($id)

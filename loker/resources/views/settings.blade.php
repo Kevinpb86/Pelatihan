@@ -638,7 +638,7 @@
             <div class="absolute bottom-0 w-64 p-6 border-t border-white/20">
                 <div class="flex items-center mb-4">
                     <div class="relative w-12 h-12 rounded-full overflow-hidden shadow-lg">
-                        <img id="sidebar-avatar" src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : '' }}" alt="Avatar" class="w-full h-full object-cover {{ Auth::user()->avatar ? '' : 'hidden' }}">
+                        <img id="sidebar-avatar" src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : '' }}" alt="Avatar" class="w-full h-full rounded-full object-cover {{ Auth::user()->avatar ? '' : 'hidden' }}">
                         <div id="sidebar-initial" class="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center {{ Auth::user()->avatar ? 'hidden' : '' }}">
                             <span class="text-white text-lg font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
                         </div>
@@ -731,11 +731,6 @@
                                     <i class="fas fa-shield-alt mr-2"></i>
                                     <span class="lang-id">Keamanan</span>
                                     <span class="lang-en">Security</span>
-                                </button>
-                                <button onclick="showTab('notifications')" id="notifications-tab" class="py-6 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 flex items-center transition-all duration-300">
-                                    <i class="fas fa-bell mr-2"></i>
-                                    <span class="lang-id">Notifikasi</span>
-                                    <span class="lang-en">Notifications</span>
                                 </button>
                                 <button onclick="showTab('preferences')" id="preferences-tab" class="py-6 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 flex items-center transition-all duration-300">
                                     <i class="fas fa-cog mr-2"></i>
@@ -869,12 +864,12 @@
                                     </div>
                                 </div>
 
-                                <div class="mt-8 flex justify-end space-x-4">
-                                    <button type="button" class="px-6 py-3 border border-gray-300 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+                                <div class="mt-8 flex justify-end space-x-3">
+                                    <button type="button" class="px-5 py-2.5 border border-gray-300 rounded-lg text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors">
                                         <span class="lang-id">Batal</span>
                                         <span class="lang-en">Cancel</span>
                                     </button>
-                                    <button type="submit" class="btn-gradient text-white px-8 py-3 rounded-xl font-medium">
+                                    <button type="submit" class="btn-gradient text-white px-5 py-2.5 rounded-lg text-sm font-medium flex items-center">
                                         <i class="fas fa-save mr-2"></i>
                                         <span class="lang-id">Simpan Perubahan</span>
                                         <span class="lang-en">Save Changes</span>
@@ -1071,174 +1066,6 @@
                                                     <i class="fas fa-times"></i>
                                                 </button>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Notifications Tab -->
-                        <div id="notifications-content" class="p-8 hidden">
-                            <div class="mb-8">
-                                <h3 class="text-2xl font-bold text-gray-800 mb-2">
-                                    <span class="lang-id">Pengaturan Notifikasi</span>
-                                    <span class="lang-en">Notification Settings</span>
-                                </h3>
-                                <p class="text-gray-600">
-                                    <span class="lang-id">Kelola bagaimana dan kapan Anda menerima notifikasi</span>
-                                    <span class="lang-en">Manage how and when you receive notifications</span>
-                                </p>
-                            </div>
-
-                            <div class="space-y-8">
-                                <!-- Email Notifications -->
-                                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 border border-blue-100">
-                                    <div class="flex items-center mb-6">
-                                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
-                                            <i class="fas fa-envelope text-white text-xl"></i>
-                                        </div>
-                                        <div class="ml-4">
-                                            <h4 class="text-xl font-semibold text-gray-800">
-                                                <span class="lang-id">Notifikasi Email</span>
-                                                <span class="lang-en">Email Notifications</span>
-                                            </h4>
-                                            <p class="text-sm text-gray-600">
-                                                <span class="lang-id">Kelola notifikasi yang dikirim ke email Anda</span>
-                                                <span class="lang-en">Manage notifications sent to your email</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    
-                            <div class="space-y-6">
-                                        <div class="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-200">
-                                            <div class="flex items-center">
-                                                <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
-                                                    <i class="fas fa-box text-white"></i>
-                                            </div>
-                                                <div class="ml-4">
-                                                    <p class="text-sm font-medium text-gray-900">
-                                                        <span class="lang-id">Paket Baru</span>
-                                                        <span class="lang-en">New Package</span>
-                                                    </p>
-                                                    <p class="text-xs text-gray-500">
-                                                        <span class="lang-id">Notifikasi saat ada paket baru</span>
-                                                        <span class="lang-en">Notification when new package arrives</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" checked>
-                                                <span class="slider"></span>
-                                            </label>
-                                        </div>
-                                        
-                                        <div class="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-200">
-                                            <div class="flex items-center">
-                                                <div class="w-10 h-10 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-lg flex items-center justify-center">
-                                                    <i class="fas fa-truck text-white"></i>
-                                            </div>
-                                                <div class="ml-4">
-                                                    <p class="text-sm font-medium text-gray-900">
-                                                        <span class="lang-id">Status Pengiriman</span>
-                                                        <span class="lang-en">Delivery Status</span>
-                                                    </p>
-                                                    <p class="text-xs text-gray-500">
-                                                        <span class="lang-id">Update status pengiriman paket</span>
-                                                        <span class="lang-en">Package delivery status updates</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" checked>
-                                                <span class="slider"></span>
-                                            </label>
-                                        </div>
-                                        
-                                        <div class="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-200">
-                                            <div class="flex items-center">
-                                                <div class="w-10 h-10 bg-gradient-to-r from-red-500 to-pink-600 rounded-lg flex items-center justify-center">
-                                                    <i class="fas fa-bell text-white"></i>
-                                            </div>
-                                                <div class="ml-4">
-                                                    <p class="text-sm font-medium text-gray-900">
-                                                        <span class="lang-id">Pengingat</span>
-                                                        <span class="lang-en">Reminders</span>
-                                                    </p>
-                                                    <p class="text-xs text-gray-500">
-                                                        <span class="lang-id">Pengingat untuk mengambil paket</span>
-                                                        <span class="lang-en">Reminders to pick up packages</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <label class="toggle-switch">
-                                                <input type="checkbox">
-                                                <span class="slider"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Push Notifications -->
-                                <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 border border-purple-100">
-                                    <div class="flex items-center mb-6">
-                                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
-                                            <i class="fas fa-mobile-alt text-white text-xl"></i>
-                                            </div>
-                                        <div class="ml-4">
-                                            <h4 class="text-xl font-semibold text-gray-800">
-                                                <span class="lang-id">Notifikasi Push</span>
-                                                <span class="lang-en">Push Notifications</span>
-                                            </h4>
-                                            <p class="text-sm text-gray-600">
-                                                <span class="lang-id">Notifikasi real-time di browser dan perangkat</span>
-                                                <span class="lang-en">Real-time notifications on browser and devices</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="space-y-6">
-                                        <div class="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-200">
-                                            <div class="flex items-center">
-                                                <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
-                                                    <i class="fas fa-bolt text-white"></i>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <p class="text-sm font-medium text-gray-900">
-                                                        <span class="lang-id">Notifikasi Real-time</span>
-                                                        <span class="lang-en">Real-time Notifications</span>
-                                                    </p>
-                                                    <p class="text-xs text-gray-500">
-                                                        <span class="lang-id">Notifikasi langsung di browser</span>
-                                                        <span class="lang-en">Instant notifications in browser</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" checked>
-                                                <span class="slider"></span>
-                                            </label>
-                                        </div>
-                                        
-                                        <div class="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-200">
-                                            <div class="flex items-center">
-                                                <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-blue-600 rounded-lg flex items-center justify-center">
-                                                    <i class="fas fa-volume-up text-white"></i>
-                                    </div>
-                                                <div class="ml-4">
-                                                    <p class="text-sm font-medium text-gray-900">
-                                                        <span class="lang-id">Suara Notifikasi</span>
-                                                        <span class="lang-en">Notification Sound</span>
-                                                    </p>
-                                                    <p class="text-xs text-gray-500">
-                                                        <span class="lang-id">Putar suara saat notifikasi masuk</span>
-                                                        <span class="lang-en">Play sound when notification arrives</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" checked>
-                                                <span class="slider"></span>
-                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -1592,10 +1419,6 @@
                     'id': 'Keamanan - Pengaturan',
                     'en': 'Security - Settings'
                 },
-                'notifications': {
-                    'id': 'Notifikasi - Pengaturan',
-                    'en': 'Notifications - Settings'
-                },
                 'preferences': {
                     'id': 'Preferensi - Pengaturan',
                     'en': 'Preferences - Settings'
@@ -1825,10 +1648,10 @@
 
         // Add keyboard shortcuts
         document.addEventListener('keydown', function(e) {
-            // Ctrl/Cmd + 1-4 for tab switching
-            if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '4') {
+            // Ctrl/Cmd + 1-3 for tab switching
+            if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '3') {
                 e.preventDefault();
-                const tabs = ['profile', 'security', 'notifications', 'preferences'];
+                const tabs = ['profile', 'security', 'preferences'];
                 const tabIndex = parseInt(e.key) - 1;
                 if (tabs[tabIndex]) {
                     showTab(tabs[tabIndex]);

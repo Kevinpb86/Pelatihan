@@ -347,7 +347,7 @@
             <div class="absolute bottom-0 w-64 p-6 border-t border-white/20">
                 <div class="flex items-center mb-4">
                     <div class="relative w-12 h-12 rounded-full overflow-hidden shadow-lg">
-                        <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : '' }}" alt="Avatar" class="w-full h-full object-cover {{ Auth::user()->avatar ? '' : 'hidden' }}">
+                        <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : '' }}" alt="Avatar" class="w-full h-full rounded-full object-cover {{ Auth::user()->avatar ? '' : 'hidden' }}">
                         <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center {{ Auth::user()->avatar ? 'hidden' : '' }}">
                             <span class="text-white text-lg font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
                         </div>
@@ -411,10 +411,10 @@
                                         <span class="lang-id">Barang Terbaru</span>
                                         <span class="lang-en">Recent Items</span>
                                     </h3>
-                                    <a href="{{ url('/my-items') }}" onclick="animateAndNavigate(event, '{{ url('/my-items') }}')" class="text-sm text-purple-600 hover:text-purple-800 font-medium">
+                                    <a href="{{ url('/my-items') }}" onclick="animateAndNavigate(event, '{{ url('/my-items') }}')" class="text-sm text-purple-600 hover:text-purple-800 font-medium flex items-center gap-1">
                                         <span class="lang-id">Lihat Semua</span>
                                         <span class="lang-en">View All</span>
-                                        <i class="fas fa-arrow-right ml-1"></i>
+                                        <i class="fas fa-arrow-right"></i>
                                     </a>
                                 </div>
                             </div>

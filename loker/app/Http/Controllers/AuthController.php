@@ -59,10 +59,8 @@ class AuthController extends Controller
             'email_verified_at' => now(),
         ]);
 
-        Auth::login($user);
-
-        return redirect()->route('dashboard')
-            ->with('success', 'Akun berhasil dibuat! Selamat datang!');
+        return redirect()->route('login')
+            ->with('success', 'Akun berhasil dibuat! Silakan login untuk melanjutkan.');
     }
 
     public function showSettings()
