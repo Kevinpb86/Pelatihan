@@ -537,30 +537,35 @@
             
             // Format waktu untuk ditampilkan langsung (format: 01 Nov 2025 15:28)
             const waktuTitipDisplay = @json($startTimeJakarta ? $startTimeJakarta->format('d M Y H:i') : '');
+            const waktuBatasDisplay = @json($endTimeJakarta ? $endTimeJakarta->format('d M Y H:i') : '');
             const serverStartTime = @json($startTimeJakarta ? $startTimeJakarta->timestamp * 1000 : null); // dalam millisecond
             const serverEndTime = @json($endTimeJakarta ? $endTimeJakarta->timestamp * 1000 : null);
             
-            let durationHours = 1; // default 1 jam
-            
-            // Hitung durasi dari booking (dalam jam)
-            if (serverStartTime && serverEndTime) {
-                durationHours = (serverEndTime - serverStartTime) / (1000 * 60 * 60);
-            }
-            
             // Buat Date object dari timestamp
             const initialStart = serverStartTime ? new Date(serverStartTime) : new Date();
+            const initialEnd = serverEndTime ? new Date(serverEndTime) : null;
+            
+            // Set waktu titip statis dari database (waktu saat dititipkan, tidak berubah)
+            elTime.textContent = waktuTitipDisplay;
+            
+            // Set batas waktu statis dari database (waktu titip + durasi yang dipilih, tidak berubah)
+            if (waktuBatasDisplay) {
+                elBatas.textContent = waktuBatasDisplay;
+            } else if (initialEnd) {
+                elBatas.textContent = formatJakarta(initialEnd);
+            }
             
             function tick() {
                 const now = new Date();
-                // "Waktu Titip" = waktu real-time sekarang (terus update)
-                elTime.textContent = formatJakarta(now);
+                // "Waktu Titip" = waktu statis dari database (tidak di-update)
+                // Hanya update teks relatif (detik yang lalu)
                 elRel.textContent = relativeFrom(initialStart);
                 
-                // "Batas Waktu" = waktu sekarang + durasi yang dipilih
-                // Ini memastikan batas waktu selalu dihitung dari waktu real-time sekarang
-                const endAt = new Date(now.getTime() + (durationHours * 60 * 60 * 1000));
-                elBatas.textContent = formatJakarta(endAt);
-                elBatasRel.textContent = relativeToTarget(endAt);
+                // "Batas Waktu" = waktu statis dari database (tidak di-update)
+                // Hanya update teks relatif (berakhir dalam X menit)
+                if (initialEnd) {
+                    elBatasRel.textContent = relativeToTarget(initialEnd);
+                }
             }
             tick();
             setInterval(tick, 1000);

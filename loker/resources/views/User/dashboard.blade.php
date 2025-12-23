@@ -411,7 +411,11 @@
                                         <span class="lang-id">Barang Terbaru</span>
                                         <span class="lang-en">Recent Items</span>
                                     </h3>
+<<<<<<< Updated upstream
                                     <a href="{{ url('/my-items') }}" onclick="animateAndNavigate(event, '{{ url('/my-items') }}')" class="text-sm text-purple-600 hover:text-purple-800 font-medium flex items-center gap-1">
+=======
+                                    <a href="{{ url('/my-items') }}" onclick="animateAndNavigate(event, '{{ url('/my-items') }}')" class="text-sm text-purple-600 hover:text-purple-800 font-medium flex items-center">
+>>>>>>> Stashed changes
                                         <span class="lang-id">Lihat Semua</span>
                                         <span class="lang-en">View All</span>
                                         <i class="fas fa-arrow-right"></i>

@@ -378,8 +378,13 @@
                                             <i class="fas fa-book mr-3 text-purple-600"></i>
                                             Pemesanan Terbaru
                                         </h3>
+<<<<<<< Updated upstream
                                         <a href="{{ route('admin.bookings.index') }}" class="text-sm text-purple-600 hover:text-purple-800 font-medium flex items-center gap-1">
                                             Lihat Semua <i class="fas fa-arrow-right"></i>
+=======
+                                        <a href="{{ route('admin.bookings.index') }}" class="text-sm text-purple-600 hover:text-purple-800 font-medium flex items-center">
+                                            Lihat Semua <i class="fas fa-arrow-right ml-1"></i>
+>>>>>>> Stashed changes
                                         </a>
                                     </div>
                                 </div>
