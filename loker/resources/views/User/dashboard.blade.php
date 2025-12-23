@@ -412,7 +412,11 @@
                                         <span class="lang-en">Recent Items</span>
                                     </h3>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                                     <a href="{{ url('/my-items') }}" onclick="animateAndNavigate(event, '{{ url('/my-items') }}')" class="text-sm text-purple-600 hover:text-purple-800 font-medium flex items-center gap-1">
+=======
+                                    <a href="{{ url('/my-items') }}" onclick="animateAndNavigate(event, '{{ url('/my-items') }}')" class="text-sm text-purple-600 hover:text-purple-800 font-medium flex items-center">
+>>>>>>> Stashed changes
 =======
                                     <a href="{{ url('/my-items') }}" onclick="animateAndNavigate(event, '{{ url('/my-items') }}')" class="text-sm text-purple-600 hover:text-purple-800 font-medium flex items-center">
 >>>>>>> Stashed changes
